@@ -1,0 +1,2 @@
+ npm i --save @reduxjs/toolkit formik react-dropzone react-router-dom yup react-redux axios react-icons react-toastify redux
+  bcryptjs body-parser cors dotenv express express-session express-validator jsonwebtoken mongoose mongoose-unique-validator multer uuid stripe
