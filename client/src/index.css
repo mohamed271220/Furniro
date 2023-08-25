@@ -10,7 +10,9 @@
   box-sizing: border-box;
   scroll-behavior: smooth;
 }
-
+#root {
+  width: 100%;
+}
 @layer components {
   .max-container {
     max-width: 1440px;
@@ -25,6 +27,10 @@
 @layer utilities {
   .padding {
     @apply sm:px-16 px-8 sm:py-24 py-12;
+  }
+
+  .padding-sec {
+    @apply md:py-[56px] py-[37px] md:px-[121px] px-[80px] flex flex-col gap-3 justify-center items-center;
   }
 
   .padding-x {

@@ -15,12 +15,15 @@ const authRouter = require("./routes/Auth");
 const app = express();
 
 app.use(
-  session({
-    secret: "Our little secret.",
-    resave: false,
-    saveUninitialized: false,
+  cookieSession({
+    name: "session",
+    keys: ["key1", "key2"],
+  
+    maxAge: 24 * 60 * 60 * 100,
+   
   })
 );
+
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -33,6 +36,7 @@ app.use(
 );
 
 const userSchema = new mongoose.Schema({
+
   username: String,
   name: String,
   googleId: String,
@@ -44,34 +48,8 @@ userSchema.plugin(findOrCreate);
 
 const User = new mongoose.model("User", userSchema);
 
-passport.use(User.createStrategy());
-// passport.serializeUser(function (user, done) {
-//   done(null, user.id);
-// });
-// passport.deserializeUser(function (id, done) {
-//   User.findById().then((user) => done(err, user));
-// });
-// passport.use(
-//   new GoogleStrategy(
-//     {
-//       clientID: process.env.CLIENT_ID,
-//       clientSecret: process.env.CLIENT_SECRET,
-//       callbackURL: "http://localhost:4000/auth/google/callback",
-//       userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo",
-//     },
-//     function (accessToken, refreshToken, profile, cb) {
-//       User.findOrCreate(
-//         { googleId: profile.id, username: profile.id },
-//         function (err, user) {
-//           return cb(err, user);
-//         }
-//       );
-//     }
-//   )
-// );
-// const GoogleStrategy = require("passport-google-oauth20").Strategy;
-// const passport = require("passport");
 
+passport.use(User.createStrategy());
 passport.use(
   new GoogleStrategy(
     {
@@ -99,19 +77,6 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser((user, done) => {
   done(null, user);
 });
-
-// app.get(
-//   "/auth/google",
-//   passport.authenticate("google", { scope: ["profile"] })
-// );
-// app.get(
-//   "/auth/google/callback",
-//   passport.authenticate("google", { failureRedirect: "http://localhost:5173" }),
-//   function (req, res) {
-//     // Successful authentication, redirect secrets.
-//     res.redirect("http://localhost:5173");
-//   }
-// );
 
 // Logging Middleware
 app.use(morgan("dev"));
