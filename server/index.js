@@ -18,9 +18,8 @@ app.use(
   cookieSession({
     name: "session",
     keys: ["key1", "key2"],
-  
+
     maxAge: 24 * 60 * 60 * 100,
-   
   })
 );
 
@@ -36,18 +35,20 @@ app.use(
 );
 
 const userSchema = new mongoose.Schema({
-
   username: String,
   name: String,
   googleId: String,
   secret: String,
+  email:{
+    type:String,
+    unique:true
+  },
 });
 
 userSchema.plugin(passportLocalMongoose);
 userSchema.plugin(findOrCreate);
 
 const User = new mongoose.model("User", userSchema);
-
 
 passport.use(User.createStrategy());
 passport.use(
@@ -61,7 +62,11 @@ passport.use(
     },
     function (accessToken, refreshToken, profile, callback) {
       User.findOrCreate(
-        { googleId: profile.id, username: profile.id },
+        {
+          googleId: profile.id,
+          username: profile.name.givenName + " " + profile.name.familyName,
+          email:profile.emails[0].value,
+        },
         function (err, user) {
           return callback(err, profile);
         }

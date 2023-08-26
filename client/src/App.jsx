@@ -20,11 +20,13 @@ function App() {
 
   const getUser = async () => {
     try {
+      //sub === id
       const url = `${
         import.meta.env.VITE_REACT_APP_API_URL
       }/auth/login/success`;
       const { data } = await axios.get(url, { withCredentials: true });
       setUser(data.user._json);
+      console.log(data);
     } catch (err) {
       console.log(err);
     }
@@ -63,6 +65,7 @@ function App() {
             path="/Blog"
             element={user ? <Blog user={user} /> : <Navigate to="/login" />}
           />
+        </Route>
           <Route
             exact
             path="/login"
@@ -72,7 +75,6 @@ function App() {
             path="/signup"
             element={user ? <Navigate to="/" /> : <Signup />}
           />
-        </Route>
       </Routes>
     </div>
   );

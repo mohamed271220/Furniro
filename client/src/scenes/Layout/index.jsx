@@ -1,5 +1,6 @@
 import { Outlet } from "react-router-dom";
-import Navbar from '../../components/Navbar'
+import Navbar from "../../components/Navbar";
+import Sidebar from "../../components/Navbar/Sidebar";
 
 const Layout = ({ user }) => {
   const logout = () => {
@@ -10,10 +11,9 @@ const Layout = ({ user }) => {
   };
   return (
     <div>
-    
       <Navbar user={user} logout={logout} />
+      <Sidebar user={user} logout={logout} />
 
-   
       <Outlet />
     </div>
   );
