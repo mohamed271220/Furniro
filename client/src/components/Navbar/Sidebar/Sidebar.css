@@ -2,7 +2,7 @@
     background-color: #ffffff;
     height: 80px;
     display: flex;
-    justify-content: start;
+    justify-content: space-between;
     align-items: center;
     z-index: 100;
   }
@@ -36,6 +36,7 @@
   .nav-text {
     display: flex;
     justify-content: start;
+    font-weight: 600;
     align-items: center;
     padding: 8px 0px 8px 16px;
     list-style: none;

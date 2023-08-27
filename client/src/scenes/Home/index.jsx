@@ -1,6 +1,7 @@
 import HomeHero from "../../components/HomeHero/index";
 import HomeCategories from "../../components/HomeCategories/index";
 import Products from "../../components/Products/index";
+import HomeCarousel from "../../components/HomeCarousel";
 const data = [
   {
     title: "Lolito",
@@ -50,6 +51,22 @@ const data = [
     photo: "./Ex.png",
     newTag: false,
 },
+  {
+    title: "Lolito",
+    ShortDescription: "Luxury big sofa",
+    price: 2.5,
+    sale: 0.2,
+    photo: "./Ex.png",
+    newTag: false,
+},
+  {
+    title: "Lolito",
+    ShortDescription: "Luxury big sofa",
+    price: 2.5,
+    sale: 0.2,
+    photo: "./Ex.png",
+    newTag: false,
+},
 ];
 
 const Home = () => {
@@ -62,7 +79,7 @@ const Home = () => {
       <HomeHero />
       <HomeCategories />
       <Products products={data} />
-      <section></section>
+      <HomeCarousel/>
       <section></section>
     </div>
   );

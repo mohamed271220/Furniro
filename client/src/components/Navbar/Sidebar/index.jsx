@@ -1,10 +1,11 @@
 import { useState } from "react";
 import * as FaIcons from "react-icons/fa";
 import * as AiIcons from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { SidebarData } from "./SidebarData";
 import "./Sidebar.css";
 import { IconContext } from "react-icons";
+import Logo from "../../../assets/icons/LOGO.svg";
 
 function Navbar({ user, logout }) {
   const [sidebar, setSidebar] = useState(false);
@@ -18,6 +19,8 @@ function Navbar({ user, logout }) {
           <Link to="#" className="menu-bars">
             <FaIcons.FaBars onClick={showSidebar} />
           </Link>
+      
+    <img src={Logo} alt="logo" />
         </div>
         <nav className={sidebar ? "nav-menu active" : "nav-menu"}>
           <ul className="nav-menu-items" onClick={showSidebar}>
@@ -29,18 +32,18 @@ function Navbar({ user, logout }) {
             {SidebarData.map((item, index) => {
               return (
                 <li key={index} className={item.cName}>
-                  <Link to={item.path}>
+                  <NavLink to={item.path}>
                     <span>{item.title}</span>
-                  </Link>
+                  </NavLink>
                 </li>
               );
             })}
 
             <li key={7} className="nav-text">
-              <Link onClick={logout}>
+              <NavLink onClick={logout}>
                 {" "}
                 <span>Logout</span>
-              </Link>
+              </NavLink>
             </li>
             <li>
               <Link className="nav-text">

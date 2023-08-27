@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import Logo from "../../assets/icons/LOGO.svg";
 import { AiOutlineShoppingCart, AiFillHeart } from "react-icons/ai";
 const Navbar = ({ user, logout }) => {
@@ -10,32 +10,32 @@ const Navbar = ({ user, logout }) => {
       </div>
       <ul className="flex flex-row space-x-4">
         <li className="nav-text">
-          <Link to="/">Home</Link>
+          <NavLink to="/">Home</NavLink>
         </li>
         <li className="nav-text">
-          <Link to="/">Shop</Link>
+          <NavLink to="/">Shop</NavLink>
         </li>
         <li className="nav-text">
-          <Link to="/">About</Link>
+          <NavLink to="/">About</NavLink>
         </li>
         <li className="nav-text">
-          <Link to="/">Contact</Link>
+          <NavLink to="/">Contact</NavLink>
         </li>
       </ul>
-      <div className="flex flex-row
+      <div
+        className="flex flex-row
       justify-center items-center gap-[1vh]
-       space-x-4">
+       space-x-4"
+      >
         {user && (
           <div className="icon">
             <button className={"nav-text"} onClick={logout}>
-             <Link>
-             Logout
-             </Link> 
+              <Link>Logout</Link>
             </button>
           </div>
         )}
         <div className="icon rounded-full flex justify-center items-center w-7 h-7  lg:shadow-lg   hover:text-dim-yellow ">
-          <AiOutlineShoppingCart  />
+          <AiOutlineShoppingCart />
         </div>
         <div className="icon rounded-full flex justify-center items-center w-7 h-7 lg:shadow-lg hover:text-dim-yellow">
           <AiFillHeart />
