@@ -50,19 +50,19 @@ function App() {
             element={user ? <Shop user={user} /> : <Navigate to="/login" />}
           />
           <Route
-            path="/Product/:id"
+            path="/product/:id"
             element={user ? <Product user={user} /> : <Navigate to="/login" />}
           />
           <Route
-            path="/Cart"
+            path="/cart"
             element={user ? <Cart user={user} /> : <Navigate to="/login" />}
           />
           <Route
-            path="/Contact"
+            path="/contact"
             element={user ? <Contact user={user} /> : <Navigate to="/login" />}
           />
           <Route
-            path="/Blog"
+            path="/blog"
             element={user ? <Blog user={user} /> : <Navigate to="/login" />}
           />
         </Route>

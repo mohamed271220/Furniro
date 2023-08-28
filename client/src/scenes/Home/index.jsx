@@ -2,6 +2,7 @@ import HomeHero from "../../components/HomeHero/index";
 import HomeCategories from "../../components/HomeCategories/index";
 import Products from "../../components/Products/index";
 import HomeCarousel from "../../components/HomeCarousel";
+import Hashes from "../../components/HomeHashes";
 const data = [
   {
     title: "Lolito",
@@ -80,7 +81,7 @@ const Home = () => {
       <HomeCategories />
       <Products products={data} />
       <HomeCarousel/>
-      <section></section>
+      <Hashes/>
     </div>
   );
 };

@@ -1,9 +1,9 @@
 import ProductCard from "../ProductCard";
 const Products = ({ products }) => {
   return (
-    <section className="padding-sec">
+    <section className=" md:py-[56px] py-[37px] md:px-[121px] px-[4vh] flex flex-col gap-3 justify-center items-center">
       <div className="text-center">
-        <h4 className="font-bold text-[5vh] lg:text-[6vh] pb-[6vh]  2xl:text-3xl  ">
+        <h4 className="font-bold md:text-[4vh] text-[3vh]  pb-[6vh]  2xl:text-3xl  ">
           Our Products
         </h4>
       </div>

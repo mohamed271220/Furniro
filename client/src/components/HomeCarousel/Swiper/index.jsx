@@ -41,11 +41,19 @@ function SwiperComp() {
         className="swiper_container"
       >
         <SwiperSlide className="relative">
-          {({ isActive }) => (
+        {({ isActive }) => (
             <>
               {isActive && (
-                <div className="bg-black z-50 absolute h-54 w-45">
-                  Current slide is
+                <div className="absolute bottom-[10%] left-[9%]   flex flex-row items-end gap-0">
+                  <div className="box flex bg-white bg-opacity-75 p-[5vh] flex-col items-center">
+                    <p className="flex flex-row items-center justify-start">
+                      01 <Line /> Bed Room{" "}
+                    </p>
+                    <p className="font-semibold text-[3vh]">Inner Peace</p>
+                  </div>
+                  <div className="box bg-dim-yellow  p-[1vh] text-white">
+                    <AiOutlineArrowRight size="4vh" />
+                  </div>
                 </div>
               )}
               <img src={Ex} alt="slide_image" />
@@ -55,24 +63,39 @@ function SwiperComp() {
         <SwiperSlide>
           {({ isActive }) => (
             <>
-              <div className="absolute flex flex-row gap-0">
-                <div className="box">
-                  <p>
-                    01 <Line /> Bed Room{" "}
-                  </p>
-                  <p>Inner Peace</p>
+              {isActive && (
+                <div className="absolute bottom-[10%] left-[9%]   flex flex-row items-end gap-0">
+                  <div className="box flex bg-white bg-opacity-75 p-[5vh] flex-col items-center">
+                    <p className="flex flex-row items-center justify-start">
+                      01 <Line /> Bed Room{" "}
+                    </p>
+                    <p className="font-semibold text-[3vh]">Inner Peace</p>
+                  </div>
+                  <div className="box bg-dim-yellow  p-[1vh] text-white">
+                    <AiOutlineArrowRight size="4vh" />
+                  </div>
                 </div>
-                <div className="box">
-                  <AiOutlineArrowRight />
-                </div>
-              </div>
+              )}
               <img src={Ex} alt="slide_image" />
             </>
           )}
         </SwiperSlide>
         <SwiperSlide>
-          {({ isActive }) => (
+        {({ isActive }) => (
             <>
+              {isActive && (
+                <div className="absolute bottom-[10%] left-[9%]   flex flex-row items-end gap-0">
+                  <div className="box flex bg-white bg-opacity-75 p-[5vh] flex-col items-center">
+                    <p className="flex flex-row items-center justify-start">
+                      01 <Line /> Bed Room{" "}
+                    </p>
+                    <p className="font-semibold text-[3vh]">Inner Peace</p>
+                  </div>
+                  <div className="box bg-dim-yellow  p-[1vh] text-white">
+                    <AiOutlineArrowRight size="4vh" />
+                  </div>
+                </div>
+              )}
               <img src={Ex} alt="slide_image" />
             </>
           )}
