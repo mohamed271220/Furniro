@@ -3,7 +3,7 @@ const Banner = ({ title, path }) => {
   return (
     <div className="relative w-full ">
       <img src={ShopBanner} alt="" className="w-full h-full object-cover" />
-      <h1 className="absolute right-[45%]  top-[30%] text-[7vh] font-semibold ">
+      <h1 className="absolute right-[45%]  top-[40%] text-[7vh] font-semibold ">
         {title}
       </h1>
 
