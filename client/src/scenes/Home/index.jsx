@@ -11,7 +11,7 @@ const data = [
     sale: 0,
     photo: "./Ex.png",
     newTag: true,
-},
+  },
   {
     title: "Lolito",
     ShortDescription: "Luxury big sofa",
@@ -19,7 +19,7 @@ const data = [
     sale: 0,
     photo: "./Ex.png",
     newTag: true,
-},
+  },
   {
     title: "Lolito",
     ShortDescription: "Luxury big sofa",
@@ -27,7 +27,7 @@ const data = [
     sale: 0.2,
     photo: "./Ex.png",
     newTag: false,
-},
+  },
   {
     title: "Lolito",
     ShortDescription: "Luxury big sofa",
@@ -35,7 +35,7 @@ const data = [
     sale: 0,
     photo: "./Ex.png",
     newTag: true,
-},
+  },
   {
     title: "Lolito",
     ShortDescription: "Luxury big sofa",
@@ -43,7 +43,7 @@ const data = [
     sale: 0.2,
     photo: "./Ex.png",
     newTag: false,
-},
+  },
   {
     title: "Lolito",
     ShortDescription: "Luxury big sofa",
@@ -51,7 +51,7 @@ const data = [
     sale: 0.2,
     photo: "./Ex.png",
     newTag: false,
-},
+  },
   {
     title: "Lolito",
     ShortDescription: "Luxury big sofa",
@@ -59,7 +59,7 @@ const data = [
     sale: 0.2,
     photo: "./Ex.png",
     newTag: false,
-},
+  },
   {
     title: "Lolito",
     ShortDescription: "Luxury big sofa",
@@ -67,7 +67,7 @@ const data = [
     sale: 0.2,
     photo: "./Ex.png",
     newTag: false,
-},
+  },
 ];
 
 const Home = () => {
@@ -79,9 +79,9 @@ const Home = () => {
     >
       <HomeHero />
       <HomeCategories />
-      <Products products={data} />
-      <HomeCarousel/>
-      <Hashes/>
+      <Products home={true} products={data} />
+      <HomeCarousel />
+      <Hashes />
     </div>
   );
 };
