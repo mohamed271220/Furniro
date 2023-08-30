@@ -1,12 +1,17 @@
 const router = require("express").Router();
 const passport = require("passport");
+const User = require("../models/User");
 
-router.get("/login/success", (req, res) => {
+router.get("/login/success", async (req, res) => {
   if (req.user) {
+    console.log(req.user);
+    const data = await User.findOne({ googleId: req.user.id });
+    console.log(data);
     res.status(200).json({
       error: false,
       message: "Successfully Logged In",
       user: req.user,
+      data: data,
     });
   } else {
     res.status(403).json({ error: true, message: "Not Authorized" });

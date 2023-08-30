@@ -12,6 +12,7 @@ const cors = require("cors");
 const cookieSession = require("cookie-session");
 const passportSetup = require("./passport");
 const authRouter = require("./routes/Auth");
+const User=require("./models/User")
 const app = express();
 
 app.use(
@@ -34,21 +35,7 @@ app.use(
   })
 );
 
-const userSchema = new mongoose.Schema({
-  username: String,
-  name: String,
-  googleId: String,
-  secret: String,
-  email:{
-    type:String,
-    unique:true
-  },
-});
 
-userSchema.plugin(passportLocalMongoose);
-userSchema.plugin(findOrCreate);
-
-const User = new mongoose.model("User", userSchema);
 
 passport.use(User.createStrategy());
 passport.use(
