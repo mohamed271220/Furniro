@@ -40,10 +40,10 @@ const itemSchema = mongoose.Schema(
         type: String,
       },
     ],
-    description: {
+    description: [{
       type: String,
       required: true,
-    },
+    }],
     salesPackage: {
       type: String,
       required: true,

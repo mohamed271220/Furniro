@@ -4,7 +4,7 @@ import Shopping from "../../assets/icons/shipping.svg";
 import CustomerSupport from "../../assets/icons/customer-support.svg";
 const CertiBanner = () => {
   return (
-    <div className="flex flex-nowrap flex-row gap-[4vh] bg-secondary h-[30vh] w-full justify-center items-center">
+    <div className="flex flex-wrap flex-row gap-[4vh] bg-secondary h-[30vh] w-full p-[3vh] md:justify-center justify-start items-center">
       <div className="flex flex-row h-[9vh] gap-[1vh]">
         <img src={Trophy} className="h-[9vh]" alt="trophy" />
         <div className="flex flex-col justify-between">

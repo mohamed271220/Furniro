@@ -96,16 +96,16 @@ const Shop = () => {
   return (
     <div className="w-full flex flex-col items-center">
       <Banner title="Shop" path={["Home", "Shop"]} />
-      <div className="Shop w-full flex flex-col pb-[6vh]">
-        <div className="filter bg-secondary flex flex-row items-center justify-between p-[2vh]">
+      <div className="Shop w-full flex flex-col pb-[5vh]">
+        <div className="filter bg-secondary flex flex-row text-[2.5vh] items-center justify-between p-[2vh]">
           <p>Showing 1{"–"}16 of 32 results</p>
-          <div>
-            <p>Show</p>
+          <div className="flex flex-row gap-[2vh]">
+            <p >Show</p>
             <select>
               <option>12</option>
             </select>
           </div>
-          <div>
+          <div className="flex flex-row gap-[2vh]">
             <p>Sort by</p>
             <select>
               <option>Price: Low to High</option>

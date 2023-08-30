@@ -27,13 +27,7 @@ const Navbar = ({ user, logout }) => {
       justify-center items-center gap-[1vh]
        space-x-4"
       >
-        {user && (
-          <div className="icon">
-            <button className={"nav-text"} onClick={logout}>
-              <Link>Logout</Link>
-            </button>
-          </div>
-        )}
+        
         <div className="icon rounded-full flex justify-center items-center w-7 h-7  lg:shadow-lg   hover:text-dim-yellow ">
           <AiOutlineShoppingCart />
         </div>
@@ -45,6 +39,13 @@ const Navbar = ({ user, logout }) => {
           alt="profile"
           className={"w-10 h-10 rounded-full"}
         />
+        {user && (
+          <div className="icon">
+            <button className={"nav-text "} onClick={logout}>
+              <Link>Logout</Link>
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

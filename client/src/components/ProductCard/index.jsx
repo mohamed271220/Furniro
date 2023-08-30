@@ -1,10 +1,12 @@
 import Ex from "../../assets/images/Ex.png";
 import Compare from "../../assets/icons/Compare.jsx";
 import { AiOutlineHeart, AiOutlineShareAlt } from "react-icons/ai";
+import { Link } from "react-router-dom";
 
 const Card = ({ product }) => {
+
   return (
-    <div className="relative w-[35vh] bg-[#F4F5F7]">
+    <Link to={`/product/${product.id}`} className="relative w-[35vh] bg-[#F4F5F7]">
       {/* underlying section  */}
       <div>
         <img src={Ex} className="3xl:w-full w-[35vh] h-[45vh]" alt=" " />
@@ -30,6 +32,10 @@ const Card = ({ product }) => {
           className="bg-white text-dim-yellow text-[2vh] font-bold opacity-1 py-[1.5vh] px-[4vh]
         mb-[1vh]
         "
+        onClick={(e)=>{
+          e.preventDefault();
+        console.log(product)
+        }}
         >
           Add to cart
         </button>
@@ -55,7 +61,7 @@ const Card = ({ product }) => {
           </p>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
