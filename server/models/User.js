@@ -9,8 +9,39 @@ const userSchema = mongoose.Schema({
   secret: String,
   email: {
     type: String,
-    unique: true,
+
   },
+  cart: [
+    {
+      product: {
+        type: mongoose.Types.ObjectId,
+        ref: "Product",
+      },
+      number: {
+        type: Number,
+      },
+      price: {
+        type: Number,
+      },
+      name: {
+        type: String,
+      },
+      sale: { type: Number },
+      image: { type: String },
+    },
+  ],
+  orders: [
+    {
+      type: mongoose.Types.ObjectId,
+      ref: "Order",
+    },
+  ],
+  address: [{ type: mongoose.Types.ObjectId, ref: "Address" }],
+  role:{
+    type:String,
+    default:"customer",
+    enum:["customer","admin",'coolerAdmin']
+  }
 });
 
 userSchema.plugin(passportLocalMongoose);

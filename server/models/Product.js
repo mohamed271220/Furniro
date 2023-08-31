@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-const itemSchema = mongoose.Schema(
+const productSchema = mongoose.Schema(
   {
     name: {
       type: String,
@@ -23,6 +23,8 @@ const itemSchema = mongoose.Schema(
     ],
     rating: {
       type: Number,
+      max: 5,
+      default: 0,
     },
     reviews: [
       {
@@ -90,11 +92,16 @@ const itemSchema = mongoose.Schema(
     weight: Number,
     seatHeight: Number,
     legHeight: Number,
+    addedBy: { type: mongoose.Types.ObjectId, ref: "User", required: true },
+    status: {
+      type: String,
+      default: "available",
+    },
   },
   {
     timestamps: true,
   }
 );
-const Item = mongoose.model("Item", itemSchema);
+const Product = mongoose.model("Product", productSchema);
 
-export default Item;
+export default Product;

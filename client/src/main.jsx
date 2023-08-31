@@ -6,6 +6,7 @@ import { BrowserRouter } from "react-router-dom";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
 import cartReducer from "./store/cartSlice.js";
+import compareReducer from "./store/compareSlice.js";
 import {
   persistStore,
   persistReducer,
@@ -19,7 +20,6 @@ import {
 import storage from "redux-persist/lib/storage";
 import { PersistGate } from "redux-persist/integration/react";
 
-
 const persistConfig = {
   key: "cart",
   storage,
@@ -32,7 +32,8 @@ const rootPersistConfig = {
 };
 
 const rootReducer = combineReducers({
-  cart: persistReducer(persistConfig, cartReducer),
+  cart: cartReducer,
+  compare: compareReducer,
 });
 
 const persistedReducer = persistReducer(rootPersistConfig, rootReducer);
