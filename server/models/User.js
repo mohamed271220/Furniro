@@ -41,7 +41,13 @@ const userSchema = mongoose.Schema({
     type:String,
     default:"customer",
     enum:["customer","admin",'coolerAdmin']
-  }
+  },
+  addedProducts: [
+    {
+      type: mongoose.Types.ObjectId,
+      ref: "Product",
+    },
+  ],
 });
 
 userSchema.plugin(passportLocalMongoose);

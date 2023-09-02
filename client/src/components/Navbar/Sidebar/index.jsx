@@ -39,7 +39,22 @@ function Navbar({ user, logout }) {
               );
             })}
 
+          
             <li key={7} className="nav-text">
+              <NavLink className=" flex flex-row justify-between">
+                {" "}
+                <span>Cart</span>
+                <span className="bg-red-600 rounded-full p-1 text-white">2</span>
+              </NavLink>
+            </li>
+            <li key={8} className="nav-text">
+              <NavLink className=" flex flex-row justify-between">
+                {" "}
+                <span>Compare</span>
+                <span className="bg-red-600 rounded-full p-1 text-white">2</span>
+              </NavLink>
+            </li>
+            <li key={9} className="nav-text">
               <NavLink onClick={logout}>
                 {" "}
                 <span>Logout</span>

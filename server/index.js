@@ -15,11 +15,11 @@ const cookieSession = require("cookie-session");
 const passportSetup = require("./passport");
 const authRouter = require("./routes/Auth");
 const User = require("./models/User");
+const { resolve } = require("path");
 
 const app = express();
 const filesUpload = multer({ dest: "uploads/images" });
 require("dotenv").config();
-
 app.use(
   cookieSession({
     name: "session",
@@ -31,6 +31,28 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY, {
+  apiVersion: "2022-08-01",
+});
+
+app.use(express.static(process.env.STATIC_DIR));
+
+app.get("/", (req, res) => {
+  const path = resolve(process.env.STATIC_DIR + "/index.html");
+  res.sendFile(path);
+});
+
+//sends publishable key to frontend
+app.get("/config", (req, res) => {
+  res.send({
+    publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
+  });
+});
+
+
+
+
 
 // Serving static files
 app.use("/uploads", express.static(__dirname + "/uploads"));

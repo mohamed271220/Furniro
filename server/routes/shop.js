@@ -1,7 +1,9 @@
 const express = require("express");
 const fileUpload = require("../middlewares/fileUpload");
-const productController = require("../controllers/product");
+const productController = require("../controllers/shop");
 const router = express.Router();
+
+router.get("/products", productController.getProducts);
 
 router.get("/products/:productId", productController.getProduct);
 
@@ -21,8 +23,6 @@ router.get("/:orderId/order/status", productController.checkOrderStatus);
 
 // admin routes
 
-router.get("/products", productController.getProducts);
-router.get("/products/:productId", productController.getProduct);
 
 router.post(
   "/addProduct",
@@ -42,5 +42,15 @@ router.delete(
   "/removeProduct/:productId",
   productController.removeProduct
 );
+
+
+router.get(
+  "/orders", 
+  productController.getOrders
+);
+
+router.put("/orders/:orderId", productController.updateOrder);
+router.get("/orders/:orderId",productController.getOrder);
+
 
 module.exports = router;
