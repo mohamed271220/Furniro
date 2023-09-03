@@ -3,6 +3,10 @@ import HomeCategories from "../../components/HomeCategories/index";
 import Products from "../../components/Products/index";
 import HomeCarousel from "../../components/HomeCarousel";
 import Hashes from "../../components/HomeHashes";
+import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { getProducts } from "../../constants/Http";
+
 const data = [
   {
     title: "Lolito",
@@ -71,6 +75,12 @@ const data = [
 ];
 
 const Home = () => {
+
+  const { data:products, isPending, isLoading, isError, error } = useQuery({
+    queryKey: ["products"],
+    queryFn: ({ signal }) => getProducts({ signal, max: 8 }),
+  });
+
   return (
     <div
       className="flex flex-col items-center justify-center

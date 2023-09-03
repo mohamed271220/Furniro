@@ -1,5 +1,75 @@
 import ProductCard from "../ProductCard";
+import { cartActions } from "../../store/cartSlice";
+import { useDispatch } from "react-redux";
+import { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 const Products = ({ products, home }) => {
+  const dispatch = useDispatch();
+  const [total, setTotal] = useState(0);
+  console.log(products);
+  const [cartItems, setItems] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const config = {
+    position: "top-center",
+    autoClose: 2000,
+    closeOnClick: true,
+    pauseOnHover: true,
+    hideProgressBar: false,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+  };
+
+  const addItemToCartHandler = async ({ productId, name, price, sale }) => {
+    setTotal((prevStat) => (prevStat += price));
+    const id = toast.loading("Please wait...");
+    try {
+      const response = await axios.post(
+        `http://localhost:4000/shop/${productId}/cart`,
+        { number: 1 },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log(response);
+      if (response) {
+        toast.update(id, {
+          render: "Product added to cart",
+          type: "success",
+          ...config,
+          isLoading: false,
+        });
+        // console.log(productData);
+        setItems(response.data.user.cart);
+
+        dispatch(
+          cartActions.addItemToCart({
+            id: productId,
+            name: name,
+            price: price,
+            sale: sale,
+            // image: productData?.images[0],
+          })
+        );
+      }
+    } catch (error) {
+      toast.update(id, {
+        render: "Failed to add product to cart",
+        type: "error",
+        isLoading: false,
+        ...config,
+      });
+    }
+  };
+
   return (
     <section className=" md:py-[56px] py-[37px] md:px-[121px] px-[4vh] flex flex-col gap-3 justify-center items-center">
       {home && (
@@ -11,7 +81,11 @@ const Products = ({ products, home }) => {
       )}
       <div className="flex flex-wrap justify-center items-center  flex-row  gap-5 ">
         {products.map((product) => (
-          <ProductCard key={product.title} product={product} />
+          <ProductCard
+            key={product.title}
+            product={product}
+            addItemToCartHandler={addItemToCartHandler}
+          />
         ))}
       </div>
       {home && (
@@ -24,6 +98,19 @@ const Products = ({ products, home }) => {
           See more
         </button>
       )}
+
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </section>
   );
 };

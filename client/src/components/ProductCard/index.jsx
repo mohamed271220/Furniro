@@ -3,16 +3,20 @@ import Compare from "../../assets/icons/Compare.jsx";
 import { AiOutlineHeart, AiOutlineShareAlt } from "react-icons/ai";
 import { Link } from "react-router-dom";
 
-const Card = ({ product }) => {
-
+const Card = ({ product, addItemToCartHandler }) => {
   return (
-    <Link to={`/product/${product.id}`} className="relative w-[35vh] bg-[#F4F5F7]">
+    <Link
+      to={`/product/${product.id}`}
+      className="relative w-[35vh] bg-[#F4F5F7]"
+    >
       {/* underlying section  */}
       <div>
         <img src={Ex} className="3xl:w-full w-[35vh] h-[45vh]" alt=" " />
         <div className="py-3 flex flex-col px-2 gap-2">
           <h3 className="font-bold text-[3vh]">{product.title}</h3>
-          <p className="text-gray-700 font-semibold text-[2.5vh]">{product.ShortDescription}</p>
+          <p className="text-gray-700 font-semibold text-[2.5vh]">
+            {product.ShortDescription}
+          </p>
           <div className="flex flex-row justify-between text-gray-700 text-[1.5] ">
             <p className="font-semibold text-[3vh] text-black">
               $ {product.price - product.price * product.sale}
@@ -32,10 +36,15 @@ const Card = ({ product }) => {
           className="bg-white text-dim-yellow text-[2vh] font-bold opacity-1 py-[1.5vh] px-[4vh]
         mb-[1vh]
         "
-        onClick={(e)=>{
-          e.preventDefault();
-        console.log(product)
-        }}
+          onClick={(e) => {
+            e.preventDefault();
+            addItemToCartHandler({
+              productId: product.id,
+              name: product.title,
+              price: product.price,
+              sale: product.sale
+            });
+          }}
         >
           Add to cart
         </button>

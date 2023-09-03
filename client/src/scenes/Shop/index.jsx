@@ -2,6 +2,9 @@ import Banner from "../../components/Banner";
 import CertiBanner from "../../components/CertiBanner";
 import Products from "../../components/Products";
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { getProducts } from "../../constants/Http";
+import ErrorBlock from "../../components/ErrorBlock";
 
 const data = [
   {
@@ -78,6 +81,25 @@ const Shop = () => {
   const records = data.slice(firstIndexOfProduct, indexOfLastProduct);
   const nPage = Math.ceil(data.length / productsPerPage);
   const numbers = [...Array(nPage + 1).keys()].slice(1);
+  let content;
+  const { data:products, isLoading, isError, error } = useQuery({
+    queryKey: ["products"],
+    queryFn: ({ signal }) => getProducts({ signal }),
+  });
+
+  if (isLoading) {
+    content = <p>loading</p>;
+  }
+  if(isError){
+    content=<ErrorBlock 
+      title="An error occurred while fetching the products"
+        error={error.info?.message || "failed"}
+    />
+  }
+// if(products){
+// set data 
+// }
+
 
   const prePage = () => {
     if (currentPage !== firstIndexOfProduct) {
@@ -97,10 +119,10 @@ const Shop = () => {
     <div className="w-full flex flex-col items-center">
       <Banner title="Shop" path={["Home", "Shop"]} />
       <div className="Shop w-full flex flex-col pb-[5vh]">
-        <div className="filter bg-secondary flex flex-row text-[2.5vh] items-center justify-between p-[2vh]">
+        <div className="filter bg-secondary flex flex-row flex-wrap  md:flex-nowrap text-[2.5vh] items-center justify-between gap-[2vh] p-[2vh]">
           <p>Showing 1{"–"}16 of 32 results</p>
           <div className="flex flex-row gap-[2vh]">
-            <p >Show</p>
+            <p>Show</p>
             <select>
               <option>12</option>
             </select>

@@ -11,6 +11,8 @@ import Checkout from "./scenes/Checkout";
 import ProductComparison from "./scenes/ProductComparison";
 import Contact from "./scenes/Contact";
 import Blog from "./scenes/Blog";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { queryClient } from "./constants/Http";
 
 import "./index.css";
 import Layout from "./scenes/Layout";
@@ -38,34 +40,40 @@ function App() {
 
   return (
     <div>
-      <Routes>
-        <Route element={<Layout user={user} />}>
-          <Route
-            exact
-            path="/"
-            element={user ? <Home user={user} /> : <Navigate to="/login" />}
-          />
-          <Route
-            path="/shop"
-            element={user ? <Shop user={user} /> : <Navigate to="/login" />}
-          />
-          <Route
-            path="/product/:id"
-            element={user ? <Product user={user} /> : <Navigate to="/login" />}
-          />
-          <Route
-            path="/cart"
-            element={user ? <Cart user={user} /> : <Navigate to="/login" />}
-          />
-          <Route
-            path="/contact"
-            element={user ? <Contact user={user} /> : <Navigate to="/login" />}
-          />
-          <Route
-            path="/blog"
-            element={user ? <Blog user={user} /> : <Navigate to="/login" />}
-          />
-        </Route>
+      
+      <QueryClientProvider client={queryClient}>
+        <Routes>
+          <Route element={<Layout user={user} />}>
+            <Route
+              exact
+              path="/"
+              element={user ? <Home user={user} /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/shop"
+              element={user ? <Shop user={user} /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/product/:id"
+              element={
+                user ? <Product user={user} /> : <Navigate to="/login" />
+              }
+            />
+            <Route
+              path="/cart"
+              element={user ? <Cart user={user} /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/contact"
+              element={
+                user ? <Contact user={user} /> : <Navigate to="/login" />
+              }
+            />
+            <Route
+              path="/blog"
+              element={user ? <Blog user={user} /> : <Navigate to="/login" />}
+            />
+          </Route>
           <Route
             exact
             path="/login"
@@ -75,7 +83,8 @@ function App() {
             path="/signup"
             element={user ? <Navigate to="/" /> : <Signup />}
           />
-      </Routes>
+        </Routes>
+      </QueryClientProvider>
     </div>
   );
 }

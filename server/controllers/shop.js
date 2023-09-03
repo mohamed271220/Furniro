@@ -2,6 +2,7 @@ const Product = require("../models/Product");
 const Review = require("../models/Review");
 const User = require("../models/User");
 const Order = require("../models/Order");
+const passport = require("passport");
 const mongoose = require("mongoose");
 const { validationResult } = require("express-validator");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY, {
@@ -9,9 +10,20 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY, {
 });
 
 exports.getProducts = async (req, res, next) => {
+  const { max, search } = req.query;
   try {
-    const products = await Product.find().populate("category");
-    res.status(200).json({ message: "Products fetched", products });
+    if (max) {
+      const products = await Product.find().limit(parseInt(max));
+      res.status(200).json({ products });
+    } else if (search) {
+      const products = await Product.find({
+        name: { $regex: search, $options: "i" },
+      });
+      res.status(200).json({ products });
+    } else {
+      const products = await Product.find();
+      res.status(200).json({ products });
+    }
   } catch (err) {
     const error = new Error("Could not fetch products");
     error.statusCode = 500;
@@ -92,7 +104,13 @@ exports.postReview = async (req, res, next) => {
 
 exports.addToCart = async (req, res, next) => {
   const productId = req.params.productId;
-  const userId = req.user.id;
+  let user;
+  if (req.user) {
+    console.log(req.user);
+    user = await User.findOne({ googleId: req.user.id });
+    console.log(data);
+  }
+
   const number = req.body.number;
   let product;
   try {
@@ -110,8 +128,7 @@ exports.addToCart = async (req, res, next) => {
   }
 
   try {
-    const user = await User.findById(userId, "-password");
-    if (!user) {
+    if (!req.user) {
       const error = new Error("Could not find user.");
       error.statusCode = 404;
       next(error);
@@ -218,7 +235,7 @@ exports.makeOrder = async (req, res, next) => {
 
     const paymentIntent = await stripe.paymentIntents.create({
       currency: "usd",
-      amount: 1000,
+      amount: total,
       automatic_payment_methods: {
         enabled: true,
       },
