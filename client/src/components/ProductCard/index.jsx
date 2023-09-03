@@ -3,7 +3,13 @@ import Compare from "../../assets/icons/Compare.jsx";
 import { AiOutlineHeart, AiOutlineShareAlt } from "react-icons/ai";
 import { Link } from "react-router-dom";
 
+import {useDispatch} from 'react-redux'
+
+
 const Card = ({ product, addItemToCartHandler }) => {
+  const dispatch=useDispatch()
+  
+  
   return (
     <Link
       to={`/product/${product.id}`}

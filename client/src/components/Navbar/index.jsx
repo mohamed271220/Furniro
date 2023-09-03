@@ -2,10 +2,15 @@ import { Link, NavLink } from "react-router-dom";
 import Logo from "../../assets/icons/LOGO.svg";
 import { AiOutlineShoppingCart, AiFillHeart, AiFillBell } from "react-icons/ai";
 import Dropdown from "./Dropdown";
+import {useSelector } from 'react-redux'
 const Navbar = ({ user, logout }) => {
-  console.log(user);
+  // console.log(user);
 
   //TODO check both cart and comparison
+
+  const cartItems=useSelector(state=>state.cart)
+  
+console.log(cartItems);
 
   return (
     <div className="hidden w-full md:flex flex-row  justify-between items-center padding-x py-2 sm:py-1">
@@ -20,7 +25,7 @@ const Navbar = ({ user, logout }) => {
           <NavLink to="/shop">Shop</NavLink>
         </li>
         <li className="nav-text">
-          <NavLink to="/about">About</NavLink>
+          <NavLink to="/blog">Blog</NavLink>
         </li>
         <li className="nav-text">
           <NavLink to="/contact">Contact</NavLink>

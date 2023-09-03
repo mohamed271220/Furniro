@@ -18,6 +18,7 @@ const User = require("./models/User");
 const { resolve } = require("path");
 
 const app = express();
+app.use(express.json());
 const filesUpload = multer({ dest: "uploads/images" });
 require("dotenv").config();
 app.use(

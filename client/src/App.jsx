@@ -40,7 +40,6 @@ function App() {
 
   return (
     <div>
-      
       <QueryClientProvider client={queryClient}>
         <Routes>
           <Route element={<Layout user={user} />}>
@@ -62,6 +61,22 @@ function App() {
             <Route
               path="/cart"
               element={user ? <Cart user={user} /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/productComparison"
+              element={
+                user ? (
+                  <ProductComparison user={user} />
+                ) : (
+                  <Navigate to="/login" />
+                )
+              }
+            />
+            <Route
+              path="/checkout"
+              element={
+                user ? <Checkout user={user} /> : <Navigate to="/login" />
+              }
             />
             <Route
               path="/contact"
