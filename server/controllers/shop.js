@@ -324,7 +324,7 @@ exports.addProduct = async (req, res, next) => {
         price,
         sale,
         images,
-        rating,
+        
         sizeOptions,
         Tags,
         shortDescription,
@@ -352,7 +352,7 @@ exports.addProduct = async (req, res, next) => {
         price,
         sale,
         images,
-        rating,
+        
         sizeOptions,
         Tags,
         shortDescription,

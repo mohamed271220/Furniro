@@ -16,6 +16,10 @@ import { queryClient } from "./constants/Http";
 
 import "./index.css";
 import Layout from "./scenes/Layout";
+import AddProduct from "./scenes/AddProduct";
+
+axios.defaults.baseURL = "http://localhost:4000";
+axios.defaults.withCredentials = true;
 
 function App() {
   const [user, setUser] = useState(null);
@@ -27,7 +31,7 @@ function App() {
         import.meta.env.VITE_REACT_APP_API_URL
       }/auth/login/success`;
       const { data } = await axios.get(url, { withCredentials: true });
-      setUser(data.user._json);
+      setUser(data);
       console.log(data);
     } catch (err) {
       console.log(err);
@@ -61,6 +65,10 @@ function App() {
             <Route
               path="/cart"
               element={user ? <Cart user={user} /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/addProduct"
+              element={ <AddProduct user={user} />}
             />
             <Route
               path="/productComparison"

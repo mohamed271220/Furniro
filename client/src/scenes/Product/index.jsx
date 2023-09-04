@@ -1,8 +1,12 @@
+import { useParams } from "react-router-dom";
 import MockImg1 from "../../assets/images/MockImg1.png";
 import MockImg2 from "../../assets/images/MockImg2.png";
 import MockImg3 from "../../assets/images/MockImg3.png";
 
 const Product = () => {
+  const id = useParams().id;
+
+  
   const data = {
     name: "Asgaard sofa",
     price: 250,
@@ -117,9 +121,11 @@ const Product = () => {
         <hr />
 
         <div className="desc  w-full px-[9vh] gap-[4vh] py-[2vh]">
-          <div className="control flex flex-row items-center justify-center pb-[6vh]
+          <div
+            className="control flex flex-row items-center justify-center pb-[6vh]
           gap-[3vh] text-[4vh]
-          ">
+          "
+          >
             <button>Description</button>
             <button>Additional Information</button>
             <button>Reviews [{data.reviews.length}]</button>

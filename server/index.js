@@ -104,7 +104,7 @@ app.use(morgan("dev"));
 app.use(helmet());
 
 //file upload
-app.post("/api/upload", filesUpload.array("photos", 40), (req, res) => {
+app.post("/upload", filesUpload.array("photos", 40), (req, res) => {
   console.log(req.files);
   const uploadedFiles = [];
   for (let i = 0; i < req.files.length; i++) {
