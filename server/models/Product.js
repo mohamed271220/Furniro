@@ -34,12 +34,12 @@ const productSchema = mongoose.Schema(
     ],
     sizeOptions: [
       {
-        type: String,
+        size: String,
       },
     ],
     Tags: [
       {
-        type: String,
+        tag: String,
       },
     ],
     shortDescription: {
@@ -48,8 +48,7 @@ const productSchema = mongoose.Schema(
     },
     description: [
       {
-        type: String,
-        required: true,
+        paragraph: String,
       },
     ],
     salesPackage: {
@@ -68,10 +67,11 @@ const productSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    color: {
-      type: String,
-      required: true,
-    },
+    color: [
+      {
+        c: String,
+      },
+    ],
     fillingMat: {
       type: String,
       required: true,
@@ -104,5 +104,3 @@ const productSchema = mongoose.Schema(
 );
 
 module.exports = mongoose.model("Product", productSchema);
-
-

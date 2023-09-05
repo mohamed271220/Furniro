@@ -8,7 +8,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
-
+import Banner from "../../components/Banner";
+import "./index.css";
 const productSchema = yup.object().shape({
   name: yup.string().required("Name is required"),
   price: yup.number().required("Price is required"),
@@ -65,20 +66,20 @@ const productSchema = yup.object().shape({
 });
 
 const initialValue = {
-  name: "",
+  name: "moh",
   price: "",
   sale: "",
   images: [],
 
-  sizeOptions: [{ size: "" }],
-  Tags: [{ tag: "" }],
+  sizeOptions: [""],
+  Tags: [""],
   shortDescription: "",
-  description: [{ paragraph: "" }],
+  description: [""],
   salesPackage: "",
   modal: "",
   secondaryMat: "",
   config: "",
-  color: [{ c: "" }],
+  color: [""],
   fillingMat: "",
   load: "",
   origin: "",
@@ -145,15 +146,15 @@ const AddProduct = () => {
     formData.append("price", values.price);
     formData.append("sale", values.sale);
     formData.append("images", addedPhotos);
-    formData.append("sizeOptions", values.sizeOptions);
-    formData.append("Tags", values.Tags);
+    formData.append("sizeOptions", JSON.stringify(values.sizeOptions));
+    formData.append("Tags", JSON.stringify(values.Tags));
     formData.append("shortDescription", values.shortDescription);
-    formData.append("description", values.description);
+    formData.append("description", JSON.stringify(values.description));
     formData.append("salesPackage", values.salesPackage);
     formData.append("modal", values.modal);
     formData.append("secondaryMat", values.secondaryMat);
     formData.append("config", values.config);
-    formData.append("color", values.color);
+    formData.append("color", JSON.stringify(values.color));
     formData.append("fillingMat", values.fillingMat);
     formData.append("load", values.load);
     formData.append("origin", values.origin);
@@ -166,17 +167,7 @@ const AddProduct = () => {
 
     setIsLoading(true);
     try {
-      const response = await axios.post(
-        `/shop/addProduct`,
-        {
-          formData,
-        },
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const response = await axios.post(`/shop/addProduct`, formData, {});
       const savedUser = await response.json();
       onSubmitProps.resetForm();
       console.log(response);
@@ -191,7 +182,12 @@ const AddProduct = () => {
 
   return (
     <div>
-      <Formik onSubmit={formSubmitHandler} initialValues={initialValue}>
+      <Banner title={"Add a Product"} path={["Home", "Admin", "Add product"]} />
+      <Formik
+        onSubmit={formSubmitHandler}
+        validationSchema={productSchema}
+        initialValues={initialValue}
+      >
         {({
           values,
           errors,
@@ -202,12 +198,13 @@ const AddProduct = () => {
           setFieldValue,
           resetForm,
         }) => (
-          <form onSubmit={handleSubmit}>
+          <form
+            onSubmit={handleSubmit}
+            className="flex flex-col gap-[2vh] p-[4vh]"
+          >
             <div>
-              <h3>add a product</h3>
-
               <div className="form-control">
-                <div className="name">
+                <div className="form-control-input">
                   <label htmlFor="name">name</label>
                   <input
                     type="text"
@@ -223,7 +220,7 @@ const AddProduct = () => {
                   </p>
                 </div>
 
-                <div className="price">
+                <div className="form-control-input">
                   <label htmlFor="price">price</label>
                   <input
                     type="number"
@@ -239,7 +236,7 @@ const AddProduct = () => {
                   </p>
                 </div>
 
-                <div className="sale">
+                <div className="form-control-input">
                   <label htmlFor="sale">sale</label>
                   <input
                     type="number"
@@ -255,7 +252,7 @@ const AddProduct = () => {
                   </p>
                 </div>
 
-                <div className="sizeOptions">
+                <div className="form-control-input ">
                   <FieldArray name="sizeOptions">
                     {(arrayHelpers) => (
                       <div>
@@ -270,7 +267,10 @@ const AddProduct = () => {
                               touched.sizeOptions[i]) ||
                             {};
                           return (
-                            <div key={i}>
+                            <div className="inner-div" key={i}>
+                              <label htmlFor={`sizeOptions.${i}.size}`}>
+                                size
+                              </label>
                               <Field
                                 type="text"
                                 name={`sizeOptions.${i}.size`}
@@ -287,26 +287,36 @@ const AddProduct = () => {
                                 component="div"
                                 className="invalid-feedback"
                               />
-                              <button onClick={() => arrayHelpers.remove(i)}>
-                                -
-                              </button>
-                              <button
-                                onClick={() => {
-                                  arrayHelpers.push({ size: "" });
-                                  // console.log(values.sizeOptions)
-                                }}
-                              >
-                                +
-                              </button>
+                              <div>
+                                <button
+                                  className="btn-3"
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    arrayHelpers.remove(i);
+                                  }}
+                                >
+                                  -
+                                </button>
+                              </div>
                             </div>
                           );
                         })}
+                        <button
+                          className="btn-3"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            arrayHelpers.push({ size: "" });
+                            // console.log(values.sizeOptions)
+                          }}
+                        >
+                          Add another size
+                        </button>
                       </div>
                     )}
                   </FieldArray>
                 </div>
 
-                <div className="tags">
+                <div className="form-control-input">
                   <FieldArray name="Tags">
                     {(arrayHelpers) => (
                       <div>
@@ -317,7 +327,7 @@ const AddProduct = () => {
                           const tagTouched =
                             (touched.Tags?.length && touched.Tags[index]) || {};
                           return (
-                            <div key={index}>
+                            <div className="inner-div" key={index}>
                               <label htmlFor={`Tags.${index}.tag`}>tag</label>
                               <Field
                                 type="text"
@@ -335,29 +345,37 @@ const AddProduct = () => {
                                 component="div"
                                 className="invalid-feedback"
                               />
-                              <button
-                                onClick={() => arrayHelpers.remove(index)}
-                              >
-                                -
-                              </button>
-                              <button
-                                onClick={() => {
-                                  arrayHelpers.push({ tag: "" });
-                                  // console.log(values.sizeOptions)
-                                }}
-                              >
-                                +
-                              </button>
+                              <div>
+                                <button
+                                  className="btn-3"
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    arrayHelpers.remove(index);
+                                  }}
+                                >
+                                  -
+                                </button>
+                              </div>
                             </div>
                           );
                         })}
+                        <button
+                          className="btn-3"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            arrayHelpers.push({ tag: "" });
+                            // console.log(values.sizeOptions)
+                          }}
+                        >
+                          Add another tag
+                        </button>
                       </div>
                     )}
                   </FieldArray>
                 </div>
 
-                <div className="shortDescription">
-                  <label htmlFor="shortDescription">shortDescription</label>
+                <div className="form-control-input">
+                  <label htmlFor="shortDescription">short description</label>
                   <textarea
                     name="shortDescription"
                     id="shortDescription"
@@ -377,10 +395,10 @@ const AddProduct = () => {
                   </p>
                 </div>
 
-                <div className="description">
+                <div className="form-control-input">
                   <FieldArray name="description">
                     {(arrayHelpers) => (
-                      <div>
+                      <div className="">
                         <h3>Add description paragraphs</h3>
                         {values.description.map((p, index) => {
                           const paragraphErrors =
@@ -393,7 +411,7 @@ const AddProduct = () => {
                             {};
 
                           return (
-                            <div key={index}>
+                            <div key={index} className="inner-div">
                               <label htmlFor={`description.${index}.paragraph`}>
                                 paragraph
                               </label>
@@ -415,27 +433,32 @@ const AddProduct = () => {
                                 className="invalid-feedback"
                               />
                               <button
-                                onClick={() => arrayHelpers.remove(index)}
-                              >
-                                -
-                              </button>
-                              <button
-                                onClick={() => {
-                                  arrayHelpers.push({ paragraph: "" });
-                                  // console.log(values.sizeOptions)
+                                className="btn-3"
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  arrayHelpers.remove(index);
                                 }}
                               >
-                                +
+                                -
                               </button>
                             </div>
                           );
                         })}
+                        <button
+                          className="btn-3"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            arrayHelpers.push({ paragraph: "" });
+                            // console.log(values.sizeOptions)
+                          }}
+                        >
+                          Add another paragraph
+                        </button>
                       </div>
                     )}
                   </FieldArray>
                 </div>
-
-                <div className="salesPackage">
+                <div className="form-control-input">
                   <label htmlFor="salesPackage">salesPackage</label>
                   <textarea
                     name="salesPackage"
@@ -454,7 +477,7 @@ const AddProduct = () => {
                   </p>
                 </div>
 
-                <div className="modal">
+                <div className="form-control-input">
                   <label htmlFor="modal">modal</label>
                   <input
                     type="text"
@@ -470,7 +493,7 @@ const AddProduct = () => {
                   </p>
                 </div>
 
-                <div className="secondaryMat">
+                <div className="form-control-input">
                   <label htmlFor="secondaryMat">secondaryMat</label>
                   <input
                     type="text"
@@ -490,7 +513,7 @@ const AddProduct = () => {
                   </p>
                 </div>
 
-                <div className="config">
+                <div className="form-control-input">
                   <label htmlFor="config">config</label>
                   <input
                     type="text"
@@ -506,10 +529,11 @@ const AddProduct = () => {
                     {errors.config && touched.config ? errors.config : ""}
                   </p>
                 </div>
-                <div className="color">
+                <div className="form-control-input">
                   <FieldArray name="color">
                     {(arrayHelpers) => (
                       <div>
+                        <h3>Colors</h3>
                         {values.color.map((c, index) => {
                           const colorErrors =
                             (errors.color?.length && errors.color[index]) || {};
@@ -518,7 +542,7 @@ const AddProduct = () => {
                             {};
 
                           return (
-                            <div key={index}>
+                            <div key={index} className="inner-div">
                               <label htmlFor={`color.${index}.c`}>color</label>
                               <Field
                                 type="text"
@@ -537,27 +561,33 @@ const AddProduct = () => {
                                 className="invalid-feedback"
                               />
                               <button
-                                onClick={() => arrayHelpers.remove(index)}
-                              >
-                                -
-                              </button>
-                              <button
-                                onClick={() => {
-                                  arrayHelpers.push({ c: "" });
-                                  // console.log(values.sizeOptions)
+                                className="btn-3"
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  arrayHelpers.remove(index);
                                 }}
                               >
-                                +
+                                -
                               </button>
                             </div>
                           );
                         })}
+                        <button
+                          className="btn-3"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            arrayHelpers.push({ c: "" });
+                            // console.log(values.sizeOptions)
+                          }}
+                        >
+                          Add another color
+                        </button>
                       </div>
                     )}
                   </FieldArray>
                 </div>
 
-                <div className="fillingMat">
+                <div className="form-control-input">
                   <label htmlFor="fillingMat">fillingMat</label>
                   <input
                     type="text"
@@ -577,7 +607,7 @@ const AddProduct = () => {
                   </p>
                 </div>
 
-                <div className="load">
+                <div className="form-control-input">
                   <label htmlFor="load">load</label>
                   <input
                     type="text"
@@ -593,7 +623,7 @@ const AddProduct = () => {
                   </p>
                 </div>
 
-                <div className="origin">
+                <div className="form-control-input">
                   <label htmlFor="origin">origin</label>
                   <input
                     type="text"
@@ -609,7 +639,7 @@ const AddProduct = () => {
                   </p>
                 </div>
 
-                <div className="width">
+                <div className="form-control-input">
                   <label htmlFor="width">width</label>
                   <input
                     type="number"
@@ -625,7 +655,7 @@ const AddProduct = () => {
                   </p>
                 </div>
 
-                <div className="height">
+                <div className="form-control-input">
                   <label htmlFor="height">height</label>
                   <input
                     type="number"
@@ -641,7 +671,7 @@ const AddProduct = () => {
                   </p>
                 </div>
 
-                <div className="depth">
+                <div className="form-control-input">
                   <label htmlFor="depth">depth</label>
                   <input
                     type="number"
@@ -657,7 +687,7 @@ const AddProduct = () => {
                   </p>
                 </div>
 
-                <div className="weight">
+                <div className="form-control-input">
                   <label htmlFor="weight">weight</label>
                   <input
                     type="number"
@@ -673,7 +703,7 @@ const AddProduct = () => {
                   </p>
                 </div>
 
-                <div className="seatHeight">
+                <div className="form-control-input">
                   <label htmlFor="seatHeight">seatHeight</label>
                   <input
                     type="number"
@@ -693,7 +723,7 @@ const AddProduct = () => {
                   </p>
                 </div>
 
-                <div className="legHeight">
+                <div className="form-control-input">
                   <label htmlFor="legHeight">legHeight</label>
                   <input
                     type="number"
@@ -719,7 +749,7 @@ const AddProduct = () => {
                     addedPhotos.map((link) => (
                       <div className="form-control__uploader" key={link}>
                         <img
-                          src={`http://localhost:8080/uploads/` + link}
+                          src={`http://localhost:4000/uploads/` + link}
                           alt=""
                         />
                         <button
@@ -804,10 +834,10 @@ const AddProduct = () => {
                   </label>
                 </div>
               </div>
-              <button className="btn-1" type="submit">
-                Submit
-              </button>
             </div>
+            <button className="btn-1-submit" type="submit">
+              Submit
+            </button>
           </form>
         )}
       </Formik>
