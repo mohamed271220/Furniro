@@ -38,6 +38,18 @@ const Dropdown = ({ user, logout }) => {
                 <span className="bg-red-600 text-[2vh] rounded-full p-1 text-white">2</span>
             </h2>
           </div>
+      { (user.data?.role==='admin' || user.data?.role==='coolerAdmin')  &&    <div className="flex flex-row w-full gap-[1vh] hover:bg-secondary bg-primary text-black p-2 rounded-lg cursor-pointer items-center justify-center">
+          <h2 className="flex flex-row justify-between items-center ">
+          <span className="flex flex-row items-center gap-[1vh]">
+         
+         <Link to="/addProduct">
+Add a product
+         </Link>
+
+              </span>
+             
+            </h2>
+          </div>}
           {user && (
             <div className="flex flex-row w-full gap-[1vh] hover:bg-secondary text-black p-2 rounded-lg cursor-pointer items-center justify-center">
               <h2 onClick={logout}>

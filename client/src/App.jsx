@@ -32,7 +32,7 @@ function App() {
       }/auth/login/success`;
       const { data } = await axios.get(url, { withCredentials: true });
       setUser(data);
-      console.log(data);
+      console.log(data.data.role);
     } catch (err) {
       console.log(err);
     }
@@ -46,7 +46,7 @@ function App() {
     <div>
       <QueryClientProvider client={queryClient}>
         <Routes>
-          <Route element={<Layout user={user} />}>
+          <Route element={<Layout  user={user} />}>
             <Route
               exact
               path="/"
@@ -68,7 +68,12 @@ function App() {
             />
             <Route
               path="/addProduct"
-              element={ <AddProduct user={user} />}
+              element={ user && (user?.data.role==='admin' || user?.data.role==='coolerAdmin') ?  <AddProduct user={user}/> : <Navigate to='/login'
+
+              />
+              }
+              
+               
             />
             <Route
               path="/productComparison"

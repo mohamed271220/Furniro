@@ -745,6 +745,7 @@ const AddProduct = () => {
 
                 {/* //add images */}
                 <div className="form-control__collection">
+                <label htmlFor="file" className="label-upload">Upload Images</label>
                   {addedPhotos.length > 0 &&
                     addedPhotos.map((link) => (
                       <div className="form-control__uploader" key={link}>
