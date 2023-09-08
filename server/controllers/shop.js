@@ -116,6 +116,7 @@ exports.addToCart = async (req, res, next) => {
   try {
     product = await Product.findById(productId);
   } catch (err) {
+    
     if (!err.statusCode) {
       err.statusCode = 500;
     }

@@ -17,12 +17,15 @@ import { queryClient } from "./constants/Http";
 import "./index.css";
 import Layout from "./scenes/Layout";
 import AddProduct from "./scenes/AddProduct";
+import { cartActions } from "./store/cartSlice";
+import { useDispatch } from "react-redux";
 
 axios.defaults.baseURL = "http://localhost:4000";
 axios.defaults.withCredentials = true;
 
 function App() {
   const [user, setUser] = useState(null);
+  const dispatch = useDispatch();
 
   const getUser = async () => {
     try {
@@ -32,7 +35,15 @@ function App() {
       }/auth/login/success`;
       const { data } = await axios.get(url, { withCredentials: true });
       setUser(data);
-      console.log(data.data.role);
+      dispatch(
+        cartActions.setCart({
+          items: data?.data.cart,
+          totalQuantity: data?.data.cart
+            .map((item) => item.number)
+            .reduce((partialSum, a) => partialSum + a, 0),
+        })
+      );
+      // console.log(data);
     } catch (err) {
       console.log(err);
     }
@@ -46,7 +57,7 @@ function App() {
     <div>
       <QueryClientProvider client={queryClient}>
         <Routes>
-          <Route element={<Layout  user={user} />}>
+          <Route element={<Layout user={user?.user?._json} />}>
             <Route
               exact
               path="/"
@@ -68,12 +79,15 @@ function App() {
             />
             <Route
               path="/addProduct"
-              element={ user && (user?.data.role==='admin' || user?.data.role==='coolerAdmin') ?  <AddProduct user={user}/> : <Navigate to='/login'
-
-              />
+              element={
+                user &&
+                (user?.data.role === "admin" ||
+                  user?.data.role === "coolerAdmin") ? (
+                  <AddProduct user={user} />
+                ) : (
+                  <Navigate to="/login" />
+                )
               }
-              
-               
             />
             <Route
               path="/productComparison"

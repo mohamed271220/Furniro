@@ -7,7 +7,7 @@ import "./Sidebar.css";
 import { IconContext } from "react-icons";
 import Logo from "../../../assets/icons/LOGO.svg";
 
-function Navbar({ user, logout }) {
+function Navbar({ user, logout, cartTotalQuantity, compareQuantity }) {
   const [sidebar, setSidebar] = useState(false);
 
   const showSidebar = () => setSidebar(!sidebar);
@@ -19,8 +19,8 @@ function Navbar({ user, logout }) {
           <Link to="#" className="menu-bars">
             <FaIcons.FaBars onClick={showSidebar} />
           </Link>
-      
-    <img src={Logo} alt="logo" />
+
+          <img src={Logo} alt="logo" />
         </div>
         <nav className={sidebar ? "nav-menu active" : "nav-menu"}>
           <ul className="nav-menu-items" onClick={showSidebar}>
@@ -39,19 +39,22 @@ function Navbar({ user, logout }) {
               );
             })}
 
-          
             <li key={7} className="nav-text">
               <NavLink className=" flex flex-row justify-between">
                 {" "}
                 <span>Cart</span>
-                <span className="bg-red-600 rounded-full p-1 text-white">2</span>
+                <span className="bg-red-600 rounded-full p-1 text-white">
+                  {cartTotalQuantity}
+                </span>
               </NavLink>
             </li>
             <li key={8} className="nav-text">
               <NavLink className=" flex flex-row justify-between">
                 {" "}
                 <span>Compare</span>
-                <span className="bg-red-600 rounded-full p-1 text-white">2</span>
+                <span className="bg-red-600 rounded-full p-1 text-white">
+                  {compareQuantity}
+                </span>
               </NavLink>
             </li>
             <li key={9} className="nav-text">
@@ -67,7 +70,7 @@ function Navbar({ user, logout }) {
                   alt="profile"
                   className={"w-10 h-10 rounded-full "}
                 />
-              <span>{user?.name}</span>
+                <span>{user?.name}</span>
               </Link>
             </li>
           </ul>

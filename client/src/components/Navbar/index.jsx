@@ -3,14 +3,15 @@ import Logo from "../../assets/icons/LOGO.svg";
 import { AiOutlineShoppingCart, AiFillHeart, AiFillBell } from "react-icons/ai";
 import Dropdown from "./Dropdown";
 import {useSelector } from 'react-redux'
-const Navbar = ({ user, logout }) => {
+const Navbar = ({ user, logout,cartTotalQuantity,compareQuantity=0 }) => {
   // console.log(user);
 
   //TODO check both cart and comparison
 
-  const cartItems=useSelector(state=>state.cart)
+ 
+  // console.log(cartItems);
   
-console.log(cartItems);
+// console.log(user);
 
   return (
     <div className="hidden w-full md:flex flex-row  justify-between items-center padding-x py-2 sm:py-1">
@@ -36,7 +37,7 @@ console.log(cartItems);
       justify-center items-center gap-[1vh]
        space-x-4"
       >
-        <Dropdown  user={user} logout={logout} />
+        <Dropdown  compareQuantity={compareQuantity} cartTotalQuantity={cartTotalQuantity} user={user} logout={logout} />
         <div className="icon rounded-full flex justify-center items-center w-7 h-7 lg:shadow-lg hover:text-dim-yellow">
           <AiFillHeart />
         </div>
