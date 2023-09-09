@@ -4,6 +4,7 @@ import Sidebar from "../../components/Navbar/Sidebar";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { cartActions } from "../../store/cartSlice";
+import Footer from "../../components/Footer";
 
 const Layout = ({ user }) => {
   const logout = () => {
@@ -41,6 +42,7 @@ const Layout = ({ user }) => {
       />
 
       <Outlet />
+      <Footer/>
     </div>
   );
 };

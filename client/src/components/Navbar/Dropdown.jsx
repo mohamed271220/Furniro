@@ -22,9 +22,15 @@ const Dropdown = ({ user, logout, cartTotalQuantity, compareQuantity }) => {
           <div className="relative">
             <AiFillProfile />
             {(cartTotalQuantity !== 0 || compareQuantity !== 0) && (
-              <span className="absolute -top-1 -right-1 lg:h-[1.3vh]  
-              lg:w-[1.3vh]
-              h-[2vh] w-[2vh] bg-red-600 text-red-600 rounded-full border-2"></span>
+              <span className="absolute -top-1 -right-1 lg:h-[0.7rem]  
+              lg:w-[.7rem]
+              md:h-[0.5rem]
+              md:w-[.5rem]
+              sm:h-[0.3rem]
+              sm:w-[.3rem]
+
+               bg-red-600
+               text-red-600 rounded-full border-2"></span>
             )}
           </div>
         ) : (

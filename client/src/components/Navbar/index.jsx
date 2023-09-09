@@ -14,7 +14,8 @@ const Navbar = ({ user, logout,cartTotalQuantity,compareQuantity=0 }) => {
 // console.log(user);
 
   return (
-    <div className="hidden w-full md:flex flex-row  justify-between items-center padding-x py-2 sm:py-1">
+    <div className="hidden w-full md:flex flex-row 
+    gap-[2vh] justify-between items-center padding-x py-2 sm:py-1">
       <div>
         <img src={Logo} alt="logo" />
       </div>
