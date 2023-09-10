@@ -19,26 +19,28 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { PersistGate } from "redux-persist/integration/react";
+import { setupListeners } from "@reduxjs/toolkit/query";
+// const persistConfig = {
+//   key: "cart",
+//   storage,
+//   version: 1,
+// };
 
-const persistConfig = {
-  key: "cart",
-  storage,
-  version: 1,
-};
+// const rootPersistConfig = {
+//   key: "root",
+//   storage: storage,
+// };
 
-const rootPersistConfig = {
-  key: "root",
-  storage: storage,
-};
+// const rootReducer = combineReducers({
+//   compare: compareReducer.reducer,
+// });
 
-const rootReducer = combineReducers({
-  cart: cartReducer.reducer,
-  compare: compareReducer.reducer,
-});
-
-const persistedReducer = persistReducer(rootPersistConfig, rootReducer);
+// const persistedReducer = persistReducer(rootPersistConfig, rootReducer);
 const store = configureStore({
-  reducer: persistedReducer,
+  reducer: {
+    cart: cartReducer.reducer,
+    compare: compareReducer.reducer,
+  },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
@@ -47,14 +49,16 @@ const store = configureStore({
     }),
 });
 
+setupListeners(store.dispatch);
+
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Provider store={store}>
-      <PersistGate loading={null} persistor={persistStore(store)}>
+      {/* <PersistGate loading={null} persistor={persistStore(store)}> */}
         <BrowserRouter>
           <App />
         </BrowserRouter>
-      </PersistGate>
+      {/* </PersistGate> */}
     </Provider>
   </React.StrictMode>
 );

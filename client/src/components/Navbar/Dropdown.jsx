@@ -10,7 +10,13 @@ import {
 import { LuArrowRightLeft } from "react-icons/lu";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { Link } from "react-router-dom";
-const Dropdown = ({ user, logout, cartTotalQuantity, compareQuantity,handleStartAddNewChallenge }) => {
+const Dropdown = ({
+  user,
+  logout,
+  cartTotalQuantity,
+  compareQuantity,
+  handleStartAddNewChallenge,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div className="relative flex flex-col items-center  bg-white rounded-lg shadow-lg text-gray-900 hover:bg-secondary  ">
@@ -22,7 +28,8 @@ const Dropdown = ({ user, logout, cartTotalQuantity, compareQuantity,handleStart
           <div className="relative">
             <AiFillProfile />
             {(cartTotalQuantity !== 0 || compareQuantity !== 0) && (
-              <span className="absolute -top-1 -right-1 lg:h-[0.7rem]  
+              <span
+                className="absolute -top-1 -right-1 lg:h-[0.7rem]  
               lg:w-[.7rem]
               md:h-[0.5rem]
               md:w-[.5rem]
@@ -30,7 +37,8 @@ const Dropdown = ({ user, logout, cartTotalQuantity, compareQuantity,handleStart
               sm:w-[.3rem]
 
                bg-red-600
-               text-red-600 rounded-full border-2"></span>
+               text-red-600 rounded-full border-2"
+              ></span>
             )}
           </div>
         ) : (
@@ -39,9 +47,13 @@ const Dropdown = ({ user, logout, cartTotalQuantity, compareQuantity,handleStart
       </button>
       {isOpen && (
         <div className="bg-white z-50 absolute top-10  flex flex-col items-start rounded-lg ">
-          <div 
-          onClick={handleStartAddNewChallenge}
-          className="flex flex-row w-full gap-[1vh] hover:bg-secondary text-black p-2 rounded-lg cursor-pointer ">
+          <div
+            onClick={() => {
+              setIsOpen((prev) => !prev);
+              handleStartAddNewChallenge();
+            }}
+            className="flex flex-row w-full gap-[1vh] hover:bg-secondary text-black p-2 rounded-lg cursor-pointer "
+          >
             <h2 className="flex flex-row w-full justify-between items-center ">
               <span className="flex flex-row items-center gap-[1vh]">
                 <AiOutlineShoppingCart />

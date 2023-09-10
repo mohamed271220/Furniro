@@ -27,31 +27,31 @@ function App() {
   const [user, setUser] = useState(null);
   const dispatch = useDispatch();
 
-  const getUser = async () => {
-    try {
-      //sub === id
-      const url = `${
-        import.meta.env.VITE_REACT_APP_API_URL
-      }/auth/login/success`;
-      const { data } = await axios.get(url, { withCredentials: true });
-      setUser(data);
-      dispatch(
-        cartActions.setCart({
-          items: data?.data.cart,
-          totalQuantity: data?.data.cart
-            .map((item) => item.number)
-            .reduce((partialSum, a) => partialSum + a, 0),
-        })
-      );
-      // console.log(data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
+  
   useEffect(() => {
+    const getUser = async () => {
+      try {
+        //sub === id
+        const url = `${
+          import.meta.env.VITE_REACT_APP_API_URL
+        }/auth/login/success`;
+        const { data } = await axios.get(url, { withCredentials: true });
+        setUser(data);
+        dispatch(
+          cartActions.setCart({
+            items: data?.data.cart,
+            totalQuantity: data?.data.cart
+              .map((item) => item.number)
+              .reduce((partialSum, a) => partialSum + a, 0),
+          })
+        );
+        // console.log(data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
     getUser();
-  }, []);
+  }, [dispatch]);
 
   return (
     <div>

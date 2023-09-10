@@ -17,10 +17,10 @@ const Layout = ({ user }) => {
   };
 
   const cartItems = useSelector((state) => state.cart.items);
-  const cartTotalQuantity = useSelector((state) => state.cart.totalQuantity);
+  const cartTotalQuantity = useSelector((state) => state.cart.totalQuantity) || 0;
 
   const compareItems = useSelector((state) => state.compare);
-  const compareQuantity = useSelector((state) => state.compare.quantity);
+  const compareQuantity = useSelector((state) => state.compare.quantity) || 0;
 
   const [isCreatingNewChallenge, setIsCreatingNewChallenge] = useState(false);
 
