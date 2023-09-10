@@ -3,7 +3,7 @@ import Logo from "../../assets/icons/LOGO.svg";
 import { AiOutlineShoppingCart, AiFillHeart, AiFillBell } from "react-icons/ai";
 import Dropdown from "./Dropdown";
 import {useSelector } from 'react-redux'
-const Navbar = ({ user, logout,cartTotalQuantity,compareQuantity=0 }) => {
+const Navbar = ({ user, logout,cartTotalQuantity,compareQuantity=0,handleStartAddNewChallenge }) => {
   // console.log(user);
 
   //TODO check both cart and comparison
@@ -38,7 +38,7 @@ const Navbar = ({ user, logout,cartTotalQuantity,compareQuantity=0 }) => {
       justify-center items-center gap-[1vh]
        space-x-4"
       >
-        <Dropdown  compareQuantity={compareQuantity} cartTotalQuantity={cartTotalQuantity} user={user} logout={logout} />
+        <Dropdown handleStartAddNewChallenge={handleStartAddNewChallenge} compareQuantity={compareQuantity} cartTotalQuantity={cartTotalQuantity} user={user} logout={logout} />
         <div className="icon rounded-full flex justify-center items-center w-7 h-7 lg:shadow-lg hover:text-dim-yellow">
           <AiFillHeart />
         </div>
