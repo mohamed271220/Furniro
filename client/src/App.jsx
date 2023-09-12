@@ -80,13 +80,13 @@ function App() {
             <Route
               path="/addProduct"
               element={
-                user &&
-                (user?.data.role === "admin" ||
-                  user?.data.role === "coolerAdmin") ? (
+                // user &&
+                // (user?.data.role === "admin" ||
+                //   user?.data.role === "coolerAdmin") ? (
                   <AddProduct user={user} />
-                ) : (
-                  <Navigate to="/login" />
-                )
+              //   ) : (
+              //     <Navigate to="/login" />
+              //   )
               }
             />
             <Route

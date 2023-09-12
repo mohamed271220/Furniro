@@ -11,11 +11,7 @@ export default function Modal({ title, children, onClose }) {
       />
       <motion.dialog
         open
-        className="top-0
-    right-0
-    width-[30vh]
-    max-w-[60%]
-     z-50
+        className=" p-[3vh] w-[30rem] max-w-[90%] top-[0]  z-50
     bg-white
         "
         //To reuse states

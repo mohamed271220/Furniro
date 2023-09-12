@@ -146,7 +146,7 @@ exports.addToCart = async (req, res, next) => {
         product: productId,
         number: number,
         price: product.price - product.price * product.sale,
-        name: product.name,
+        name: product.title,
         sale: product.sale,
         image: product.images[0],
       });
@@ -356,7 +356,6 @@ exports.addProduct = async (req, res, next) => {
         price,
         sale,
         images,
-
         sizeOptions: JSON.parse(sizeOptions),
         Tags: JSON.parse(Tags),
         shortDescription,
