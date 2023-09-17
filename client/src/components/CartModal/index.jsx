@@ -52,16 +52,15 @@ const CartModal = ({ onClose }) => {
       </div>
 
       <div
-      className="
+        className="
       py-[2vh]
       border-t-[0.3vh]
       flex flex-row flex-wrap justify-evenly gap-[2vh]
       "
       >
-
-<button className="text-[2vh] border rounded-xl px-[2.5vh] border-black  " >cart</button>
-<button className="text-[2vh] border rounded-xl px-[2.5vh] border-black  " >checkout</button>
-<button className="text-[2vh] border rounded-xl px-[2.5vh] border-black  " >Comparison</button>
+        <button className="text-[2vh] border rounded-xl px-[2.5vh] border-black  " >cart</button>
+        <button className="text-[2vh] border rounded-xl px-[2.5vh] border-black  " >checkout</button>
+        <button className="text-[2vh] border rounded-xl px-[2.5vh] border-black  " >Comparison</button>
 
       </div>
     </Modal>

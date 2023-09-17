@@ -92,11 +92,11 @@ function App() {
             <Route
               path="/productComparison"
               element={
-                user ? (
+                // user ? (
                   <ProductComparison user={user} />
-                ) : (
-                  <Navigate to="/login" />
-                )
+                // ) : (
+                //   <Navigate to="/login" />
+                // )
               }
             />
             <Route
