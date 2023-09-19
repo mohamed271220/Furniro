@@ -1,0 +1,13 @@
+table, th, td {
+    border: 1px solid;
+    border-color: rgba(128, 128, 128, 0.354);
+  }
+
+  th, td {
+    padding: 15px;
+    text-align: left;
+  }
+
+  th, td {
+    border-bottom: 1px solid #ddd;
+  }

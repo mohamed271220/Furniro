@@ -3,6 +3,7 @@ import Logo from "../../assets/icons/LOGO.svg";
 import { AiOutlineShoppingCart, AiFillHeart, AiFillBell } from "react-icons/ai";
 import Dropdown from "./Dropdown";
 import { useSelector } from "react-redux";
+
 const Navbar = ({
   user,
   logout,

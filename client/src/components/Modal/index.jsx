@@ -10,10 +10,10 @@ export default function Modal({ title, children, onClose }) {
         onClick={onClose}
       />
       <motion.dialog
-        open
         className=" p-[3vh] w-[30rem] max-w-[90%] top-[0]  z-50
     bg-white
         "
+        open
         //To reuse states
         variants={{
           visible: { opacity: 1, y: 0 },

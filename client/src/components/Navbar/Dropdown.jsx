@@ -10,6 +10,7 @@ import {
 import { LuArrowRightLeft } from "react-icons/lu";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { motion } from 'framer-motion'
 const Dropdown = ({
   user,
   logout,
@@ -35,7 +36,6 @@ const Dropdown = ({
               md:w-[.5rem]
               sm:h-[0.3rem]
               sm:w-[.3rem]
-
                bg-red-600
                text-red-600 rounded-full border-2"
               ></span>
@@ -46,13 +46,24 @@ const Dropdown = ({
         )}
       </button>
       {isOpen && (
-        <div className="bg-white z-50 absolute top-10  flex flex-col items-start rounded-lg ">
-          <div
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.5 }}
+          className="bg-white z-50 absolute top-10  flex flex-col items-start rounded-lg ">
+          <motion.div
+            whileHover={{
+              backgroundColor: "#FFF3E3",
+            }}
+            whileTap={{
+              backgroundColor: "#FFF3E3",
+            }}
             onClick={() => {
               setIsOpen((prev) => !prev);
               handleStartAddNewChallenge();
             }}
-            className="flex flex-row w-full gap-[1vh] hover:bg-secondary text-black p-2 rounded-lg cursor-pointer "
+            className="flex flex-row w-full gap-[1vh]  text-black p-2 rounded-lg cursor-pointer "
           >
             <h2 className="flex flex-row w-full justify-between items-center ">
               <span className="flex flex-row items-center gap-[1vh]">
@@ -63,37 +74,53 @@ const Dropdown = ({
                 {cartTotalQuantity}
               </span>
             </h2>
-          </div>
+          </motion.div>
 
-          <div className="flex flex-row w-full gap-[1vh] hover:bg-secondary text-black p-2 rounded-lg cursor-pointer items-center justify-center">
-            <h2 className="flex flex-row justify-between items-center ">
-              <span className="flex flex-row items-center gap-[1vh]">
-                <LuArrowRightLeft />
-                Compare
-              </span>
-              <span className="bg-red-600 text-[2vh] rounded-full p-1 text-white">
-                {compareQuantity}
-              </span>
-            </h2>
-          </div>
-          {(user.data?.role === "admin" ||
-            user.data?.role === "coolerAdmin") && (
-            <div className="flex flex-row w-full gap-[1vh] hover:bg-secondary bg-primary text-black p-2 rounded-lg cursor-pointer items-center justify-center">
+          <motion.div
+            whileHover={{
+              backgroundColor: "#FFF3E3",
+            }}
+
+            className="flex flex-row w-full gap-[1vh]  text-black p-2 rounded-lg cursor-pointer items-center justify-center">
+            <Link to='/productComparison'>
+
               <h2 className="flex flex-row justify-between items-center ">
                 <span className="flex flex-row items-center gap-[1vh]">
-                  <Link to="/addProduct">Add a product</Link>
+                  <LuArrowRightLeft />
+                  Compare
+                </span>
+                <span className="bg-red-600 text-[2vh] rounded-full p-1 text-white">
+                  {compareQuantity}
                 </span>
               </h2>
-            </div>
-          )}
+            </Link>
+          </motion.div>
+          {(user.data?.role === "admin" ||
+            user.data?.role === "coolerAdmin") && (
+              <motion.div
+                whileHover={{
+                  backgroundColor: "#FFF3E3",
+                }}
+                className="flex flex-row w-full gap-[1vh]  bg-primary text-black p-2 rounded-lg cursor-pointer items-center justify-center">
+                <h2 className="flex flex-row justify-between items-center ">
+                  <span className="flex flex-row items-center gap-[1vh]">
+                    <Link to="/addProduct">Add a product</Link>
+                  </span>
+                </h2>
+              </motion.div>
+            )}
           {user && (
-            <div className="flex flex-row w-full gap-[1vh] hover:bg-secondary text-black p-2 rounded-lg cursor-pointer items-center justify-center">
+            <motion.div
+              whileHover={{
+                backgroundColor: "#FFF3E3",
+              }}
+              className="flex flex-row w-full gap-[1vh]  text-black p-2 rounded-lg cursor-pointer items-center justify-center">
               <h2 onClick={logout}>
                 <Link>Logout</Link>
               </h2>
-            </div>
+            </motion.div>
           )}
-        </div>
+        </motion.div>
       )}
     </div>
   );

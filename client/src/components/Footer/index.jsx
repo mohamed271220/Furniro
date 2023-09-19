@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <div className="flex flex-col justify-center items-center  bg-white py-[5vh] pb-[15vh]">
+    <div className="flex flex-col justify-center items-center  bg-white py-[5vh] pb-[1vh]">
       <div className="flex flex-row  gap-[20vh]">
         <div className="flex flex-col gap-[1vh]">
           <h1 className="text-[3vh] font-bold mb-[5vh]">Furniro.</h1>

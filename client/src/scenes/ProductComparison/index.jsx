@@ -1,10 +1,11 @@
 import { useSelector } from "react-redux"
 import Banner from "../../components/Banner"
 import { useEffect, useState } from "react"
+import './index.css'
 const ProductComparison = () => {
 
-  const [firstItem, setFirstItem] = useState([])
-  const [secondItem, setSecondItem] = useState([])
+  const [firstItem, setFirstItem] = useState()
+  const [secondItem, setSecondItem] = useState()
 
   const { itemOneId, itemTwoId } = useSelector(state => state.compare)
 
@@ -52,175 +53,218 @@ const ProductComparison = () => {
       <Banner title="Product Comparison" path={["Home", "Comparison"]} />
 
 
-      <div className="">
-        <table>
-          {firstItem && secondItem && <>
-            <tr className="header">
-              <th>
-                <p>
-                  Go to Product page for more
-                  Products
-                </p>
-                <span>
-                  view more
-                </span>
-              </th>
-            </tr>
-            <tr>
-              <th>
-                title
+      <div className="header">
+        <h3>
 
-              </th>
+          Go to Product page for more
+          Products
 
-              <td>{firstItem.title}</td>
-              <td>{secondItem.title}</td>
+          <span>
+            view more
+          </span>
+        </h3>
+      </div>
 
-            </tr>
+      <div className="w-full">
+        <table className="w-[70%]
+        m-[6vh]
+        ">
 
-            <tr>
-              <th>
-                price
-              </th>
+          <tr>
+            <th>
+              title
 
-              <td>
-                {firstItem.price}
-              </td>
-              <td>
-                {secondItem.price}
-              </td>
+            </th>
 
-            </tr>
-            <tr>
-              <th>
+            <td>{firstItem ? firstItem.title : '__'}</td>
+            <td>{secondItem ? secondItem.title : '__'}</td>
 
-                sale
-              </th>
-              <td>{firstItem.sale}</td>
-              <td>
-                {secondItem.sale}
-              </td>
+          </tr>
 
-            </tr>
-            <tr>
-              <th>
-                rating
+          <tr>
+            <th>
+              price
+            </th>
 
-              </th>
-              <td>
-                {firstItem.rating}
-              </td>
-              <td>{secondItem.rating}</td>
-            </tr>
-            <tr>
-              <th>
+            <td>
+              {firstItem ? firstItem.price : '__'}
+            </td>
+            <td>
+              {secondItem ? secondItem.price : '__'}
+            </td>
 
-                salesPackage
-              </th>
-              <td>
-                {firstItem.salesPackage}
-              </td>
-              <td>
-                {secondItem.salesPackage}
-              </td>
-            </tr>
-            <tr>
+          </tr>
+          <tr>
+            <th>
 
-              <th>
+              sale
+            </th>
+            <td>{firstItem ? firstItem.sale : '__'}</td>
+            <td>
+              {secondItem ? secondItem.sale : '__'}
+            </td>
 
-                modal
-              </th>
-              <td>{firstItem.modal}</td>
-              <td>{secondItem.modal}</td>
-            </tr>
+          </tr>
+          <tr>
+            <th>
+              rating
 
-            <tr>
-              <th>
+            </th>
+            <td>
+              {firstItem ? firstItem.rating : '__'}
+            </td>
+            <td>{secondItem ? secondItem.rating : '__'}</td>
+          </tr>
+          <tr>
+            <th>
 
-                secondaryMat
-              </th>
-              <td>{firstItem.secondaryMat}</td>
-              <td>{secondItem.secondaryMat}</td>
-            </tr>
-            <tr>
-              <th>
-                config
+              salesPackage
+            </th>
+            <td>
+              {firstItem ? firstItem.salesPackage : '__'}
+            </td>
+            <td>
+              {secondItem ? secondItem.salesPackage : '__'}
+            </td>
+          </tr>
+          <tr>
 
-              </th>
-              <td>{firstItem.config}</td>
-              <td>{secondItem.config}</td>
-            </tr>
-            <tr>
-              <th>
+            <th>
 
-                color
-              </th>
-              <td>{firstItem.color}</td>
-              <td>{secondItem.color}</td>
-            </tr>
-            <tr>
-              <th>
-                fillingMat
-              </th>
-              <td>{firstItem.fillingMat}</td>
-              <td></td>{secondItem.fillingMat}</tr>
-            <tr>
-              <th>
-                load
-              </th>
-              <td>{firstItem.load}</td>
-              <td></td>{secondItem.load}</tr>
-            <tr>
-              <th>
-                origin
-              </th>
-              <td>{firstItem.origin}</td>
-              <td></td>{secondItem.origin}</tr>
-            <tr>
-              <th>
-                width
-              </th>
-              <td>{firstItem.width}</td>
-              <td></td>{secondItem.width}</tr>
-            <tr>
-              <th>
-                height
-              </th>
-              <td>{firstItem.height}</td>
-              <td></td>{secondItem.height}</tr>
-            <tr>
-              <th>
-                depth
-              </th>
-              <td>{firstItem.depth}</td>
-              <td></td>{secondItem.depth}</tr>
-            <tr>
-              <th>
-                weight
-              </th>
-              <td>{firstItem.weight}</td>
-              <td></td>{secondItem.weight}</tr>
-            <tr>
-              <th>
-                seatHeight
-              </th>
-              <td>{firstItem.seatHeight}</td>
-              <td></td>{secondItem.seatHeight}</tr>
-            <tr>
-              <th>
-                legHeight
-              </th>
-              <td>{firstItem.legHeight}</td>
-              <td></td>{secondItem.legHeight}</tr>
-            <tr>
-              <th>
-                status
-              </th>
-              <td>{firstItem.status}</td>
-              <td></td>{secondItem.status}</tr>
-          </>}
+              modal
+            </th>
+            <td>{firstItem ? firstItem.modal : '__'}</td>
+            <td>{secondItem ? secondItem.modal : '__'}</td>
+          </tr>
+
+          <tr>
+            <th>
+
+              secondaryMat
+            </th>
+            <td>{firstItem ? firstItem.secondaryMat : '__'}</td>
+            <td>{secondItem ? secondItem.secondaryMat : '__'}</td>
+          </tr>
+          <tr>
+            <th>
+              config
+
+            </th>
+            <td>{firstItem ? firstItem.config : '__'}</td>
+            <td>{secondItem ? secondItem.config : '__'}</td>
+          </tr>
+          <tr>
+            <th>
+
+              color
+            </th>
+            <td>{firstItem ? firstItem.color : '__'}</td>
+            <td>{secondItem ? secondItem.color : '__'}</td>
+          </tr>
+          <tr>
+            <th>
+              fillingMat
+            </th>
+            <td>{firstItem ? firstItem.fillingMat : '__'}</td>
+            <td>
+
+              {secondItem ? secondItem.fillingMat : '__'}
+            </td>
+          </tr>
+          <tr>
+            <th>
+              load
+            </th>
+            <td>{firstItem ? firstItem.load : '__'}</td>
+            <td>
+
+              {secondItem ? secondItem.load : '__'}
+            </td>
+          </tr>
+          <tr>
+            <th>
+              origin
+            </th>
+            <td>{firstItem ? firstItem.origin : '__'}</td>
+            <td>
+
+              {secondItem ? secondItem.origin : '__'}
+            </td>
+          </tr>
+          <tr>
+            <th>
+              width
+            </th>
+            <td>{firstItem ? firstItem.width : '__'}</td>
+            <td>
+
+              {secondItem ? secondItem.width : '__'}
+            </td>
+          </tr>
+          <tr>
+            <th>
+              height
+            </th>
+            <td>{firstItem ? firstItem.height : '__'}</td>
+            <td>
+
+              {secondItem ? secondItem.height : '__'}
+            </td>
+          </tr>
+          <tr>
+            <th>
+              depth
+            </th>
+            <td>{firstItem ? firstItem.depth : '__'}</td>
+            <td>
+
+              {secondItem ? secondItem.depth : '__'}
+            </td>
+          </tr>
+          <tr>
+            <th>
+              weight
+            </th>
+            <td>{firstItem ? firstItem.weight : '__'}</td>
+            <td>
+
+              {secondItem ? secondItem.weight : '__'}
+            </td>
+          </tr>
+          <tr>
+            <th>
+              seatHeight
+            </th>
+            <td>{firstItem ? firstItem.seatHeight : '__'}</td>
+            <td>
+
+              {secondItem ? secondItem.seatHeight : '__'}
+            </td>
+          </tr>
+          <tr>
+            <th>
+              legHeight
+            </th>
+            <td>{firstItem ? firstItem.legHeight : '__'}</td>
+            <td>
+
+              {secondItem ? secondItem.legHeight : '__'}
+            </td>
+          </tr>
+          <tr>
+            <th>
+              status
+            </th>
+            <td>{firstItem ? firstItem.status : '__'}</td>
+            <td>
+
+              {secondItem ? secondItem.status : '__'}
+            </td>
+          </tr>
         </table>
 
       </div>
+
 
 
     </div>
