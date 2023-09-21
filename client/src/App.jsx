@@ -37,6 +37,7 @@ function App() {
         }/auth/login/success`;
         const { data } = await axios.get(url, { withCredentials: true });
         setUser(data);
+        console.log(data);
         dispatch(
           cartActions.setCart({
             items: data?.data.cart,
@@ -53,11 +54,12 @@ function App() {
     getUser();
   }, [dispatch]);
 
+
   return (
     <div>
       <QueryClientProvider client={queryClient}>
         <Routes>
-          <Route element={<Layout user={user?.user?._json} />}>
+          <Route element={<Layout user={user?.user?._json} userData={user?.data} />}>
             <Route
               exact
               path="/"

@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 
 const Navbar = ({
   user,
+  userData,
   logout,
   cartTotalQuantity,
   compareQuantity = 0,
@@ -51,6 +52,7 @@ const Navbar = ({
           compareQuantity={compareQuantity}
           cartTotalQuantity={cartTotalQuantity}
           user={user}
+          userData={userData}
           logout={logout}
         />
         <div className="icon rounded-full flex justify-center items-center w-7 h-7 lg:shadow-lg hover:text-dim-yellow">

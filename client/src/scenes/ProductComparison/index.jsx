@@ -54,21 +54,43 @@ const ProductComparison = () => {
 
 
       <div className="header">
-        <h3>
 
-          Go to Product page for more
-          Products
-
-          <span>
-            view more
-          </span>
-        </h3>
       </div>
 
       <div className="w-full">
         <table className="w-[70%]
         m-[6vh]
         ">
+
+
+          <tr>
+            <td>
+              <h3>
+
+                Go to Product page for more
+                Products
+
+                <span>
+                  view more
+                </span>
+              </h3>
+            </td>
+
+            <td>
+              <img src="" alt="" />
+              <h4>title</h4>
+              <p>price</p>
+              <p>rating</p>
+            </td>
+
+            <td>
+              <img src="" alt="" />
+              <h4>title</h4>
+              <p>price</p>
+              <p>rating</p>
+            </td>
+          </tr>
+
 
           <tr>
             <th>

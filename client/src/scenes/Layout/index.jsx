@@ -8,7 +8,7 @@ import Footer from "../../components/Footer";
 import { AnimatePresence } from "framer-motion";
 import CartModal from "../../components/CartModal";
 
-const Layout = ({ user }) => {
+const Layout = ({ user,userData }) => {
   const logout = () => {
     window.open(
       `${import.meta.env.VITE_REACT_APP_API_URL}/auth/logout`,
@@ -35,12 +35,13 @@ const Layout = ({ user }) => {
   console.log(compareItems);
   return (
     <div>
-      {isCreatingNewChallenge && <CartModal onClose={handleClose} />}
+      {isCreatingNewChallenge && <CartModal user={user} onClose={handleClose} />}
 
       <Navbar
         cartItems={cartItems}
         cartTotalQuantity={cartTotalQuantity}
         user={user}
+        userData={userData}
         logout={logout}
         compareItems={compareItems}
         compareQuantity={compareQuantity}
@@ -50,6 +51,7 @@ const Layout = ({ user }) => {
         cartTotalQuantity={cartTotalQuantity}
         cartItems={cartItems}
         user={user}
+        userData={userData}
         logout={logout}
         compareItems={compareItems}
         compareQuantity={compareQuantity}

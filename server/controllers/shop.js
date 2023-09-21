@@ -116,7 +116,7 @@ exports.addToCart = async (req, res, next) => {
   try {
     product = await Product.findById(productId);
   } catch (err) {
-    
+
     if (!err.statusCode) {
       err.statusCode = 500;
     }
@@ -355,7 +355,7 @@ exports.addProduct = async (req, res, next) => {
         title: name,
         price,
         sale,
-        images,
+        images: JSON.parse(images),
         sizeOptions: JSON.parse(sizeOptions),
         Tags: JSON.parse(Tags),
         shortDescription,
@@ -515,6 +515,25 @@ exports.removeProduct = async (req, res, next) => {
   }
 };
 
+exports.getCart = async (req, res, next) => {
+  try {
+
+    const user = await User.findOne({ googleId: req.user.id });
+    if (!user) {
+      const error = new Error("User not found");
+      error.statusCode = 404;
+    }
+    res.status(200).json({ cart: user.cart });
+  }
+  catch (err) {
+    const error = new Error("Something went wrong!!");
+    error.statusCode = 500;
+    return next(error);
+  }
+
+}
+
+
 exports.getOrders = async (req, res, next) => {
   const user = await User.findOne({ googleId: req.user.id });
 
@@ -541,12 +560,12 @@ exports.getOrders = async (req, res, next) => {
 
       const madeBy = search
         ? {
-            $or: [
-              // { totalPrice: { $eq: search } },
-              { status: { $regex: new RegExp(search, "i") } },
-              // { madeBy: { $eq: new mongoose.Types.ObjectId(search) } },
-            ],
-          }
+          $or: [
+            // { totalPrice: { $eq: search } },
+            { status: { $regex: new RegExp(search, "i") } },
+            // { madeBy: { $eq: new mongoose.Types.ObjectId(search) } },
+          ],
+        }
         : {};
       const transactions = await Order.find(madeBy)
         .sort(sortFormatted)

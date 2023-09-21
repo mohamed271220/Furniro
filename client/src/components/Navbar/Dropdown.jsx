@@ -13,12 +13,14 @@ import { Link } from "react-router-dom";
 import { motion } from 'framer-motion'
 const Dropdown = ({
   user,
+  userData,
   logout,
   cartTotalQuantity,
   compareQuantity,
   handleStartAddNewChallenge,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  // console.log(user);
   return (
     <div className="relative flex flex-col items-center  bg-white rounded-lg shadow-lg text-gray-900 hover:bg-secondary  ">
       <button
@@ -66,11 +68,11 @@ const Dropdown = ({
             className="flex flex-row w-full gap-[1vh]  text-black p-2 rounded-lg cursor-pointer "
           >
             <h2 className="flex flex-row w-full justify-between items-center ">
-              <span className="flex flex-row items-center gap-[1vh]">
+              <span className="flex flex-row items-center gap-[1vh] text-[2vh]">
                 <AiOutlineShoppingCart />
                 Cart
               </span>
-              <span className="bg-red-600 text-[2vh] rounded-full p-1 text-white">
+              <span className="bg-red-600 text-[1.4vh] rounded-full p-1 text-white">
                 {cartTotalQuantity}
               </span>
             </h2>
@@ -85,41 +87,48 @@ const Dropdown = ({
             <Link to='/productComparison'>
 
               <h2 className="flex flex-row justify-between items-center ">
-                <span className="flex flex-row items-center gap-[1vh]">
+                <span className="flex flex-row items-center gap-[1vh] text-[2vh]">
                   <LuArrowRightLeft />
                   Compare
                 </span>
-                <span className="bg-red-600 text-[2vh] rounded-full p-1 text-white">
+                <span className="bg-red-600 text-[1.4vh] rounded-full p-1 text-white">
                   {compareQuantity}
                 </span>
               </h2>
             </Link>
           </motion.div>
-          {(user.data?.role === "admin" ||
-            user.data?.role === "coolerAdmin") && (
+          {(userData.role === "admin" ||
+            userData.role === "coolerAdmin") && (
               <motion.div
                 whileHover={{
                   backgroundColor: "#FFF3E3",
                 }}
-                className="flex flex-row w-full gap-[1vh]  bg-primary text-black p-2 rounded-lg cursor-pointer items-center justify-center">
-                <h2 className="flex flex-row justify-between items-center ">
-                  <span className="flex flex-row items-center gap-[1vh]">
-                    <Link to="/addProduct">Add a product</Link>
-                  </span>
-                </h2>
+                className="flex flex-row w-full gap-[1vh]   text-black p-2 rounded-lg cursor-pointer items-center justify-center">
+                <Link to="/addProduct">
+
+                  <h2 className="flex flex-row justify-between items-center ">
+                    <span className="flex flex-row items-center gap-[1vh] text-[2vh]">
+                      <Link to="/addProduct">Add a product</Link>
+                    </span>
+                    <span className="bg-red-600 text-[1.2vh] font-bold rounded-full p-1 text-white">
+                      Admin
+                    </span>
+                  </h2>
+                </Link>
+
               </motion.div>
             )}
-          {user && (
-            <motion.div
-              whileHover={{
-                backgroundColor: "#FFF3E3",
-              }}
-              className="flex flex-row w-full gap-[1vh]  text-black p-2 rounded-lg cursor-pointer items-center justify-center">
-              <h2 onClick={logout}>
-                <Link>Logout</Link>
-              </h2>
-            </motion.div>
-          )}
+
+          <motion.div
+            whileHover={{
+              backgroundColor: "#FFF3E3",
+            }}
+            className="flex flex-row w-full gap-[1vh] text-[2vh]  text-black p-2 rounded-lg cursor-pointer items-center justify-center">
+            <h2 onClick={logout}>
+              <Link>Logout</Link>
+            </h2>
+          </motion.div>
+
         </motion.div>
       )}
     </div>

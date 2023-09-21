@@ -9,7 +9,7 @@ import { getProducts } from "../../constants/Http";
 
 const data = [
   {
-    id:'64f6c1b164d9436b06f87cae',
+    id:'64f6c9266c2c7f8cdb2ec682',
     title: "Lolito",
     ShortDescription: "Luxury big sofa",
     price: 2.5,
@@ -18,7 +18,7 @@ const data = [
     newTag: true,
   },
   {
-    id:'64f6c1b164d9436b06f87cae',
+    id:'64f6c9266c2c7f8cdb2ec682',
     title: "Lolito",
     ShortDescription: "Luxury big sofa",
     price: 2.5,
@@ -27,7 +27,7 @@ const data = [
     newTag: true,
   },
   {
-    id:'64f6c1b164d9436b06f87cae',
+    id:'64f6c9266c2c7f8cdb2ec682',
     title: "Lolito",
     ShortDescription: "Luxury big sofa",
     price: 2.5,
@@ -36,7 +36,7 @@ const data = [
     newTag: false,
   },
   {
-    id:'64f6c1b164d9436b06f87cae',
+    id:'64f6c9266c2c7f8cdb2ec682',
     title: "Lolito",
     ShortDescription: "Luxury big sofa",
     price: 2.5,
@@ -45,7 +45,7 @@ const data = [
     newTag: true,
   },
   {
-    id:'64f6c1b164d9436b06f87cae',
+    id:'64f6c9266c2c7f8cdb2ec682',
     title: "Lolito",
     ShortDescription: "Luxury big sofa",
     price: 2.5,
@@ -54,7 +54,7 @@ const data = [
     newTag: false,
   },
   {
-    id:'64f6c1b164d9436b06f87cae',
+    id:'64f6c9266c2c7f8cdb2ec682',
     title: "Lolito",
     ShortDescription: "Luxury big sofa",
     price: 2.5,
@@ -63,7 +63,7 @@ const data = [
     newTag: false,
   },
   {
-    id:'64f6c1b164d9436b06f87cae',
+    id:'64f6c9266c2c7f8cdb2ec682',
     title: "Lolito",
     ShortDescription: "Luxury big sofa",
     price: 2.5,
@@ -72,7 +72,7 @@ const data = [
     newTag: false,
   },
   {
-    id:'64f6c1b164d9436b06f87cae',
+    id:'64f6c9266c2c7f8cdb2ec682',
     title: "Lolito",
     ShortDescription: "Luxury big sofa",
     price: 2.5,

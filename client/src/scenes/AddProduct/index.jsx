@@ -145,7 +145,7 @@ const AddProduct = () => {
     formData.append("name", values.name);
     formData.append("price", values.price);
     formData.append("sale", values.sale);
-    formData.append("images", addedPhotos);
+    formData.append("images", JSON.stringify(addedPhotos));
     formData.append("sizeOptions", JSON.stringify(values.sizeOptions));
     formData.append("Tags", JSON.stringify(values.Tags));
     formData.append("shortDescription", values.shortDescription);
@@ -422,7 +422,7 @@ const AddProduct = () => {
                                 className={
                                   "form-control" +
                                   (paragraphErrors.paragraph &&
-                                  paragraphTouched.paragraph
+                                    paragraphTouched.paragraph
                                     ? " is-invalid"
                                     : "")
                                 }
@@ -745,7 +745,7 @@ const AddProduct = () => {
 
                 {/* //add images */}
                 <div className="form-control__collection">
-                <label htmlFor="file" className="label-upload">Upload Images</label>
+                  <label htmlFor="file" className="label-upload">Upload Images</label>
                   {addedPhotos.length > 0 &&
                     addedPhotos.map((link) => (
                       <div className="form-control__uploader" key={link}>

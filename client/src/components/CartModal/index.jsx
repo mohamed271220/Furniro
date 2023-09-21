@@ -2,11 +2,31 @@ import Modal from "../Modal";
 import { motion, useAnimate, stagger } from "framer-motion";
 import { useSelector } from "react-redux";
 import { BsBagPlus, BsFillXCircleFill } from "react-icons/bs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from 'axios';
 const CartModal = ({ onClose }) => {
-  const cartItems = useSelector((state) => state.cart.items);
 
-  console.log(cartItems);
+
+  const [cart, setCart] = useState([])
+
+  useEffect(() => {
+    const fetchCart = async () => {
+      try {
+        const url = `${import.meta.env.VITE_REACT_APP_API_URL}/shop/cart`;
+        const { data } = await axios.get(url, { withCredentials: true });
+        setCart(data.cart)
+        console.log(data.cart);
+      } catch (error) {
+        console.log(error);
+      }
+
+    }
+    fetchCart()
+
+  },[])
+
+
+
 
   return (
     <Modal onClose={onClose}>
@@ -18,9 +38,9 @@ const CartModal = ({ onClose }) => {
       </div>
 
       <div className="flex flex-col gap-[1vh] min-h-[50vh]">
-        {cartItems?.map((item) => (
+        {cart.length !== 0 ? cart?.map((item) => (
           <div
-            key={item.productId}
+            key={item.product}
             className="flex flex-row gap-[2vh] items-center "
           >
             <img
@@ -29,24 +49,27 @@ const CartModal = ({ onClose }) => {
               alt=""
             />
             <div className="">
-              <h4 className="font-semibold text-[2vh]  ">{item.title}</h4>
+              <h4 className="font-semibold text-[2vh]  ">{item.name}</h4>
               <p className=" text-[2vh] ">
                 {item.number} x{" "}
-                <span className="text-dim-yellow">${item.totalPrice} </span>
+                <span className="text-dim-yellow">${item.price} </span>
               </p>
             </div>
             <span className="">
               <BsFillXCircleFill className="text-gray-400" />
             </span>
           </div>
-        ))}
+        ))
+          :
+          <p>Loading</p>
+        }
       </div>
 
       <div className="flex pb-[2vh] flex-row gap-[2vh] items-center font-semibold text-[2vh]">
         <p>Subtotal</p>
         <p className="text-dim-yellow">
-          ${cartItems
-            .map((item) => item.totalPrice * item.number)
+          ${cart
+            .map((item) => item.price * item.number)
             .reduce((partialSum, a) => partialSum + a, 0)}
         </p>
       </div>

@@ -49,6 +49,11 @@ router.get(
   productController.getOrders
 );
 
+router.get(
+  '/cart',
+  productController.getCart
+)
+
 router.put("/orders/:orderId", productController.updateOrder);
 router.get("/orders/:orderId",productController.getOrder);
 
