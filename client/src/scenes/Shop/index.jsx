@@ -6,99 +6,35 @@ import { useQuery } from "@tanstack/react-query";
 import { getProducts } from "../../constants/Http";
 import ErrorBlock from "../../components/ErrorBlock";
 
-const data = [
-  {
-    title: "Lolito",
-    ShortDescription: "Luxury big sofa",
-    price: 2.5,
-    sale: 0,
-    photo: "./Ex.png",
-    newTag: true,
-  },
-  {
-    title: "Lolito",
-    ShortDescription: "Luxury big sofa",
-    price: 2.5,
-    sale: 0,
-    photo: "./Ex.png",
-    newTag: true,
-  },
-  {
-    title: "Lolito",
-    ShortDescription: "Luxury big sofa",
-    price: 2.5,
-    sale: 0.2,
-    photo: "./Ex.png",
-    newTag: false,
-  },
-  {
-    title: "Lolito",
-    ShortDescription: "Luxury big sofa",
-    price: 2.5,
-    sale: 0,
-    photo: "./Ex.png",
-    newTag: true,
-  },
-  {
-    title: "Lolito",
-    ShortDescription: "Luxury big sofa",
-    price: 2.5,
-    sale: 0.2,
-    photo: "./Ex.png",
-    newTag: false,
-  },
-  {
-    title: "Lolito",
-    ShortDescription: "Luxury big sofa",
-    price: 2.5,
-    sale: 0.2,
-    photo: "./Ex.png",
-    newTag: false,
-  },
-  {
-    title: "Lolito",
-    ShortDescription: "Luxury big sofa",
-    price: 2.5,
-    sale: 0.2,
-    photo: "./Ex.png",
-    newTag: false,
-  },
-  {
-    title: "Lolito",
-    ShortDescription: "Luxury big sofa",
-    price: 2.5,
-    sale: 0.2,
-    photo: "./Ex.png",
-    newTag: false,
-  },
-];
+
 
 const Shop = () => {
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ["products"],
+    queryFn: ({ signal }) => getProducts({ signal }),
+  });
+  console.log(data);
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 6;
   const indexOfLastProduct = currentPage * productsPerPage;
   const firstIndexOfProduct = indexOfLastProduct - productsPerPage;
-  const records = data.slice(firstIndexOfProduct, indexOfLastProduct);
-  const nPage = Math.ceil(data.length / productsPerPage);
+  const records = data?.products.slice(firstIndexOfProduct, indexOfLastProduct);
+  const nPage = Math.ceil(data?.products.length / productsPerPage);
   const numbers = [...Array(nPage + 1).keys()].slice(1);
   let content;
-  const { data:products, isLoading, isError, error } = useQuery({
-    queryKey: ["products"],
-    queryFn: ({ signal }) => getProducts({ signal }),
-  });
 
   if (isLoading) {
     content = <p>loading</p>;
   }
-  if(isError){
-    content=<ErrorBlock 
+  if (isError) {
+    content = <ErrorBlock
       title="An error occurred while fetching the products"
-        error={error.info?.message || "failed"}
+      error={error.info?.message || "failed"}
     />
   }
-// if(products){
-// set data 
-// }
+  // if(products){
+  // set data 
+  // }
 
 
   const prePage = () => {
@@ -146,11 +82,10 @@ const Shop = () => {
               </li>
               {numbers.map((number, index) => (
                 <li
-                  className={`${
-                    currentPage === number
+                  className={`${currentPage === number
                       ? "bg-dim-yellow text-white px-[2vh] py-[1vh]  text-[3vh] font-semibold rounded-[3px]"
                       : " bg-secondary px-[2vh] py-[1vh]   text-[3vh] font-semibold rounded-[3px]"
-                  }`}
+                    }`}
                   key={index}
                 >
                   <a href="#" onClick={() => changePage(number)}>

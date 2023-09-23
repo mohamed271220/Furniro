@@ -5,7 +5,7 @@ import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Products = ({ products, home }) => {
   const dispatch = useDispatch();
@@ -80,7 +80,7 @@ const Products = ({ products, home }) => {
         </div>
       )}
       <div className="flex flex-wrap justify-center items-center  flex-row  gap-5 ">
-        {products.map((product) => (
+        {products?.map((product) => (
           <ProductCard
             key={product.title}
             product={product}
@@ -89,14 +89,15 @@ const Products = ({ products, home }) => {
         ))}
       </div>
       {home && (
-        <button
+        <Link
+        to="/shop"
           className=" border-dim-yellow border-2 text-dim-yellow text-center
       font-semibold text-[3vh] lg:text-[3vh] 2xl:text-3xl 
       py-[2vh] px-[7vh]  mt-[4vh]
        "
         >
           See more
-        </button>
+        </Link>
       )}
 
       <ToastContainer

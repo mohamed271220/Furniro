@@ -3,21 +3,35 @@ import Compare from "../../assets/icons/Compare.jsx";
 import { AiOutlineHeart, AiOutlineShareAlt } from "react-icons/ai";
 import { Link } from "react-router-dom";
 
-import {useDispatch} from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { compareActions } from "../../store/compareSlice";
 
 
 const Card = ({ product, addItemToCartHandler }) => {
-  const dispatch=useDispatch()
+  const dispatch = useDispatch()
   
-  
+
+  const product1Id = useSelector(state => state.compare.itemOneId)
+  const product2Id = useSelector(state => state.compare.itemTwoId)
+
+  const compareHandler = (e) => {
+    e.preventDefault();
+    if (product1Id && product2Id) {
+      dispatch(compareActions.swapItemOneCompare({ id: product?._id }))
+    } else  {
+      dispatch(compareActions.addItemToCompare({ id: product?._id }))
+    }
+
+  }
+
   return (
     <Link
-      to={`/product/${product.id}`}
+      to={`/product/${product._id}`}
       className="relative w-[35vh] bg-[#F4F5F7]"
     >
       {/* underlying section  */}
       <div>
-        <img src={Ex} className="3xl:w-full w-[35vh] h-[45vh]" alt=" " />
+        <img src={`http://localhost:4000/uploads/${product.images[0]}`} className="3xl:w-full w-[35vh] h-[45vh]" alt=" " />
         <div className="py-3 flex flex-col px-2 gap-2">
           <h3 className="font-bold text-[3vh]">{product.title}</h3>
           <p className="text-gray-700 font-semibold text-[2.5vh]">
@@ -62,12 +76,12 @@ const Card = ({ product, addItemToCartHandler }) => {
             Share
           </p>
 
-          <p className="flex justify-center items-center flex-row gap-1">
+          <button onClick={compareHandler} className="flex justify-center items-center cursor-pointer flex-row gap-1">
             <span className="">
               <Compare />
             </span>
             Compare
-          </p>
+          </button>
           <p className="flex justify-center items-center  flex-row gap-1">
             <span>
               <AiOutlineHeart fontWeight={800} size="2.5vh" />

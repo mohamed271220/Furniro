@@ -40,7 +40,7 @@ function Navbar({ user, logout, cartTotalQuantity, compareQuantity }) {
             })}
 
             <li key={7} className="nav-text">
-              <NavLink className=" flex flex-row justify-between">
+              <NavLink to="/cart" className=" flex flex-row justify-between">
                 {" "}
                 <span>Cart</span>
                 <span className="bg-red-600 rounded-full p-1 text-white">
@@ -49,7 +49,7 @@ function Navbar({ user, logout, cartTotalQuantity, compareQuantity }) {
               </NavLink>
             </li>
             <li key={8} className="nav-text">
-              <NavLink className=" flex flex-row justify-between">
+              <NavLink to="/productComparison" className=" flex flex-row justify-between">
                 {" "}
                 <span>Compare</span>
                 <span className="bg-red-600 rounded-full p-1 text-white">

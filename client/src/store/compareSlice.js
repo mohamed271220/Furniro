@@ -10,18 +10,22 @@ const compareSlice = createSlice({
   reducers: {
     addItemToCompare: (state, action) => {
       // item id sent
-      const item = action.payload;
+      const { id } = action.payload;
       //if item 1 is not set yet set it
       if (state.itemOneId === "") {
-        state.itemOneId = item;
+        state.itemOneId = id;
         state.quantity++;
-      } else if (state.itemTwoId === "") {
-        state.itemTwoId = item;
+      } else if (state.itemTwoId === ""
+      ) {
+        if (state.itemOneId === id) {
+          return
+        }
+        state.itemTwoId = id;
         state.quantity++;
       }
     },
     removeItemFromCompare: (state, action) => {
-      const id = action.payload;
+      const { id } = action.payload;
       if (state.itemOneId === id) {
         state.itemOneId = "";
         state.quantity--;
@@ -31,12 +35,12 @@ const compareSlice = createSlice({
       }
     },
     swapItemOneCompare: (state, action) => {
-      const item = action.payload;
-      state.itemOneId = item;
+      const { id } = action.payload;
+      state.itemOneId = id;
     },
     swapItemTwoCompare: (state, action) => {
-      const item = action.payload;
-      state.itemTwoId = item;
+      const { id } = action.payload;
+      state.itemTwoId = id;
     },
   },
 });

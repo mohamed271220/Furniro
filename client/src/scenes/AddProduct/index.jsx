@@ -10,6 +10,9 @@ import { useDispatch } from "react-redux";
 import { useState } from "react";
 import Banner from "../../components/Banner";
 import "./index.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const productSchema = yup.object().shape({
   name: yup.string().required("Name is required"),
   price: yup.number().required("Price is required"),
@@ -95,9 +98,20 @@ const AddProduct = () => {
   const [addedPhotos, setAddedPhotos] = useState([]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState();
+
+
+  const config = {
+    position: "top-center",
+    autoClose: 2000,
+    closeOnClick: true,
+    pauseOnHover: true,
+    hideProgressBar: false,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+  };
 
   function uploadPhoto(ev) {
     setIsLoading(true);
@@ -141,6 +155,7 @@ const AddProduct = () => {
     ]);
   }
   const formSubmitHandler = async (values, onSubmitProps) => {
+    const id = toast.loading("Please wait...");
     const formData = new FormData();
     formData.append("name", values.name);
     formData.append("price", values.price);
@@ -168,13 +183,29 @@ const AddProduct = () => {
     setIsLoading(true);
     try {
       const response = await axios.post(`/shop/addProduct`, formData, {});
-      const savedUser = await response.json();
-      onSubmitProps.resetForm();
-      console.log(response);
-      setIsLoading(false);
+      // const savedUser = await response.json();
+  if(response){
 
+    toast.update(id, {
+      render: "Product added successfully",
+      type: "success",
+      ...config,
+      isLoading: false,
+    });
+    
+  }
+      onSubmitProps.resetForm();
+    
+      setIsLoading(false);
+      navigate("/");
       return savedUser;
     } catch (err) {
+      toast.update(id, {
+        render: "Failed to add product.",
+        type: "error",
+        isLoading: false,
+        ...config,
+      });
       setError(err.message);
     }
     setIsLoading(false);
@@ -842,6 +873,18 @@ const AddProduct = () => {
           </form>
         )}
       </Formik>
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   );
 };

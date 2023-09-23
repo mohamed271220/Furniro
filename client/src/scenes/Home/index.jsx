@@ -9,7 +9,7 @@ import { getProducts } from "../../constants/Http";
 
 const data = [
   {
-    id:'64f6c9266c2c7f8cdb2ec682',
+    id: '64f6c9266c2c7f8cdb2ec682',
     title: "Lolito",
     ShortDescription: "Luxury big sofa",
     price: 2.5,
@@ -18,7 +18,7 @@ const data = [
     newTag: true,
   },
   {
-    id:'64f6c9266c2c7f8cdb2ec682',
+    id: '64f6c9266c2c7f8cdb2ec682',
     title: "Lolito",
     ShortDescription: "Luxury big sofa",
     price: 2.5,
@@ -27,7 +27,7 @@ const data = [
     newTag: true,
   },
   {
-    id:'64f6c9266c2c7f8cdb2ec682',
+    id: '64f6c9266c2c7f8cdb2ec682',
     title: "Lolito",
     ShortDescription: "Luxury big sofa",
     price: 2.5,
@@ -36,7 +36,7 @@ const data = [
     newTag: false,
   },
   {
-    id:'64f6c9266c2c7f8cdb2ec682',
+    id: '64f6c9266c2c7f8cdb2ec682',
     title: "Lolito",
     ShortDescription: "Luxury big sofa",
     price: 2.5,
@@ -45,7 +45,7 @@ const data = [
     newTag: true,
   },
   {
-    id:'64f6c9266c2c7f8cdb2ec682',
+    id: '64f6c9266c2c7f8cdb2ec682',
     title: "Lolito",
     ShortDescription: "Luxury big sofa",
     price: 2.5,
@@ -54,7 +54,7 @@ const data = [
     newTag: false,
   },
   {
-    id:'64f6c9266c2c7f8cdb2ec682',
+    id: '64f6c9266c2c7f8cdb2ec682',
     title: "Lolito",
     ShortDescription: "Luxury big sofa",
     price: 2.5,
@@ -63,7 +63,7 @@ const data = [
     newTag: false,
   },
   {
-    id:'64f6c9266c2c7f8cdb2ec682',
+    id: '64f6c9266c2c7f8cdb2ec682',
     title: "Lolito",
     ShortDescription: "Luxury big sofa",
     price: 2.5,
@@ -72,7 +72,7 @@ const data = [
     newTag: false,
   },
   {
-    id:'64f6c9266c2c7f8cdb2ec682',
+    id: '64f6c9266c2c7f8cdb2ec682',
     title: "Lolito",
     ShortDescription: "Luxury big sofa",
     price: 2.5,
@@ -84,7 +84,7 @@ const data = [
 
 const Home = () => {
 
-  const { data:products, isPending, isLoading, isError, error } = useQuery({
+  const { data: products, isPending, isLoading, isError, error } = useQuery({
     queryKey: ["products"],
     queryFn: ({ signal }) => getProducts({ signal, max: 8 }),
   });
@@ -97,7 +97,7 @@ const Home = () => {
     >
       <HomeHero />
       <HomeCategories />
-      <Products home={true} products={data} />
+      <Products home={true} products={products?.products} />
       <HomeCarousel />
       <Hashes />
     </div>
