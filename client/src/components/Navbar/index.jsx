@@ -23,11 +23,11 @@ const Navbar = ({
   return (
     <div
       className="hidden w-full md:flex flex-row 
-    gap-[2vh] justify-between items-center padding-x py-2 sm:py-1"
+    gap-[2vh] justify-between items-center padding-x py-4 "
     >
-      <div>
-        <img src={Logo} alt="logo" />
-      </div>
+      <Link className=" cursor-pointer" to="/">
+        <img className="w-[30vh]" src={Logo} alt="logo" />
+      </Link>
       <ul className="flex flex-row space-x-4">
         <li className="nav-text">
           <NavLink to="/">Home</NavLink>

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 const Footer = () => {
   return (
     <div className="flex flex-col justify-center items-center  bg-white py-[5vh] pb-[1vh]">
-      <div className="flex flex-row  gap-[20vh]">
+      <div className="flex flex-row p-[3vh] gap-[20vh]">
         <div className="flex flex-col gap-[1vh]">
           <h1 className="text-[3vh] font-bold mb-[5vh]">Furniro.</h1>
           <p className="text-[2vh] text-gray-400 ">
@@ -50,12 +50,6 @@ const Footer = () => {
             </ul>
           </div>
 
-          <div>
-            <h3 className="text-[2vh] text-gray-400 font-bold mb-[5vh]">
-              Newsletter
-            </h3>
-            <input type="text" placeholder="Enter email address" />
-          </div>
         </div>
       </div>
 
@@ -65,7 +59,9 @@ const Footer = () => {
       font-semibold
       text-[2vh]
       pt-[2vh]
-       text-gray-400"
+       text-gray-400
+       
+       "
       >
         © 2022 Furniiro. All rights reserved.
       </div>

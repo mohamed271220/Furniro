@@ -55,7 +55,7 @@ const Shop = () => {
     <div className="w-full flex flex-col items-center">
       <Banner title="Shop" path={["Home", "Shop"]} />
       <div className="Shop w-full flex flex-col pb-[5vh]">
-        <div className="filter bg-secondary flex flex-row flex-wrap  md:flex-nowrap text-[2.5vh] items-center justify-between gap-[2vh] p-[2vh]">
+        <div className="filter w-full bg-secondary flex flex-row flex-wrap  md:flex-nowrap text-[2vh] items-center justify-between gap-[2vh] p-[2vh]">
           <p>Showing 1{"–"}16 of 32 results</p>
           <div className="flex flex-row gap-[2vh]">
             <p>Show</p>

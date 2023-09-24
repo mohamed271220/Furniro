@@ -92,18 +92,30 @@ const ProductComparison = () => {
               </td>
 
               <td className="border-none">
-                <img className="h-[30vh] w-[30vh] rounded-md " src={`http://localhost:4000/uploads${firstItem?.images[0]}`} alt="" />
-                <h4 className="font-semibold text-[3vh] pt-[3vh] ">{firstItem?.title}</h4>
-                <p className="font-semibold text-[2.5vh] ">$ {firstItem?.price}</p>
-                <p className=" pt-[2vh] text-[2.5vh] flex flex-row   items-center">{firstItem?.rating}<AiFillStar className="text-dim-yellow mr-[1.5vh] " />  | <span className="text-[1.5vh]">{firstItem?.reviews.length} reviews</span> </p>
+                {
+                  firstItem ?
+                    <>
+
+                      <img className="h-[30vh] w-[30vh] rounded-md " src={`http://localhost:4000/uploads${firstItem?.images[0]}`} alt="" />
+                      <h4 className="font-semibold text-[3vh] pt-[3vh] ">{firstItem?.title}</h4>
+                      <p className="font-semibold text-[2.5vh] ">$ {firstItem?.price}</p>
+                      <p className=" pt-[2vh] text-[2.5vh] flex flex-row   items-center">{firstItem?.rating}<AiFillStar className="text-dim-yellow mr-[1.5vh] " />  | <span className="text-[1.5vh]">{firstItem?.reviews.length} reviews</span> </p>
+                    </>
+                    : "__"
+                }
               </td>
 
               <td className="border-none">
-                <img className="h-[30vh] w-[30vh] rounded-md " src={`http://localhost:4000/uploads${secondItem?.images[0]}`} alt="" />
-                <h4 className="font-semibold text-[3vh] pt-[3vh] ">{secondItem?.title}</h4>
-                <p className="font-semibold text-[2.5vh] ">{secondItem?.price}</p>
-                <p className=" pt-[2vh] text-[2.5vh] flex flex-row  items-center">
-                {secondItem?.rating}<AiFillStar className="text-dim-yellow mr-[1.5vh]" /> | <span className="text-[1.5vh]">{secondItem?.reviews.length} reviews</span> </p>
+                {secondItem ?
+                  <>
+                    <img className="h-[30vh] w-[30vh] rounded-md " src={`http://localhost:4000/uploads${secondItem?.images[0]}`} alt="" />
+                    <h4 className="font-semibold text-[3vh] pt-[3vh] ">{secondItem?.title}</h4>
+                    <p className="font-semibold text-[2.5vh] ">{secondItem?.price}</p>
+                    <p className=" pt-[2vh] text-[2.5vh] flex flex-row  items-center">
+                      {secondItem?.rating}<AiFillStar className="text-dim-yellow mr-[1.5vh]" /> | <span className="text-[1.5vh]">{secondItem?.reviews.length} reviews</span> </p>
+
+                  </> : '__'
+                }
               </td>
             </tr>
 

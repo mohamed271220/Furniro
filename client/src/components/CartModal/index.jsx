@@ -4,26 +4,32 @@ import { useSelector } from "react-redux";
 import { BsBagPlus, BsFillXCircleFill } from "react-icons/bs";
 import { useEffect, useState } from "react";
 import axios from 'axios';
+import { Link } from "react-router-dom";
 const CartModal = ({ onClose }) => {
 
 
   const [cart, setCart] = useState([])
 
+  const [loading, setLoading] = useState(false)
+
   useEffect(() => {
     const fetchCart = async () => {
+      setLoading(true)
       try {
         const url = `${import.meta.env.VITE_REACT_APP_API_URL}/shop/cart`;
         const { data } = await axios.get(url, { withCredentials: true });
         setCart(data.cart)
+        setLoading(false)
         console.log(data.cart);
       } catch (error) {
         console.log(error);
+        setLoading(false)
       }
 
     }
     fetchCart()
 
-  },[])
+  }, [])
 
 
 
@@ -38,7 +44,7 @@ const CartModal = ({ onClose }) => {
       </div>
 
       <div className="flex flex-col gap-[1vh] min-h-[50vh]">
-        {cart.length !== 0 ? cart?.map((item) => (
+        {!loading && cart?.length !== 0 && cart?.map((item) => (
           <div
             key={item.product}
             className="flex flex-row gap-[2vh] items-center "
@@ -60,9 +66,10 @@ const CartModal = ({ onClose }) => {
             </span>
           </div>
         ))
-          :
-          <p>Loading</p>
+
         }
+        {!loading && cart?.length === 0 && <div className="">Cart is empty</div>}
+        {loading && <div className="">Loading...</div>}
       </div>
 
       <div className="flex pb-[2vh] flex-row gap-[2vh] items-center font-semibold text-[2vh]">
@@ -81,9 +88,9 @@ const CartModal = ({ onClose }) => {
       flex flex-row flex-wrap justify-evenly gap-[2vh]
       "
       >
-        <button className="text-[2vh] border rounded-xl px-[2.5vh] border-black  " >cart</button>
-        <button className="text-[2vh] border rounded-xl px-[2.5vh] border-black  " >checkout</button>
-        <button className="text-[2vh] border rounded-xl px-[2.5vh] border-black  " >Comparison</button>
+        <Link to='/cart' onClick={onClose} className="text-[2vh] border rounded-xl px-[2.5vh] border-black  " >cart</Link>
+        <Link  className="text-[2vh] border rounded-xl px-[2.5vh] border-black  " >checkout</Link>
+        <Link to='/productComparison' className="text-[2vh] border rounded-xl px-[2.5vh] border-black  " >Comparison</Link>
 
       </div>
     </Modal>
