@@ -1,4 +1,3 @@
-import Ex from "../../assets/images/Ex.png";
 import Compare from "../../assets/icons/Compare.jsx";
 import { AiOutlineHeart, AiOutlineShareAlt } from "react-icons/ai";
 import { Link } from "react-router-dom";
@@ -59,7 +58,7 @@ const Card = ({ product, addItemToCartHandler }) => {
           onClick={(e) => {
             e.preventDefault();
             addItemToCartHandler({
-              productId: product.id,
+              productId: product._id,
               name: product.title,
               price: product.price,
               sale: product.sale

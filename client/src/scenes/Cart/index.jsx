@@ -1,14 +1,34 @@
 import { useEffect, useState } from "react"
 import Banner from "../../components/Banner"
 import axios from "axios"
-import { BsFillXCircleFill } from "react-icons/bs"
+import { BsTrashFill } from "react-icons/bs"
+import { cartActions } from "../../store/cartSlice"
+import { useDispatch } from 'react-redux'
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
+const config = {
+  position: "top-center",
+  autoClose: 2000,
+  closeOnClick: true,
+  pauseOnHover: true,
+  hideProgressBar: false,
+  draggable: true,
+  progress: undefined,
+  theme: "light",
+};
 
 const Cart = () => {
 
   const [cart, setCart] = useState([])
 
   const [loading, setLoading] = useState(false)
+
+  const [total, setTotal] = useState(0);
+
+  const dispatch = useDispatch()
+
+
 
   useEffect(() => {
     const fetchCart = async () => {
@@ -19,6 +39,9 @@ const Cart = () => {
         setCart(data.cart)
         setLoading(false)
         console.log(data.cart);
+        setTotal(data.cart
+          .map((item) => item.price * item.number)
+          .reduce((partialSum, a) => partialSum + a, 0))
       } catch (error) {
         console.log(error);
         setLoading(false)
@@ -29,50 +52,118 @@ const Cart = () => {
 
   }, [])
 
+  const removeItemHandler = async (productId, price) => {
+    const id = toast.loading("Please wait...");
+
+
+    try {
+      const { data } = await axios.put(
+        `http://localhost:4000/shop/${productId}/cart/remove`,
+        {
+          number: 1,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (data) {
+        setTotal((prevStat) => (prevStat -= price));
+        toast.update(id, {
+          render: "Product removed from cart",
+          type: "success",
+          ...config,
+          isLoading: false,
+        });
+        dispatch(cartActions.removeItemFromCart(productId));
+        setCart(data.user.cart);
+        dispatch(
+          cartActions.setCart({
+            items: data.user.cart,
+            totalQuantity: data.user.cart
+              .map((item) => item.number)
+              .reduce((partialSum, a) => partialSum + a, 0),
+          })
+        );
+      }
+    } catch (err) {
+      toast.update(id, {
+        render: "Failed to remove product from cart",
+        type: "error",
+        isLoading: false,
+        ...config,
+      });
+    }
+  };
+
+
 
 
   return (
     <div>
       <Banner title="Cart" path={['Home', 'Cart']} />
 
-      <div className="flex flex-col gap-[1vh] min-h-[50vh]">
-        {!loading && cart?.length !== 0 && cart?.map((item) => (
-          <div
-            key={item.product}
-            className="flex flex-row gap-[2vh] items-center "
-          >
-            <img
-              className="w-[10vh] h-[10vh] object-cover rounded-lg "
-              src={`http://localhost:4000/uploads${item.image.split(",")[0]}`}
-              alt=""
-            />
-            <div className="">
-              <h4 className="font-semibold text-[2vh]  ">{item.name}</h4>
-              <p className=" text-[2vh] ">
-                {item.number} x{" "}
-                <span className="text-dim-yellow">${item.price} </span>
-              </p>
-            </div>
-            <span className="">
-              <BsFillXCircleFill className="text-gray-400" />
-            </span>
+      <div className=" flex flex-row w-full p-[5vh]">
+
+        <div className="flex flex-col w-[60%] gap-[2vh]">
+
+          <h1 className=" text-center p-[1vh] text-[3vh] w-full bg-primary"> Product in cart </h1>
+
+          <div className="flex flex-col gap-[1vh] w-full">
+            {!loading && cart?.length !== 0 && cart?.map((item) => (
+              <div
+                key={item.product}
+                className="flex flex-row gap-[2vh] items-center w-full justify-between"
+              >
+                <img
+                  className="w-[10vh] h-[10vh] object-cover rounded-lg "
+                  src={`http://localhost:4000/uploads${item.image.split(",")[0]}`}
+                  alt=""
+                />
+
+                <h4 className="font-semibold text-[2vh]  ">{item.name}</h4>
+                <p className=" text-[2vh] ">
+                  <span className="border-2 p-[1vh] w-[4vh] h-[4vh] rounded-full shadow-sm" >{item.number}</span>
+                  <span className="text-dim-yellow">${item.price} </span>
+                </p>
+
+                <span className=" cursor-pointer" onClick={() => removeItemHandler(item._id, item.price)}>
+                  <BsTrashFill className="text-dim-yellow" />
+                </span>
+              </div>
+            ))
+
+            }
+            {!loading && cart?.length === 0 && <div className="">Cart is empty</div>}
+            {loading && <div className="">Loading...</div>}
           </div>
-        ))
 
-        }
-        {!loading && cart?.length === 0 && <div className="">Cart is empty</div>}
-        {loading && <div className="">Loading...</div>}
+          <div className="flex pb-[2vh] flex-row gap-[2vh] items-center font-semibold text-[2vh]">
+            <p>Subtotal</p>
+            <p className="text-dim-yellow">
+              ${total}
+            </p>
+          </div>
+
+        </div>
+
+        <div></div>
       </div>
 
-      <div className="flex pb-[2vh] flex-row gap-[2vh] items-center font-semibold text-[2vh]">
-        <p>Subtotal</p>
-        <p className="text-dim-yellow">
-          ${cart
-            .map((item) => item.price * item.number)
-            .reduce((partialSum, a) => partialSum + a, 0)}
-        </p>
-      </div>
-
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   )
 }

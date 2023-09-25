@@ -116,7 +116,6 @@ exports.addToCart = async (req, res, next) => {
   try {
     product = await Product.findById(productId);
   } catch (err) {
-
     if (!err.statusCode) {
       err.statusCode = 500;
     }
@@ -166,9 +165,8 @@ exports.addToCart = async (req, res, next) => {
 
 exports.removeFromCart = async (req, res, next) => {
   const productId = req.params.productId;
-  const userId = req.user.id;
+  let user;
   const number = req.body.number;
-
   let product;
   try {
     product = await Product.findById(productId);
@@ -182,11 +180,14 @@ exports.removeFromCart = async (req, res, next) => {
   if (!product) {
     const error = new Error("Could not find product.");
     error.statusCode = 404;
-    next(error);
+     next(error);
   }
 
   try {
-    const user = await User.findById(userId, "-password");
+    if (req.user) {
+      console.log(req.user);
+      user = await User.findOne({ googleId: req.user.id });
+    }
     if (!user) {
       const error = new Error("Could not find user.");
       error.statusCode = 404;
@@ -209,7 +210,7 @@ exports.removeFromCart = async (req, res, next) => {
 
     // console.log(user.cart);
     await user.save();
-    res.status(201).json({ message: "Product added to cart", user });
+    res.status(201).json({  user });
   } catch (err) {
     if (!err.statusCode) {
       err.statusCode = 500;

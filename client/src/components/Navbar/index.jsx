@@ -1,8 +1,7 @@
 import { Link, NavLink } from "react-router-dom";
 import Logo from "../../assets/icons/LOGO.svg";
-import { AiOutlineShoppingCart, AiFillHeart, AiFillBell } from "react-icons/ai";
+import { AiOutlineSearch } from "react-icons/ai";
 import Dropdown from "./Dropdown";
-import { useSelector } from "react-redux";
 
 const Navbar = ({
   user,
@@ -23,7 +22,7 @@ const Navbar = ({
   return (
     <div
       className="hidden w-full md:flex flex-row 
-    gap-[2vh] justify-between items-center padding-x py-4 "
+    gap-[2vh] justify-between items-center padding-x py-3 "
     >
       <Link className=" cursor-pointer" to="/">
         <img className="w-[30vh]" src={Logo} alt="logo" />
@@ -56,7 +55,7 @@ const Navbar = ({
           logout={logout}
         />
         <div className="icon rounded-full flex justify-center items-center w-7 h-7 lg:shadow-lg hover:text-dim-yellow">
-          <AiFillHeart />
+          <AiOutlineSearch />
         </div>
         <img
           src={user?.picture}

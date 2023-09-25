@@ -5,15 +5,13 @@ import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Products = ({ products, home }) => {
   const dispatch = useDispatch();
   const [total, setTotal] = useState(0);
   console.log(products);
   const [cartItems, setItems] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
 
   const config = {
     position: "top-center",

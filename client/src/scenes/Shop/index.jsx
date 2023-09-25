@@ -5,36 +5,23 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getProducts } from "../../constants/Http";
 import ErrorBlock from "../../components/ErrorBlock";
+import LoadingSpinner from "../../constants/Loading/LoadingSpinner/LoadingSpinner";
 
 
 
 const Shop = () => {
-  const { data, isLoading, isError, error } = useQuery({
+  const { data, isPending, isError, error } = useQuery({
     queryKey: ["products"],
     queryFn: ({ signal }) => getProducts({ signal }),
   });
   console.log(data);
   const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 6;
+  const [productsPerPage, setProductPerPage] = useState(6);
   const indexOfLastProduct = currentPage * productsPerPage;
   const firstIndexOfProduct = indexOfLastProduct - productsPerPage;
   const records = data?.products.slice(firstIndexOfProduct, indexOfLastProduct);
   const nPage = Math.ceil(data?.products.length / productsPerPage);
   const numbers = [...Array(nPage + 1).keys()].slice(1);
-  let content;
-
-  if (isLoading) {
-    content = <p>loading</p>;
-  }
-  if (isError) {
-    content = <ErrorBlock
-      title="An error occurred while fetching the products"
-      error={error.info?.message || "failed"}
-    />
-  }
-  // if(products){
-  // set data 
-  // }
 
 
   const prePage = () => {
@@ -56,10 +43,11 @@ const Shop = () => {
       <Banner title="Shop" path={["Home", "Shop"]} />
       <div className="Shop w-full flex flex-col pb-[5vh]">
         <div className="filter w-full bg-secondary flex flex-row flex-wrap  md:flex-nowrap text-[2vh] items-center justify-between gap-[2vh] p-[2vh]">
-          <p>Showing 1{"–"}16 of 32 results</p>
+          <p>Showing {productsPerPage} of {data?.products.length + 1} results</p>
           <div className="flex flex-row gap-[2vh]">
             <p>Show</p>
-            <select>
+            <select onChange={(e) => setProductPerPage(e.target.value)}>
+              <option>6</option>
               <option>12</option>
             </select>
           </div>
@@ -72,19 +60,27 @@ const Shop = () => {
           </div>
         </div>
         <div className="flex flex-col justify-center items-center">
-          <Products products={records} />
+
+          {isPending ? <LoadingSpinner />
+            :
+            <Products products={records} />
+          }
+          {
+            isError && <ErrorBlock title='Something went wrong' message={error} />
+          }
+
           <div className="pagination">
             <ul className="flex flex-row justify-center items-center gap-[2.5vh]">
-              <li className="bg-secondary  px-[2vh] py-[1vh]  text-[3vh] font-semibold rounded-[3px]">
+              {currentPage === 1 ? <li className=" hidden"></li> : <li className="bg-secondary  px-[2vh] py-[1vh]  text-[3vh] font-semibold rounded-[3px]">
                 <a href="#" onClick={prePage}>
                   Previous
                 </a>
-              </li>
+              </li>}
               {numbers.map((number, index) => (
                 <li
                   className={`${currentPage === number
-                      ? "bg-dim-yellow text-white px-[2vh] py-[1vh]  text-[3vh] font-semibold rounded-[3px]"
-                      : " bg-secondary px-[2vh] py-[1vh]   text-[3vh] font-semibold rounded-[3px]"
+                    ? "bg-dim-yellow text-white px-[2vh] py-[1vh]  text-[3vh] font-semibold rounded-[3px]"
+                    : " bg-secondary px-[2vh] py-[1vh]   text-[3vh] font-semibold rounded-[3px]"
                     }`}
                   key={index}
                 >
@@ -93,11 +89,11 @@ const Shop = () => {
                   </a>
                 </li>
               ))}
-              <li className="bg-secondary px-[2vh] py-[1vh]  text-[3vh] font-semibold rounded-[3px]">
+              {currentPage === nPage ? <li className=" hidden"></li> : <li className="bg-secondary px-[2vh] py-[1vh]  text-[3vh] font-semibold rounded-[3px]">
                 <a href="#" onClick={nextPage}>
                   Next
                 </a>
-              </li>
+              </li>}
             </ul>
           </div>
         </div>

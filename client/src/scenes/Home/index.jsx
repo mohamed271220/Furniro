@@ -3,88 +3,14 @@ import HomeCategories from "../../components/HomeCategories/index";
 import Products from "../../components/Products/index";
 import HomeCarousel from "../../components/HomeCarousel";
 import Hashes from "../../components/HomeHashes";
-import { useEffect, useState } from "react";
+
 import { useQuery } from "@tanstack/react-query";
 import { getProducts } from "../../constants/Http";
-
-const data = [
-  {
-    id: '64f6c9266c2c7f8cdb2ec682',
-    title: "Lolito",
-    ShortDescription: "Luxury big sofa",
-    price: 2.5,
-    sale: 0,
-    photo: "./Ex.png",
-    newTag: true,
-  },
-  {
-    id: '64f6c9266c2c7f8cdb2ec682',
-    title: "Lolito",
-    ShortDescription: "Luxury big sofa",
-    price: 2.5,
-    sale: 0,
-    photo: "./Ex.png",
-    newTag: true,
-  },
-  {
-    id: '64f6c9266c2c7f8cdb2ec682',
-    title: "Lolito",
-    ShortDescription: "Luxury big sofa",
-    price: 2.5,
-    sale: 0.2,
-    photo: "./Ex.png",
-    newTag: false,
-  },
-  {
-    id: '64f6c9266c2c7f8cdb2ec682',
-    title: "Lolito",
-    ShortDescription: "Luxury big sofa",
-    price: 2.5,
-    sale: 0,
-    photo: "./Ex.png",
-    newTag: true,
-  },
-  {
-    id: '64f6c9266c2c7f8cdb2ec682',
-    title: "Lolito",
-    ShortDescription: "Luxury big sofa",
-    price: 2.5,
-    sale: 0.2,
-    photo: "./Ex.png",
-    newTag: false,
-  },
-  {
-    id: '64f6c9266c2c7f8cdb2ec682',
-    title: "Lolito",
-    ShortDescription: "Luxury big sofa",
-    price: 2.5,
-    sale: 0.2,
-    photo: "./Ex.png",
-    newTag: false,
-  },
-  {
-    id: '64f6c9266c2c7f8cdb2ec682',
-    title: "Lolito",
-    ShortDescription: "Luxury big sofa",
-    price: 2.5,
-    sale: 0.2,
-    photo: "./Ex.png",
-    newTag: false,
-  },
-  {
-    id: '64f6c9266c2c7f8cdb2ec682',
-    title: "Lolito",
-    ShortDescription: "Luxury big sofa",
-    price: 2.5,
-    sale: 0.2,
-    photo: "./Ex.png",
-    newTag: false,
-  },
-];
-
+import LoadingSpinner from "../../constants/Loading/LoadingSpinner/LoadingSpinner"
+import ErrorBlock from "../../components/ErrorBlock";
 const Home = () => {
 
-  const { data: products, isPending, isLoading, isError, error } = useQuery({
+  const { data: products, isPending,  isError, error } = useQuery({
     queryKey: ["products"],
     queryFn: ({ signal }) => getProducts({ signal, max: 8 }),
   });
@@ -97,7 +23,13 @@ const Home = () => {
     >
       <HomeHero />
       <HomeCategories />
-      <Products home={true} products={products?.products} />
+      {isPending ? <LoadingSpinner />
+        :
+        <Products home={true} products={products?.products} />
+      }
+      {
+        isError && <ErrorBlock title='Something went wrong' message={error} />
+      }
       <HomeCarousel />
       <Hashes />
     </div>
