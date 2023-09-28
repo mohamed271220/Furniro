@@ -25,20 +25,20 @@ const Navbar = ({
     gap-[2vh] justify-between items-center padding-x py-3 "
     >
       <Link className=" cursor-pointer" to="/">
-        <img className="w-[30vh]" src={Logo} alt="logo" />
+        <img className="hidden lg:block  w-[30vh]" src={Logo} alt="logo" />
       </Link>
       <ul className="flex flex-row space-x-4">
         <li className="nav-text">
-          <NavLink to="/">Home</NavLink>
+          <NavLink className='text-[2vh] lg:text-[3vh]'  to="/">Home</NavLink>
         </li>
         <li className="nav-text">
-          <NavLink to="/shop">Shop</NavLink>
+          <NavLink className='text-[2vh] lg:text-[3vh]'  to="/shop">Shop</NavLink>
         </li>
         <li className="nav-text">
-          <NavLink to="/blog">Blog</NavLink>
+          <NavLink  className='text-[2vh] lg:text-[3vh]' to="/blog">Blog</NavLink>
         </li>
         <li className="nav-text">
-          <NavLink to="/contact">Contact</NavLink>
+          <NavLink  className='text-[2vh] lg:text-[3vh]' to="/contact">Contact</NavLink>
         </li>
       </ul>
       <div
@@ -54,7 +54,7 @@ const Navbar = ({
           userData={userData}
           logout={logout}
         />
-        <div className="icon rounded-full flex justify-center items-center w-7 h-7 lg:shadow-lg hover:text-dim-yellow">
+        <div className="icon rounded-full flex justify-center items-center w-[3vh] h-[3vh] lg:shadow-lg hover:text-dim-yellow">
           <AiOutlineSearch />
         </div>
         <img

@@ -1,59 +1,66 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Home from "./scenes/Home";
 import Entry from "./scenes/Entry";
-
 import Shop from "./scenes/Shop";
 import Product from "./scenes/Product";
 import Cart from "./scenes/Cart";
-import Checkout from "./scenes/Checkout";
 import ProductComparison from "./scenes/ProductComparison";
 import Contact from "./scenes/Contact";
 import Blog from "./scenes/Blog";
 import Dashboard from "./scenes/Dashboard";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./constants/Http";
-
 import Layout from "./scenes/Layout";
 import AddProduct from "./scenes/AddProduct";
 import { cartActions } from "./store/cartSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import "./index.css";
+import Payment from "./scenes/Checkout/Payment";
+import Completion from "./scenes/Checkout/Completion";
+
 axios.defaults.baseURL = "http://localhost:4000";
 axios.defaults.withCredentials = true;
 
 function App() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState();
   const dispatch = useDispatch();
+  const navigate = useNavigate()
 
 
   useEffect(() => {
     const getUser = async () => {
       try {
-        //sub === id
-        const url = `${import.meta.env.VITE_REACT_APP_API_URL
-          }/auth/login/success`;
+        const url = `${import.meta.env.VITE_REACT_APP_API_URL}/auth/login/success`;
         const { data } = await axios.get(url, { withCredentials: true });
-        setUser(data);
-        console.log(data);
-        dispatch(
-          cartActions.setCart({
-            items: data?.data.cart,
-            totalQuantity: data?.data.cart
-              .map((item) => item.number)
-              .reduce((partialSum, a) => partialSum + a, 0),
-          })
-        );
-        // console.log(data);
+        if (data.user) {
+          setUser(data);
+          console.log(data);
+  
+          dispatch(
+            cartActions.setCart({
+              items: data?.data.cart,
+              totalQuantity: data?.data.cart
+                .map((item) => item.number)
+                .reduce((partialSum, a) => partialSum + a, 0),
+            })
+          );
+  
+          const redirectUrl = sessionStorage.getItem("redirectUrl");
+          if (redirectUrl) {
+            sessionStorage.removeItem("redirectUrl");
+            navigate(redirectUrl);
+          }
+        }
       } catch (err) {
         console.log(err);
+        navigate("/entry");
       }
     };
     getUser();
-  }, [dispatch]);
-
+  }, []);
 
   return (
     <div>
@@ -104,7 +111,13 @@ function App() {
             <Route
               path="/checkout"
               element={
-                user ? <Checkout user={user} /> : <Navigate to="/entry" />
+                user ? <Payment user={user} /> : <Navigate to="/entry" />
+              }
+            />
+            <Route
+              path="/checkout/completed"
+              element={
+                user ? <Completion user={user} /> : <Navigate to="/entry" />
               }
             />
             <Route
@@ -133,14 +146,11 @@ function App() {
             </Route>
           </Route>
           <Route
-            exact
+            exact={false}
             path="/entry"
-            element={user ? <Navigate to="/" /> : <Entry />}
+            element={user ? <Navigate to=".." /> : <Entry />}
           />
-          {/* <Route
-            path="/signup"
-            element={user ? <Navigate to="/" /> : <Signup />}
-          /> */}
+    
         </Routes>
       </QueryClientProvider>
     </div>

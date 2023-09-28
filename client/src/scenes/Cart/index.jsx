@@ -6,6 +6,7 @@ import { cartActions } from "../../store/cartSlice"
 import { useDispatch } from 'react-redux'
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Link } from "react-router-dom"
 
 const config = {
   position: "top-center",
@@ -57,7 +58,7 @@ const Cart = () => {
 
 
     try {
-      const { data } = await axios.put(
+      const response = await axios.put(
         `http://localhost:4000/shop/${productId}/cart/remove`,
         {
           number: 1,
@@ -69,7 +70,7 @@ const Cart = () => {
         }
       );
 
-      if (data) {
+      if (response) {
         setTotal((prevStat) => (prevStat -= price));
         toast.update(id, {
           render: "Product removed from cart",
@@ -78,11 +79,11 @@ const Cart = () => {
           isLoading: false,
         });
         dispatch(cartActions.removeItemFromCart(productId));
-        setCart(data.user.cart);
+        setCart(response.data.user.cart);
         dispatch(
           cartActions.setCart({
-            items: data.user.cart,
-            totalQuantity: data.user.cart
+            items: response.data.user.cart,
+            totalQuantity: response.data.user.cart
               .map((item) => item.number)
               .reduce((partialSum, a) => partialSum + a, 0),
           })
@@ -103,9 +104,9 @@ const Cart = () => {
 
   return (
     <div>
-      <Banner title="Cart" path={['Home', 'Cart']} />
+      <Banner title="Cart" path={['Home', 'Cart']}  />
 
-      <div className=" flex flex-row w-full p-[5vh]">
+      <div className=" flex flex-col md:flex-row justify-center w-full p-[5vh] gap-[2vh]">
 
         <div className="flex flex-col w-[60%] gap-[2vh]">
 
@@ -129,7 +130,7 @@ const Cart = () => {
                   <span className="text-dim-yellow">${item.price} </span>
                 </p>
 
-                <span className=" cursor-pointer" onClick={() => removeItemHandler(item._id, item.price)}>
+                <span className=" cursor-pointer" onClick={() => removeItemHandler(item.product, item.price)}>
                   <BsTrashFill className="text-dim-yellow" />
                 </span>
               </div>
@@ -149,7 +150,16 @@ const Cart = () => {
 
         </div>
 
-        <div></div>
+        <div className="bg-primary flex flex-col p-[3vh] justify-between text-[2vh] md:text-[3vh]  items-center rounded-lg md:w-[30%] gap-[2vh] ">
+          <h2 className="font-semibold text-center">Cart total</h2>
+          <section className="flex flex-row">
+            Total :<span className="text-dim-yellow">${total}
+            </span>
+          </section>
+          <Link to="/checkout" className="bg-dim-yellow text-primary font-semibold py-[1.5vh] px-[4vh] rounded-lg">
+            Proceed to checkout
+          </Link>
+        </div>
       </div>
 
       <ToastContainer

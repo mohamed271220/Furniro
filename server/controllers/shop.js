@@ -104,6 +104,7 @@ exports.postReview = async (req, res, next) => {
 
 exports.addToCart = async (req, res, next) => {
   const productId = req.params.productId;
+  
   let user;
   if (req.user) {
     console.log(req.user);
@@ -165,34 +166,43 @@ exports.addToCart = async (req, res, next) => {
 
 exports.removeFromCart = async (req, res, next) => {
   const productId = req.params.productId;
+  console.log(productId);
+
   let user;
   const number = req.body.number;
   let product;
+  if (req.user) {
+    console.log(req.user);
+    user = await User.findOne({ googleId: req.user.id });
+  }
+  if (!user) {
+    const error = new Error("Could not find user.");
+    error.statusCode = 404;
+    next(error);
+    return
+  }
+
   try {
-    product = await Product.findById(productId);
+    product = await Product.findOne({ _id: productId });
+   
   } catch (err) {
     if (!err.statusCode) {
       err.statusCode = 500;
     }
-    return next(err);
+    next(err);
+    return
   }
+
 
   if (!product) {
     const error = new Error("Could not find product.");
     error.statusCode = 404;
-     next(error);
+    next(error);
+    return
   }
 
   try {
-    if (req.user) {
-      console.log(req.user);
-      user = await User.findOne({ googleId: req.user.id });
-    }
-    if (!user) {
-      const error = new Error("Could not find user.");
-      error.statusCode = 404;
-      next(error);
-    }
+
     let existingInCart = user.cart.find(
       (p) => p.product.toString() === productId
     );
@@ -210,7 +220,7 @@ exports.removeFromCart = async (req, res, next) => {
 
     // console.log(user.cart);
     await user.save();
-    res.status(201).json({  user });
+    res.status(200).json({ user });
   } catch (err) {
     if (!err.statusCode) {
       err.statusCode = 500;
@@ -220,47 +230,50 @@ exports.removeFromCart = async (req, res, next) => {
 };
 
 exports.makeOrder = async (req, res, next) => {
-  const userId = req.user.id;
   let products;
   try {
-    const user = await User.findById(userId);
-    if (!user || user.cart.length === 0) {
-      const error = new Error("Something went wrong , please check your cart");
-      error.statusCode = 404;
-      next(error);
+    if (req.user) {
+      const user = await User.findOne({ googleId: req.user.id });
+      console.log(user);
+
+      if (!user) {
+        const error = new Error("Something went wrong , please check your cart");
+        error.statusCode = 404;
+        next(error);
+      }
+      products = user.cart;
+      const total = products
+        .map((p) => p.price * p.number)
+        .reduce((acc, prod) => acc + prod, 0);
+      console.log(products);
+
+      const paymentIntent = await stripe.paymentIntents.create({
+        currency: "usd",
+        amount: total,
+        automatic_payment_methods: {
+          enabled: true,
+        },
+      });
+
+      const sess = await mongoose.startSession();
+      sess.startTransaction();
+      const order = new Order({
+        products: products,
+        address: req.body.address,
+        madeBy: userId,
+        status: "pending",
+        totalPrice: total,
+      });
+      console.log(order);
+      await order.save({ session: sess });
+      user.cart = [];
+      user.orders.push(order);
+      await user.save({ session: sess });
+      await sess.commitTransaction();
+      res.status(201).send({ clientSecret: paymentIntent.client_secret });
     }
-    products = user.cart;
-    const total = products
-      .map((p) => p.price * p.number)
-      .reduce((acc, prod) => acc + prod, 0);
-    console.log(products);
-
-    const paymentIntent = await stripe.paymentIntents.create({
-      currency: "usd",
-      amount: total,
-      automatic_payment_methods: {
-        enabled: true,
-      },
-    });
-
-    const sess = await mongoose.startSession();
-    sess.startTransaction();
-    const order = new Order({
-      products: products,
-      address: req.body.address,
-      madeBy: userId,
-      status: "pending",
-      totalPrice: total,
-    });
-    console.log(order);
-    await order.save({ session: sess });
-    user.cart = [];
-    user.orders.push(order);
-    await user.save({ session: sess });
-    await sess.commitTransaction();
-    res.status(201).send({ clientSecret: paymentIntent.client_secret });
   } catch (err) {
-    const error = new Error("Something went wrong , please try again later");
+    const error = new Error("Something went wrong , please try again later " + err);
     error.statusCode = 404;
     next(error);
   }

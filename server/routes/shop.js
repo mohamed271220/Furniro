@@ -2,6 +2,14 @@ const express = require("express");
 const fileUpload = require("../middlewares/fileUpload");
 const productController = require("../controllers/shop");
 const router = express.Router();
+const env = require("dotenv").config({ path: "./.env" });
+const { resolve } = require("path");
+
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY, {
+  apiVersion: "2022-08-01",
+});
+
+router.use(express.static(process.env.STATIC_DIR));
 
 router.get("/products", productController.getProducts);
 
@@ -13,7 +21,24 @@ router.post("/:productId/cart", productController.addToCart);
 
 router.put("/:productId/cart/remove", productController.removeFromCart);
 
-router.post("/order", productController.makeOrder);
+// stripe 
+
+router.get("/", (req, res) => {
+  const path = resolve(process.env.STATIC_DIR + "/index.html");
+  res.sendFile(path);
+});
+
+
+
+//sends publishable key to frontend
+router.get("/config", (req, res) => {
+  res.send({
+    publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
+  });
+});
+
+
+router.post("/create-payment-intent", productController.makeOrder);
 
 router.put("/:orderId/order/cancel", productController.cancelOrder);
 

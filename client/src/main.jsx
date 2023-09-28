@@ -3,10 +3,11 @@ import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
 import { BrowserRouter } from "react-router-dom";
-import {  configureStore } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
 import cartReducer from "./store/cartSlice.js";
 import compareReducer from "./store/compareSlice.js";
+import authReducer from "./store/authSlice.js";
 import {
   FLUSH,
   REHYDRATE,
@@ -36,6 +37,7 @@ const store = configureStore({
   reducer: {
     cart: cartReducer.reducer,
     compare: compareReducer.reducer,
+  
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -51,9 +53,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Provider store={store}>
       {/* <PersistGate loading={null} persistor={persistStore(store)}> */}
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
       {/* </PersistGate> */}
     </Provider>
   </React.StrictMode>
