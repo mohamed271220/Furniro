@@ -6,9 +6,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { compareActions } from "../../store/compareSlice";
 
 
-const Card = ({ product, addItemToCartHandler }) => {
+const Card = ({ product, addItemToCartHandler, user }) => {
   const dispatch = useDispatch()
-  
+
 
   const product1Id = useSelector(state => state.compare.itemOneId)
   const product2Id = useSelector(state => state.compare.itemTwoId)
@@ -17,7 +17,7 @@ const Card = ({ product, addItemToCartHandler }) => {
     e.preventDefault();
     if (product1Id && product2Id) {
       dispatch(compareActions.swapItemOneCompare({ id: product?._id }))
-    } else  {
+    } else {
       dispatch(compareActions.addItemToCompare({ id: product?._id }))
     }
 
@@ -51,7 +51,7 @@ const Card = ({ product, addItemToCartHandler }) => {
         className="h-full flex flex-col justify-center items-center w-[35vh] absolute opacity-0  bg-slate-950/75 text-white bottom-0 transition-all
  hover:bottom-30 hover:h-220 hover:opacity-100 "
       >
-        <button
+        {user ? <button
           className="bg-white text-dim-yellow text-[2vh] font-bold opacity-1 py-[1.5vh] px-[4vh]
         mb-[1vh]
         "
@@ -66,7 +66,16 @@ const Card = ({ product, addItemToCartHandler }) => {
           }}
         >
           Add to cart
-        </button>
+        </button> :
+          <Link
+            className="bg-white text-dim-yellow text-[2vh] font-bold opacity-1 py-[1.5vh] px-[4vh]
+        mb-[1vh]
+        "
+            to='/entry'
+          >
+            Add to cart
+          </Link>
+        }
         <div className="flex flex-row justify-center items-center flex-wrap lg:flex-nowrap font-semibold  text-[1.6vh]">
           <p className="flex justify-center items-center flex-row gap-1">
             <span>

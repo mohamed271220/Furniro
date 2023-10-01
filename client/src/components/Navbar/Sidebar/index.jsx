@@ -6,6 +6,7 @@ import { SidebarData } from "./SidebarData";
 import "./Sidebar.css";
 import { IconContext } from "react-icons";
 import Logo from "../../../assets/icons/LOGO.svg";
+import { BiSolidLogInCircle } from 'react-icons/bi'
 
 function Navbar({ user, logout, cartTotalQuantity, compareQuantity }) {
   const [sidebar, setSidebar] = useState(false);
@@ -39,40 +40,54 @@ function Navbar({ user, logout, cartTotalQuantity, compareQuantity }) {
               );
             })}
 
-            <li key={7} className="nav-text">
-              <NavLink to="/cart" className=" flex flex-row justify-between">
-                {" "}
-                <span>Cart</span>
-                <span className="bg-red-600 rounded-full p-1 text-white">
-                  {cartTotalQuantity}
-                </span>
-              </NavLink>
-            </li>
-            <li key={8} className="nav-text">
-              <NavLink to="/productComparison" className=" flex flex-row justify-between">
-                {" "}
-                <span>Compare</span>
-                <span className="bg-red-600 rounded-full p-1 text-white">
-                  {compareQuantity}
-                </span>
-              </NavLink>
-            </li>
-            <li key={9} className="nav-text">
-              <NavLink onClick={logout}>
-                {" "}
-                <span>Logout</span>
-              </NavLink>
-            </li>
-            <li>
-              <Link className="nav-text">
-                <img
-                  src={user?.picture}
-                  alt="profile"
-                  className={"w-10 h-10 rounded-full "}
-                />
-                <span>{user?.name}</span>
-              </Link>
-            </li>
+            {user && <>
+
+              <li key={7} className="nav-text">
+                <NavLink to="/cart" className=" flex flex-row justify-between">
+                  {" "}
+                  <span>Cart</span>
+                  <span className="bg-red-600 rounded-full p-1 text-white">
+                    {cartTotalQuantity}
+                  </span>
+                </NavLink>
+              </li>
+              <li key={8} className="nav-text">
+                <NavLink to="/productComparison" className=" flex flex-row justify-between">
+                  {" "}
+                  <span>Compare</span>
+                  <span className="bg-red-600 rounded-full p-1 text-white">
+                    {compareQuantity}
+                  </span>
+                </NavLink>
+              </li>
+              <li key={9} className="nav-text">
+                <NavLink onClick={logout}>
+                  {" "}
+                  <span>Logout</span>
+                </NavLink>
+              </li>
+              <li>
+                <Link className="nav-text">
+                  <img
+                    src={user?.picture}
+                    alt="profile"
+                    className={"w-10 h-10 rounded-full "}
+                  />
+                  <span>{user?.name}</span>
+                </Link>
+              </li>
+            </>
+            }
+            {
+              !user && <li key={10} className="nav-text">
+                <NavLink to="/entry" >
+                  {" "}
+                  <BiSolidLogInCircle />
+                  <span>Login</span>
+                </NavLink>
+
+              </li>
+            }
           </ul>
         </nav>
       </IconContext.Provider>

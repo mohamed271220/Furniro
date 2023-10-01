@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import HomeHero from "../../assets/images/HomeHero.png";
 const Hero = () => {
   return (
@@ -15,10 +16,10 @@ const Hero = () => {
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit
             tellus, luctus nec ullamcorper mattis.
           </p>
-          <button className="bg-dim-yellow text-white text-[2vh] font-semibold w-fit px-3 py-1 xl:text-lg lg:px-5 lg:py-2 lg:w-[50%]">
+          <Link to='/shop' className="bg-dim-yellow text-center text-white text-[2vh] font-semibold w-fit px-3 py-1 xl:text-lg lg:px-5 lg:py-2 lg:w-[50%]">
             {" "}
             BUY NOW
-          </button>
+          </Link>
         </div>
       </div>
     </section>

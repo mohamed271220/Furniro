@@ -1,14 +1,15 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import Sidebar from "../../components/Navbar/Sidebar";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { cartActions } from "../../store/cartSlice";
-import Footer from "../../components/Footer";
-import { AnimatePresence } from "framer-motion";
-import CartModal from "../../components/CartModal";
+import { useState } from "react";
+import { useSelector } from "react-redux";
 
-const Layout = ({ user,userData }) => {
+import Footer from "../../components/Footer";
+
+import CartModal from "../../components/CartModal";
+import ScrollToTop from "../../hooks/scroll-to-top";
+
+const Layout = ({ user, userData }) => {
   const logout = () => {
     window.open(
       `${import.meta.env.VITE_REACT_APP_API_URL}/auth/logout`,
@@ -32,11 +33,11 @@ const Layout = ({ user,userData }) => {
     setIsCreatingNewChallenge(false);
   }
 
-  console.log(compareItems);
+
   return (
     <div>
       {isCreatingNewChallenge && <CartModal user={user} onClose={handleClose} />}
-
+      <ScrollToTop />
       <Navbar
         cartItems={cartItems}
         cartTotalQuantity={cartTotalQuantity}

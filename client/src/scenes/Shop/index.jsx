@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getProducts } from "../../constants/Http";
 import ErrorBlock from "../../components/ErrorBlock";
 import LoadingSpinner from "../../constants/Loading/LoadingSpinner/LoadingSpinner";
+import LoadingSkeleton from "../../constants/Loading/SkeletonTwo/Skeleton";
 
 
 
@@ -14,14 +15,19 @@ const Shop = () => {
     queryKey: ["products"],
     queryFn: ({ signal }) => getProducts({ signal }),
   });
+
+
+
   console.log(data);
+
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage, setProductPerPage] = useState(6);
   const indexOfLastProduct = currentPage * productsPerPage;
   const firstIndexOfProduct = indexOfLastProduct - productsPerPage;
-  const records = data?.products.slice(firstIndexOfProduct, indexOfLastProduct);
-  const nPage = Math.ceil(data?.products.length / productsPerPage);
+  const records = data?.products?.slice(firstIndexOfProduct, indexOfLastProduct) || [];
+  const nPage = Math.ceil(data?.products?.length / productsPerPage) || 0;
   const numbers = [...Array(nPage + 1).keys()].slice(1);
+  console.log(numbers);
 
 
   const prePage = () => {
@@ -38,6 +44,12 @@ const Shop = () => {
     }
   };
 
+
+
+  if (isError) {
+    return <ErrorBlock title="Something went wrong" message={error} />;
+  }
+
   return (
     <div className="w-full flex flex-col items-center">
       <Banner title="Shop" path={["Home", "Shop"]} />
@@ -46,7 +58,10 @@ const Shop = () => {
           <p>Showing {productsPerPage} of {data?.products.length + 1} results</p>
           <div className="flex flex-row gap-[2vh]">
             <p>Show</p>
-            <select onChange={(e) => setProductPerPage(e.target.value)}>
+            <select onChange={(e) => {setProductPerPage(e.target.value)
+            setCurrentPage(1)
+            
+            }}>
               <option>6</option>
               <option>12</option>
             </select>
@@ -61,7 +76,9 @@ const Shop = () => {
         </div>
         <div className="flex flex-col justify-center items-center">
 
-          {isPending ? <LoadingSpinner />
+          {isPending ? <div className="w-full flex flex-col items-center">
+            <LoadingSkeleton type='feed' />
+          </div>
             :
             <Products products={records} />
           }

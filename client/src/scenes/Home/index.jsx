@@ -8,7 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getProducts } from "../../constants/Http";
 import LoadingSpinner from "../../constants/Loading/LoadingSpinner/LoadingSpinner"
 import ErrorBlock from "../../components/ErrorBlock";
-const Home = () => {
+const Home = ({user}) => {
 
   const { data: products, isPending,  isError, error } = useQuery({
     queryKey: ["products"],
@@ -25,7 +25,7 @@ const Home = () => {
       <HomeCategories />
       {isPending ? <LoadingSpinner />
         :
-        <Products home={true} products={products?.products} />
+        <Products home={true} products={products?.products} user={user} />
       }
       {
         isError && <ErrorBlock title='Something went wrong' message={error} />

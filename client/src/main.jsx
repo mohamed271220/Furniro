@@ -7,42 +7,20 @@ import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
 import cartReducer from "./store/cartSlice.js";
 import compareReducer from "./store/compareSlice.js";
-import authReducer from "./store/authSlice.js";
-import {
-  FLUSH,
-  REHYDRATE,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER,
-} from "redux-persist";
 import { setupListeners } from "@reduxjs/toolkit/query";
-// const persistConfig = {
-//   key: "cart",
-//   storage,
-//   version: 1,
-// };
+import { QueryClientProvider } from "@tanstack/react-query";
+import { queryClient } from "./constants/Http/index.js";
 
-// const rootPersistConfig = {
-//   key: "root",
-//   storage: storage,
-// };
-
-// const rootReducer = combineReducers({
-//   compare: compareReducer.reducer,
-// });
-
-// const persistedReducer = persistReducer(rootPersistConfig, rootReducer);
 const store = configureStore({
   reducer: {
     cart: cartReducer.reducer,
     compare: compareReducer.reducer,
-  
+
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoreActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        ignoreActions: [],
       },
     }),
 });
@@ -52,11 +30,11 @@ setupListeners(store.dispatch);
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Provider store={store}>
-      {/* <PersistGate loading={null} persistor={persistStore(store)}> */}
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-      {/* </PersistGate> */}
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </QueryClientProvider>
     </Provider>
   </React.StrictMode>
 );

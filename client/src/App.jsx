@@ -1,5 +1,4 @@
-import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
 import axios from "axios";
 import Home from "./scenes/Home";
 import Entry from "./scenes/Entry";
@@ -10,78 +9,37 @@ import ProductComparison from "./scenes/ProductComparison";
 import Contact from "./scenes/Contact";
 import Blog from "./scenes/Blog";
 import Dashboard from "./scenes/Dashboard";
-import { QueryClientProvider } from "@tanstack/react-query";
-import { queryClient } from "./constants/Http";
 import Layout from "./scenes/Layout";
 import AddProduct from "./scenes/AddProduct";
-import { cartActions } from "./store/cartSlice";
-import { useDispatch, useSelector } from "react-redux";
+
 
 import "./index.css";
 import Payment from "./scenes/Checkout/Payment";
 import Completion from "./scenes/Checkout/Completion";
+import { useAuth } from "./hooks/useAuth";
 
 axios.defaults.baseURL = "http://localhost:4000";
 axios.defaults.withCredentials = true;
 
 function App() {
-  const [user, setUser] = useState();
-  const dispatch = useDispatch();
-  const navigate = useNavigate()
-
-
-  useEffect(() => {
-    const getUser = async () => {
-      try {
-        const url = `${import.meta.env.VITE_REACT_APP_API_URL}/auth/login/success`;
-        const { data } = await axios.get(url, { withCredentials: true });
-        if (data.user) {
-          setUser(data);
-          console.log(data);
-  
-          dispatch(
-            cartActions.setCart({
-              items: data?.data.cart,
-              totalQuantity: data?.data.cart
-                .map((item) => item.number)
-                .reduce((partialSum, a) => partialSum + a, 0),
-            })
-          );
-  
-          const redirectUrl = sessionStorage.getItem("redirectUrl");
-          if (redirectUrl) {
-            sessionStorage.removeItem("redirectUrl");
-            navigate(redirectUrl);
-          }
-        }
-      } catch (err) {
-        console.log(err);
-        navigate("/entry");
-      }
-    };
-    getUser();
-  }, []);
-
+  const user = useAuth()
   return (
-    <div>  
-
     
-      <QueryClientProvider client={queryClient}>
         <Routes>
           <Route element={<Layout user={user?.user?._json} userData={user?.data} />}>
             <Route
               exact
               path="/"
-              element={user ? <Home user={user} /> : <Navigate to="/entry" />}
+              element={user ? <Home user={user} /> : <Home />}
             />
             <Route
               path="/shop"
-              element={user ? <Shop user={user} /> : <Navigate to="/entry" />}
+              element={user ? <Shop user={user} /> : <Shop />}
             />
             <Route
               path="/product/:id"
               element={
-                user ? <Product user={user} /> : <Navigate to="/entry" />
+                user ? <Product user={user} /> : <Product />
               }
             />
             <Route
@@ -106,7 +64,7 @@ function App() {
                 user ? (
                   <ProductComparison user={user} />
                 ) : (
-                  <Navigate to="/entry" />
+                  <ProductComparison />
                 )
               }
             />
@@ -130,7 +88,7 @@ function App() {
             />
             <Route
               path="/blog"
-              element={user ? <Blog user={user} /> : <Navigate to="/entry" />}
+              element={user ? <Blog user={user} /> : <Blog />}
             />
             <Route
               path="/dashboard"
@@ -152,10 +110,10 @@ function App() {
             path="/entry"
             element={user ? <Navigate to=".." /> : <Entry />}
           />
-    
+
         </Routes>
-      </QueryClientProvider>
-    </div>
+     
+    
   );
 }
 

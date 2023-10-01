@@ -1,11 +1,11 @@
 import { useState } from "react";
 import {
-  AiFillBell,
+
   AiFillProfile,
-  AiFillSetting,
-  AiOutlineArrowDown,
+
+
   AiOutlineShoppingCart,
-  AiTwotoneShop,
+
 } from "react-icons/ai";
 import { LuArrowRightLeft } from "react-icons/lu";
 import { MdKeyboardArrowDown } from "react-icons/md";
@@ -54,7 +54,7 @@ const Dropdown = ({
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5 }}
           className="bg-white z-50 absolute top-10  flex flex-col items-start rounded-lg ">
-          <motion.div
+          {user && <motion.div
             whileHover={{
               backgroundColor: "#FFF3E3",
             }}
@@ -76,7 +76,7 @@ const Dropdown = ({
                 {cartTotalQuantity}
               </span>
             </h2>
-          </motion.div>
+          </motion.div>}
 
           <motion.div
             whileHover={{
@@ -97,7 +97,7 @@ const Dropdown = ({
               </h2>
             </Link>
           </motion.div>
-          {(userData.role === "admin" ||
+          {user && (userData.role === "admin" ||
             userData.role === "coolerAdmin") && (
               <motion.div
                 whileHover={{
@@ -119,7 +119,7 @@ const Dropdown = ({
               </motion.div>
             )}
 
-          <motion.div
+          {user && <motion.div
             whileHover={{
               backgroundColor: "#FFF3E3",
             }}
@@ -128,7 +128,7 @@ const Dropdown = ({
               <Link>Logout</Link>
             </h2>
           </motion.div>
-
+          }
         </motion.div>
       )}
     </div>
