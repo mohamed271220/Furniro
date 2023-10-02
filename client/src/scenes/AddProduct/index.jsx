@@ -184,18 +184,17 @@ const AddProduct = () => {
     try {
       const response = await axios.post(`/shop/addProduct`, formData, {});
       // const savedUser = await response.json();
-  if(response){
+      if (response) {
 
-    toast.update(id, {
-      render: "Product added successfully",
-      type: "success",
-      ...config,
-      isLoading: false,
-    });
-    
-  }
+        toast.update(id, {
+          render: "Product added successfully",
+          type: "success",
+          ...config,
+          isLoading: false,
+        });
+
+      }
       onSubmitProps.resetForm();
-    
       setIsLoading(false);
       navigate("/");
       return savedUser;

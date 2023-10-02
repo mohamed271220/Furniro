@@ -1,6 +1,6 @@
 import Modal from "../Modal";
 import { motion, useAnimate, stagger } from "framer-motion";
-import { useSelector } from "react-redux";
+
 import { BsBagPlus, BsFillXCircleFill } from "react-icons/bs";
 import { useEffect, useState } from "react";
 import axios from 'axios';
@@ -89,7 +89,7 @@ const CartModal = ({ onClose }) => {
       "
       >
         <Link to='/cart' onClick={onClose} className="text-[2vh] border rounded-xl px-[2.5vh] border-black  " >cart</Link>
-        <Link  className="text-[2vh] border rounded-xl px-[2.5vh] border-black  " >checkout</Link>
+        <Link to='/checkout' className="text-[2vh] border rounded-xl px-[2.5vh] border-black  " >checkout</Link>
         <Link to='/productComparison' className="text-[2vh] border rounded-xl px-[2.5vh] border-black  " >Comparison</Link>
 
       </div>

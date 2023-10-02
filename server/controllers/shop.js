@@ -104,7 +104,7 @@ exports.postReview = async (req, res, next) => {
 
 exports.addToCart = async (req, res, next) => {
   const productId = req.params.productId;
-  
+
   let user;
   if (req.user) {
     console.log(req.user);
@@ -184,7 +184,7 @@ exports.removeFromCart = async (req, res, next) => {
 
   try {
     product = await Product.findOne({ _id: productId });
-   
+
   } catch (err) {
     if (!err.statusCode) {
       err.statusCode = 500;
@@ -229,6 +229,42 @@ exports.removeFromCart = async (req, res, next) => {
   }
 };
 
+
+exports.paymentIntent = async (req, res) => {
+  let products;
+
+  let user;
+  console.log(req.user);
+  try {
+    if (req.user) {
+      user = await User.findOne({ googleId: req.user.id });
+      // console.log(data);
+
+
+
+      products = user.cart;
+      const total = products
+        .map((p) => p.price * p.number)
+        .reduce((acc, prod) => acc + prod, 0);
+      console.log(total);
+
+      const paymentIntent = await stripe.paymentIntents.create({
+        currency: "usd",
+        amount: total,
+        automatic_payment_methods: {
+          enabled: true,
+        },
+      });
+      res.send({ clientSecret: paymentIntent.client_secret });
+
+    }
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ error: err.message });
+  }
+};
+
+
 exports.makeOrder = async (req, res, next) => {
   let products;
   try {
@@ -247,20 +283,14 @@ exports.makeOrder = async (req, res, next) => {
         .reduce((acc, prod) => acc + prod, 0);
       console.log(products);
 
-      const paymentIntent = await stripe.paymentIntents.create({
-        currency: "usd",
-        amount: total,
-        automatic_payment_methods: {
-          enabled: true,
-        },
-      });
+
 
       const sess = await mongoose.startSession();
       sess.startTransaction();
       const order = new Order({
         products: products,
         address: req.body.address,
-        madeBy: userId,
+        madeBy: req.user.id,
         status: "pending",
         totalPrice: total,
       });
@@ -270,7 +300,7 @@ exports.makeOrder = async (req, res, next) => {
       user.orders.push(order);
       await user.save({ session: sess });
       await sess.commitTransaction();
-      res.status(201).send({ clientSecret: paymentIntent.client_secret });
+      res.status(201).send({});
     }
   } catch (err) {
     const error = new Error("Something went wrong , please try again later " + err);

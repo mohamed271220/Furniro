@@ -28,8 +28,6 @@ router.get("/", (req, res) => {
   res.sendFile(path);
 });
 
-
-
 //sends publishable key to frontend
 router.get("/config", (req, res) => {
   res.send({
@@ -38,7 +36,10 @@ router.get("/config", (req, res) => {
 });
 
 
-router.post("/create-payment-intent", productController.makeOrder);
+router.post("/order", productController.makeOrder);
+
+router.post("/create-payment-intent", productController.paymentIntent)
+
 
 router.put("/:orderId/order/cancel", productController.cancelOrder);
 
