@@ -10,7 +10,7 @@ import LoadingSkeleton from "../../constants/Loading/SkeletonTwo/Skeleton";
 
 
 
-const Shop = () => {
+const Shop = ({user}) => {
   const { data, isPending, isError, error } = useQuery({
     queryKey: ["products"],
     queryFn: ({ signal }) => getProducts({ signal }),
@@ -80,7 +80,7 @@ const Shop = () => {
             <LoadingSkeleton type='feed' />
           </div>
             :
-            <Products products={records} />
+            <Products products={records} user={user}/>
           }
           {
             isError && <ErrorBlock title='Something went wrong' message={error} />

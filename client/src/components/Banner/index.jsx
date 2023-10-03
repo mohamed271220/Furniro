@@ -2,7 +2,7 @@ import ShopBanner from "../../assets/images/ShopBanner.png";
 const Banner = ({ title, path }) => {
   return (
     <div className="relative w-full flex justify-center items-center ">
-      <img src={ShopBanner} alt="" className="md:w-full md:h-full h-[20vh] object-fit" />
+      <img src={ShopBanner} alt="" className="w-full md:h-full h-[20vh] object-fit" />
       <h1 className="absolute  text-lg md:text-[6vh] font-semibold ">
         {title}
       </h1>

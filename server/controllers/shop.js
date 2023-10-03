@@ -267,6 +267,7 @@ exports.paymentIntent = async (req, res) => {
 
 exports.makeOrder = async (req, res, next) => {
   let products;
+  const paymentIntent = req.body.paymentIntent;
   try {
     if (req.user) {
       const user = await User.findOne({ googleId: req.user.id });
@@ -289,7 +290,7 @@ exports.makeOrder = async (req, res, next) => {
       sess.startTransaction();
       const order = new Order({
         products: products,
-        address: req.body.address,
+        paymentIntent: paymentIntent,
         madeBy: req.user.id,
         status: "pending",
         totalPrice: total,

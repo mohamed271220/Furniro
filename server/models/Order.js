@@ -18,11 +18,11 @@ const orderSchema = new Schema(
       },
     ],
     madeBy: {
-      type: mongoose.Types.ObjectId,
-      ref: "User",
+      type: String,
+
       required: true,
     },
-    address: {
+    paymentIntent: {
       type: String,
       required: true,
     },

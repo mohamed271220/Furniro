@@ -24,96 +24,100 @@ axios.defaults.withCredentials = true;
 function App() {
   const user = useAuth()
   return (
-    
-        <Routes>
-          <Route element={<Layout user={user?.user?._json} userData={user?.data} />}>
-            <Route
-              exact
-              path="/"
-              element={user ? <Home user={user} /> : <Home />}
-            />
-            <Route
-              path="/shop"
-              element={user ? <Shop user={user} /> : <Shop />}
-            />
-            <Route
-              path="/product/:id"
-              element={
-                user ? <Product user={user} /> : <Product />
-              }
-            />
-            <Route
-              path="/cart"
-              element={user ? <Cart user={user} /> : <Navigate to="/entry" />}
-            />
-            <Route
-              path="/addProduct"
-              element={
-                user &&
-                  (user?.data.role === "admin" ||
-                    user?.data.role === "coolerAdmin") ? (
-                  <AddProduct user={user} />
-                ) : (
-                  <Navigate to="/entry" />
-                )
-              }
-            />
-            <Route
-              path="/productComparison"
-              element={
-                user ? (
-                  <ProductComparison user={user} />
-                ) : (
-                  <ProductComparison />
-                )
-              }
-            />
-            <Route
-              path="/checkout"
-              element={
-                user ? <Payment user={user} /> : <Navigate to="/entry" />
-              }
-            />
-            <Route
-              path="/checkout/completed"
-              element={
-                user ? <Completion user={user} /> : <Navigate to="/entry" />
-              }
-            />
-            <Route
-              path="/contact"
-              element={
-                user ? <Contact user={user} /> : <Navigate to="/entry" />
-              }
-            />
-            <Route
-              path="/blog"
-              element={user ? <Blog user={user} /> : <Blog />}
-            />
-            <Route
-              path="/dashboard"
-              element={
-                user &&
-                  (user?.data.role === "admin" ||
-                    user?.data.role === "coolerAdmin") ? (
-                  <Dashboard user={user} />
-                ) : (
-                  <Navigate to="/entry" />
-                )
-              }
-            >
-              <Route path="users" />
-            </Route>
-          </Route>
-          <Route
-            exact={false}
-            path="/entry"
-            element={user ? <Navigate to=".." /> : <Entry />}
-          />
 
-        </Routes>
-     
-    
+    <Routes>
+      <Route element={<Layout user={user?.user?._json} userData={user?.data} />}>
+        <Route
+          exact
+          path="/"
+          element={user ? <Home user={user} /> : <Home />}
+        />
+        <Route
+          path="/shop"
+          element={user ? <Shop user={user} /> : <Shop />}
+        />
+        <Route
+          path="/product/:id"
+          element={
+            user ? <Product user={user} /> : <Product />
+          }
+        />
+        <Route
+          path="/cart"
+          element={user ? <Cart user={user} /> : <Navigate to="/entry" />}
+        />
+        <Route
+          path="/addProduct"
+          element={
+            user &&
+              (user?.data.role === "admin" ||
+                user?.data.role === "coolerAdmin") ? (
+              <AddProduct user={user} />
+            ) : (
+              <Navigate to="/entry" />
+            )
+          }
+        />
+        <Route
+          path="/productComparison"
+          element={
+            user ? (
+              <ProductComparison user={user} />
+            ) : (
+              <ProductComparison />
+            )
+          }
+        />
+        <Route
+          path="/checkout"
+          element={
+            user ? <Payment user={user} /> : <Navigate to="/entry" />
+          }
+        />
+        <Route
+          path="/checkout/completion"
+          element={
+            user ? <Completion user={user} /> : <Navigate to="/entry" />
+          }
+        />
+        <Route
+          path="/contact"
+          element={
+            user ? <Contact user={user} /> : <Navigate to="/entry" />
+          }
+        />
+        <Route
+          path="/blog"
+          element={user ? <Blog user={user} /> : <Blog />}
+        />
+        <Route
+          path="/dashboard"
+          element={
+            user &&
+              (user?.data.role === "admin" ||
+                user?.data.role === "coolerAdmin") ? (
+              <Dashboard user={user} />
+            ) : (
+              <Navigate to="/entry" />
+            )
+          }
+        >
+          <Route path="users" />
+        </Route>
+
+        <Route path="*" element={<p>Page not found 404</p>} />
+
+
+      </Route>
+      <Route
+        exact={false}
+        path="/entry"
+        element={user ? <Navigate to=".." /> : <Entry />}
+      />
+
+    </Routes>
+
+
   );
 }
 
