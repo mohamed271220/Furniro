@@ -11,8 +11,6 @@ import Blog from "./scenes/Blog";
 import Dashboard from "./scenes/Dashboard";
 import Layout from "./scenes/Layout";
 import AddProduct from "./scenes/AddProduct";
-
-
 import "./index.css";
 import Payment from "./scenes/Checkout/Payment";
 import Completion from "./scenes/Checkout/Completion";
