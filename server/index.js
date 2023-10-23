@@ -17,6 +17,8 @@ const authRouter = require("./routes/Auth");
 const User = require("./models/User");
 const { resolve } = require("path");
 const env = require("dotenv").config({ path: "./.env" });
+const { Storage } = require("@google-cloud/storage");
+
 
 const app = express();
 app.use(express.json());
@@ -46,7 +48,7 @@ app.get("/", (req, res) => {
 
 
 // Serving static files
-app.use("/uploads", express.static(__dirname + "/uploads"));
+// app.use("/uploads", express.static(__dirname + "/uploads"));
 app.use(
   cors({
     origin: "http://localhost:5173",
@@ -93,8 +95,31 @@ app.use(morgan("dev"));
 
 app.use(helmet());
 
-//file upload
-app.post("/upload", filesUpload.array("photos", 40), (req, res) => {
+// //file upload
+// app.post("/upload", filesUpload.array("photos", 40), (req, res) => {
+//   console.log(req.files);
+//   const uploadedFiles = [];
+//   for (let i = 0; i < req.files.length; i++) {
+//     const { path, originalname } = req.files[i];
+//     const parts = originalname.split(".");
+//     const ext = parts[parts.length - 1];
+//     const newPath = path + "." + ext;
+//     fs.renameSync(path, newPath);
+//     uploadedFiles.push(newPath.replace("uploads", ""));
+//   }
+//   res.json(uploadedFiles);
+// });
+
+// cloud file upload
+
+// Set up Google Cloud Storage client
+const storage = new Storage({
+  projectId: process.env.GCLOUD_PROJECT_ID,
+  keyFilename: process.env.GCLOUD_KEYFILE_PATH,
+});
+const bucket = storage.bucket(process.env.GCLOUD_BUCKET_NAME);
+
+app.post("/upload", filesUpload.array("photos", 40), async (req, res) => {
   console.log(req.files);
   const uploadedFiles = [];
   for (let i = 0; i < req.files.length; i++) {
@@ -102,11 +127,27 @@ app.post("/upload", filesUpload.array("photos", 40), (req, res) => {
     const parts = originalname.split(".");
     const ext = parts[parts.length - 1];
     const newPath = path + "." + ext;
-    fs.renameSync(path, newPath);
-    uploadedFiles.push(newPath.replace("uploads", ""));
+
+    // Upload file to Google Cloud Storage
+    const file = bucket.file(originalname);
+    fs.createReadStream(newPath)
+      .pipe(file.createWriteStream())
+      .on("error", (err) => {
+        console.error(err);
+        res.status(500).send("Error uploading file to Google Cloud Storage");
+      })
+      .on("finish", () => {
+        uploadedFiles.push(`https://storage.googleapis.com/${bucket.name}/${file.name}`);
+        fs.unlinkSync(newPath);
+        if (uploadedFiles.length === req.files.length) {
+          res.json(uploadedFiles);
+        }
+      });
   }
-  res.json(uploadedFiles);
 });
+
+
+
 
 app.use("/auth", authRouter);
 app.use("/shop", require("./routes/shop"));

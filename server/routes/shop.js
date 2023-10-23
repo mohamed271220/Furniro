@@ -53,14 +53,12 @@ router.get("/:orderId/order/status", productController.checkOrderStatus);
 router.post(
   "/addProduct",
   fileUpload.array("images", 4),
-
   productController.addProduct
 );
 
 router.put(
   "/editProduct/:productId",
   fileUpload.array("images", 4),
-
   productController.editProduct
 );
 

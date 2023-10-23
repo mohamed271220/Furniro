@@ -370,7 +370,6 @@ exports.addProduct = async (req, res, next) => {
         price,
         sale,
         images,
-
         sizeOptions,
         Tags,
         shortDescription,
