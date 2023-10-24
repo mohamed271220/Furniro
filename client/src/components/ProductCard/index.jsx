@@ -30,7 +30,7 @@ const Card = ({ product, addItemToCartHandler, user }) => {
     >
       {/* underlying section  */}
       <div>
-        <img src={`http://localhost:4000/uploads/${product.images[0]}`} className="3xl:w-full w-[35vh] h-[45vh]" alt=" " />
+        <img src={product.images[0]} className="3xl:w-full w-[35vh] h-[45vh]" alt=" " />
         <div className="py-3 flex flex-col px-2 gap-2">
           <h3 className="font-bold text-[3vh]">{product.title}</h3>
           <p className="text-gray-700 font-semibold text-[2.5vh]">

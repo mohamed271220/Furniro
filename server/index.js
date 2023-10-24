@@ -1,23 +1,30 @@
-require("dotenv").config();
+//packages 
+const express = require("express");
+const fs = require("fs");
+const morgan = require("morgan");
+const helmet = require("helmet");
+const cors = require("cors");
+const multer = require("multer");
 const mongoose = require("mongoose");
+require("dotenv").config();
 const session = require("express-session");
 const passport = require("passport");
 const passportLocalMongoose = require("passport-local-mongoose");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const findOrCreate = require("mongoose-findorcreate");
-const express = require("express");
-const morgan = require("morgan");
-const helmet = require("helmet");
-const cors = require("cors");
-const multer = require("multer");
-const fs = require("fs");
+const path = require("path");
 const cookieSession = require("cookie-session");
 const passportSetup = require("./passport");
-const authRouter = require("./routes/Auth");
-const User = require("./models/User");
 const { resolve } = require("path");
 const env = require("dotenv").config({ path: "./.env" });
 const { Storage } = require("@google-cloud/storage");
+//routes
+const authRouter = require("./routes/Auth");
+
+//models
+const User = require("./models/User");
+
+
 
 
 const app = express();
@@ -123,26 +130,31 @@ app.post("/upload", filesUpload.array("photos", 40), async (req, res) => {
   console.log(req.files);
   const uploadedFiles = [];
   for (let i = 0; i < req.files.length; i++) {
-    const { path, originalname } = req.files[i];
-    const parts = originalname.split(".");
-    const ext = parts[parts.length - 1];
-    const newPath = path + "." + ext;
+    const { path: filePath, originalname } = req.files[i];
+    const ext = path.extname(originalname);
+    const newPath = filePath + ext;
 
-    // Upload file to Google Cloud Storage
-    const file = bucket.file(originalname);
-    fs.createReadStream(newPath)
-      .pipe(file.createWriteStream())
-      .on("error", (err) => {
-        console.error(err);
-        res.status(500).send("Error uploading file to Google Cloud Storage");
-      })
-      .on("finish", () => {
-        uploadedFiles.push(`https://storage.googleapis.com/${bucket.name}/${file.name}`);
-        fs.unlinkSync(newPath);
-        if (uploadedFiles.length === req.files.length) {
-          res.json(uploadedFiles);
-        }
-      });
+    // Check if file exists before uploading to Google Cloud Storage
+    if (fs.existsSync(filePath)) {
+      // Upload file to Google Cloud Storage
+      const file = bucket.file(originalname);
+      fs.createReadStream(filePath)
+        .pipe(file.createWriteStream())
+        .on("error", (err) => {
+          console.error(err);
+          res.status(500).send("Error uploading file to Google Cloud Storage");
+        })
+        .on("finish", () => {
+          uploadedFiles.push(`https://storage.googleapis.com/${bucket.name}/${file.name}`);
+          fs.unlinkSync(filePath);
+          if (uploadedFiles.length === req.files.length) {
+            res.status(200).send(uploadedFiles);
+          }
+        });
+    } else {
+      console.error(`File ${filePath} does not exist`);
+      res.status(500).send(`File ${filePath} does not exist`);
+    }
   }
 });
 

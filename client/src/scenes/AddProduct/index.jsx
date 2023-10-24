@@ -780,7 +780,7 @@ const AddProduct = () => {
                     addedPhotos.map((link) => (
                       <div className="form-control__uploader" key={link}>
                         <img
-                          src={`http://localhost:4000/uploads/` + link}
+                          src={link}
                           alt=""
                         />
                         <button
@@ -866,7 +866,10 @@ const AddProduct = () => {
                 </div>
               </div>
             </div>
-            <button className="btn-1-submit" type="submit">
+            <button
+            disabled={isLoading
+            }
+             className="btn-3 bg-[#fdd49e]" type="submit">
               Submit
             </button>
           </form>

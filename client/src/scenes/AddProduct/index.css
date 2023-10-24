@@ -56,7 +56,6 @@
   padding-left: 0.75rem;
   padding-right: 0.75rem;
   background-color: rgb(0, 0, 0, 0.3);
-
   color: #ffffff;
   border-radius: 1rem;
   cursor: pointer;
@@ -182,6 +181,18 @@
   border-radius: 12px;
   font-size: 2vh;
   font-weight: 500;
+  transition: all;
+  transition-duration: 0.5s;
+}
+.btn-3:hover{
+  background-color: #ef9f35;
+  color: #fff;
+  border: #fdd49e 1px solid;
+}
+.btn-3:disabled{
+  background-color: #c0c0c0;
+  color: #6a6a6a;
+  border: #fdd49e 1px solid;
 }
 
 .error-message,
