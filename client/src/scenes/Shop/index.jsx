@@ -55,7 +55,7 @@ const Shop = ({user}) => {
       <Banner title="Shop" path={["Home", "Shop"]} />
       <div className="Shop w-full flex flex-col pb-[5vh]">
         <div className="filter w-full bg-secondary flex flex-row flex-wrap  md:flex-nowrap text-[2vh] items-center justify-between gap-[2vh] p-[2vh]">
-          <p>Showing {productsPerPage} of {data?.products.length + 1} results</p>
+          <p>Showing {records.length} of {data?.products.length } results</p>
           <div className="flex flex-row gap-[2vh]">
             <p>Show</p>
             <select onChange={(e) => {setProductPerPage(e.target.value)

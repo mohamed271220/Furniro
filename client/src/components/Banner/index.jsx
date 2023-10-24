@@ -1,3 +1,4 @@
+import React from "react";
 import ShopBanner from "../../assets/images/ShopBanner.png";
 const Banner = ({ title, path }) => {
   return (
@@ -12,10 +13,10 @@ const Banner = ({ title, path }) => {
             <>
               <span key={item} className="text-center text-[3vh] ">
                 {item}
-              </span>
               <span className="text-center text-[3vh]">
                 {" "}
                 {index < path.length - 1 && ">"}{" "}
+              </span>
               </span>
             </>
           ))}

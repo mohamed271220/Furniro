@@ -120,7 +120,7 @@ const Cart = () => {
               >
                 <img
                   className="w-[10vh] h-[10vh] object-cover rounded-lg "
-                  src={`http://localhost:4000/uploads${item.image.split(",")[0]}`}
+                  src={item.image.split(",")[0]}
                   alt=""
                 />
 

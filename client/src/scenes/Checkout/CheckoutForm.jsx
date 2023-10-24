@@ -54,7 +54,7 @@ export default function CheckoutForm() {
       setMessage(error.message);
     }
     else {
-      setMessage("An unexpected error occured.");
+      setMessage("An unexpected error occurred.");
     }
     setIsProcessing(false);
   };

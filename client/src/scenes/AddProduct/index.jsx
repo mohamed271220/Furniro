@@ -18,7 +18,6 @@ const productSchema = yup.object().shape({
   price: yup.number().required("Price is required"),
   sale: yup.number().required("Sale is required"),
   images: yup.array().required("Images is required"),
-
   sizeOptions: yup
     .array()
     .of(
@@ -27,7 +26,6 @@ const productSchema = yup.object().shape({
       })
     )
     .required("SizeOptions is required"),
-
   Tags: yup
     .array()
     .of(
@@ -73,7 +71,6 @@ const initialValue = {
   price: "",
   sale: "",
   images: [],
-
   sizeOptions: [""],
   Tags: [""],
   shortDescription: "",
@@ -143,7 +140,6 @@ const AddProduct = () => {
   function removePhoto(ev, filename) {
     ev.preventDefault();
     setIsLoading(true);
-
     setAddedPhotos([...addedPhotos.filter((photo) => photo !== filename)]);
     setIsLoading(false);
   }
