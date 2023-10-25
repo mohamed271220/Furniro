@@ -27,11 +27,10 @@ const blogPostSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    tags: [
-      {
-        type: String,
-      },
-    ],
+    tag: {
+      type: String,
+    },
+
     comments: [
       {
         author: {

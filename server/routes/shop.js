@@ -1,6 +1,8 @@
 const express = require("express");
 const fileUpload = require("../middlewares/fileUpload");
 const productController = require("../controllers/shop");
+const adminController = require("../controllers/admin");
+const blogController = require("../controllers/blog");
 const router = express.Router();
 const env = require("dotenv").config({ path: "./.env" });
 const { resolve } = require("path");
@@ -53,33 +55,36 @@ router.get("/:orderId/order/status", productController.checkOrderStatus);
 router.post(
   "/addProduct",
   fileUpload.array("images", 4),
-  productController.addProduct
+  adminController.addProduct
 );
 
 router.put(
   "/editProduct/:productId",
   fileUpload.array("images", 4),
-  productController.editProduct
+  adminController.editProduct
 );
 
 router.delete(
   "/removeProduct/:productId",
-  productController.removeProduct
+  adminController.removeProduct
 );
 
 
 router.get(
-  "/orders", 
-  productController.getOrders
+  "/orders",
+  adminController.getOrders
 );
 
 router.get(
   '/cart',
-  productController.getCart
+  adminController.getCart
 )
 
-router.put("/orders/:orderId", productController.updateOrder);
-router.get("/orders/:orderId",productController.getOrder);
+router.put("/orders/:orderId", adminController.updateOrder);
+router.get("/orders/:orderId", productController.getOrder);
 
+
+router.get("/blog-posts", blogController.getPosts)
+router.post("/blog-posts", blogController.postPost)
 
 module.exports = router;
