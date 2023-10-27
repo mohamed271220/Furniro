@@ -77,11 +77,11 @@ router.get(
 
 router.get(
   '/cart',
-  adminController.getCart
+  productController.getCart
 )
 
-router.put("/orders/:orderId", adminController.updateOrder);
 router.get("/orders/:orderId", productController.getOrder);
+router.put("/orders/:orderId", adminController.updateOrder);
 
 
 router.get("/blog-posts", blogController.getPosts)

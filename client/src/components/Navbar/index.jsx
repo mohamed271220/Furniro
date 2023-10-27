@@ -47,7 +47,7 @@ const Navbar = ({
           userData={userData}
           logout={logout}
         />
-        <div className="icon rounded-full flex justify-center items-center w-[3vh] h-[3vh] lg:shadow-lg hover:text-dim-yellow">
+        <div className="rounded-full flex justify-center items-center w-7 h-7 lg:shadow-lg active:text-secondary hover:text-dim-yellow">
           <AiOutlineSearch />
         </div>
         {user ? <img

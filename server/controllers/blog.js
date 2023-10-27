@@ -2,7 +2,7 @@ const Product = require("../models/Product");
 const Review = require("../models/Review");
 const User = require("../models/User");
 const Order = require("../models/Order");
-const Post = requite("../models/BlogPost")
+const Post = require("../models/BlogPost")
 const passport = require("passport");
 const mongoose = require("mongoose");
 const { validationResult } = require("express-validator");
@@ -68,6 +68,8 @@ exports.postPost = async (req, res, next) => {
             }
             // TODO: take parameters from req.body and complete the function
             const postedBy = user.name
+            const { title, author, image, tag, body } = req.body
+            console.log(title, author, image, tag, body);
         }
     } catch (err) {
         if (!err.statusCode) {

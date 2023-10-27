@@ -67,7 +67,7 @@ const productSchema = yup.object().shape({
 });
 
 const initialValue = {
-  name: "moh",
+  name: "",
   price: "",
   sale: "",
   images: [],

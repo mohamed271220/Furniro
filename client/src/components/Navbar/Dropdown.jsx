@@ -65,7 +65,7 @@ const Dropdown = ({
               setIsOpen((prev) => !prev);
               handleStartAddNewChallenge();
             }}
-            className="flex flex-row w-full gap-[1vh]  text-black p-2 rounded-lg cursor-pointer "
+            className="flex flex-row w-full gap-[1vh]  text-black p-2  cursor-pointer "
           >
             <h2 className="flex flex-row w-full justify-between items-center ">
               <span className="flex flex-row items-center gap-[1vh] text-[2vh]">
@@ -83,7 +83,7 @@ const Dropdown = ({
               backgroundColor: "#FFF3E3",
             }}
 
-            className="flex flex-row w-full gap-[1vh]  text-black p-2 rounded-lg cursor-pointer items-center justify-center">
+            className="flex flex-row w-full gap-[1vh]  text-black p-2 cursor-pointer items-center justify-center">
             <Link to='/productComparison'>
 
               <h2 className="flex flex-row justify-between items-center ">
@@ -103,12 +103,33 @@ const Dropdown = ({
                 whileHover={{
                   backgroundColor: "#FFF3E3",
                 }}
-                className="flex flex-row w-full gap-[1vh]   text-black p-2 rounded-lg cursor-pointer items-center justify-center">
+                className="flex flex-row w-full gap-[1vh]   text-black p-2 cursor-pointer items-center justify-center">
                 <Link to="/addProduct">
 
                   <h2 className="flex flex-row justify-between items-center ">
                     <span className="flex flex-row items-center gap-[1vh] text-[2vh]">
                       <Link to="/addProduct">Add a product</Link>
+                    </span>
+                    <span className="bg-red-600 text-[1.2vh] font-bold rounded-full p-1 text-white">
+                      Admin
+                    </span>
+                  </h2>
+                </Link>
+
+              </motion.div>
+            )}
+          {user && (userData.role === "admin" ||
+            userData.role === "coolerAdmin") && (
+              <motion.div
+                whileHover={{
+                  backgroundColor: "#FFF3E3",
+                }}
+                className="flex flex-row w-full gap-[1vh]   text-black p-2  cursor-pointer items-center justify-center">
+                <Link to="/addPost">
+
+                  <h2 className="flex flex-row justify-between items-center ">
+                    <span className="flex flex-row items-center gap-[1vh] text-[2vh]">
+                      <Link to="/addPost">Add a post</Link>
                     </span>
                     <span className="bg-red-600 text-[1.2vh] font-bold rounded-full p-1 text-white">
                       Admin

@@ -161,7 +161,6 @@
   margin-top: 2vh;
   margin-bottom: 2vh;
 }
-
 .inner-div div {
   display: flex;
   flex-direction: row;
@@ -173,6 +172,19 @@
   padding: 1vh 2vh;
   border-radius: 12px;
 }
+@media (max-width: 768px) {
+  .inner-div {
+    align-items: start;
+    flex-direction: column;
+    padding-bottom: 2vh;
+    border-bottom: #e9b572 1px solid;
+  }
+  .inner-div div {
+    gap:1vh;
+  }
+  
+}
+
 
 .btn-3 {
   border: #fdd49e 1px solid;

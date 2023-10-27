@@ -11,6 +11,7 @@ import Blog from "./scenes/Blog";
 import Dashboard from "./scenes/Dashboard";
 import Layout from "./scenes/Layout";
 import AddProduct from "./scenes/AddProduct";
+import AddPost from "./scenes/AddPost";
 import "./index.css";
 import Payment from "./scenes/Checkout/Payment";
 import Completion from "./scenes/Checkout/Completion";
@@ -51,6 +52,18 @@ function App() {
               (user?.data.role === "admin" ||
                 user?.data.role === "coolerAdmin") ? (
               <AddProduct user={user} />
+            ) : (
+              <Navigate to="/entry" />
+            )
+          }
+        />
+        <Route
+          path="/addPost"
+          element={
+            user &&
+              (user?.data.role === "admin" ||
+                user?.data.role === "coolerAdmin") ? (
+              <AddPost user={user} />
             ) : (
               <Navigate to="/entry" />
             )
