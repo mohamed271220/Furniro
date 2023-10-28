@@ -17,11 +17,11 @@ router.get("/products", productController.getProducts);
 
 router.get("/products/:productId", productController.getProduct);
 
-router.post("/:productId/review", productController.postReview);
+router.post("/products/:productId/review", productController.postReview);
 
-router.post("/:productId/cart", productController.addToCart);
+router.post("/products/:productId/cart", productController.addToCart);
 
-router.put("/:productId/cart/remove", productController.removeFromCart);
+router.put("/products/:productId/cart/remove", productController.removeFromCart);
 
 // stripe 
 
@@ -43,44 +43,44 @@ router.post("/order", productController.makeOrder);
 router.post("/create-payment-intent", productController.paymentIntent)
 
 
-router.put("/:orderId/order/cancel", productController.cancelOrder);
+router.put("/order/:orderId/cancel", productController.cancelOrder);
 
-router.get("/:orderId/order/status", productController.checkOrderStatus);
+router.get("/order/:orderId/status", productController.checkOrderStatus);
 
+router.get(
+  '/cart',
+  productController.getCart
+  )
+  router.get(
+    "/orders",
+    adminController.getOrders
+  );
+
+router.get("/orders/:orderId", productController.getOrder);
 
 
 // admin routes
 
-
+//add a product
 router.post(
-  "/addProduct",
+  "/product",
   fileUpload.array("images", 4),
   adminController.addProduct
 );
 
 router.put(
-  "/editProduct/:productId",
+  "/product/:productId",
   fileUpload.array("images", 4),
   adminController.editProduct
 );
 
 router.delete(
-  "/removeProduct/:productId",
+  "/product/:productId",
   adminController.removeProduct
 );
 
 
-router.get(
-  "/orders",
-  adminController.getOrders
-);
 
-router.get(
-  '/cart',
-  productController.getCart
-)
-
-router.get("/orders/:orderId", productController.getOrder);
 router.put("/orders/:orderId", adminController.updateOrder);
 
 

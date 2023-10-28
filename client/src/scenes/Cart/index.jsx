@@ -59,7 +59,7 @@ const Cart = () => {
 
     try {
       const response = await axios.put(
-        `http://localhost:4000/shop/${productId}/cart/remove`,
+        `http://localhost:4000/shop/proudcts/${productId}/cart/remove`,
         {
           number: 1,
         },
