@@ -1,3 +1,4 @@
+
 const express = require("express");
 const fileUpload = require("../middlewares/fileUpload");
 const productController = require("../controllers/shop");
@@ -7,17 +8,23 @@ const router = express.Router();
 const env = require("dotenv").config({ path: "./.env" });
 const { resolve } = require("path");
 
+
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY, {
   apiVersion: "2022-08-01",
 });
 
 router.use(express.static(process.env.STATIC_DIR));
 
+
 router.get("/products", productController.getProducts);
 
 router.get("/products/:productId", productController.getProduct);
 
+
+
 router.post("/products/:productId/review", productController.postReview);
+
+
 
 router.post("/products/:productId/cart", productController.addToCart);
 
@@ -50,11 +57,11 @@ router.get("/order/:orderId/status", productController.checkOrderStatus);
 router.get(
   '/cart',
   productController.getCart
-  )
-  router.get(
-    "/orders",
-    adminController.getOrders
-  );
+)
+router.get(
+  "/orders",
+  adminController.getOrders
+);
 
 router.get("/orders/:orderId", productController.getOrder);
 

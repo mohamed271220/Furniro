@@ -5,9 +5,7 @@ const Order = require("../models/Order");
 const passport = require("passport");
 const mongoose = require("mongoose");
 const { validationResult } = require("express-validator");
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY, {
-    apiVersion: "2022-08-01",
-});
+
 exports.addProduct = async (req, res, next) => {
     try {
         if (req.user) {
@@ -296,3 +294,5 @@ exports.updateOrder = async (req, res, next) => {
         }
     }
 };
+
+
