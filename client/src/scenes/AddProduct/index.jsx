@@ -178,7 +178,7 @@ const AddProduct = () => {
 
     setIsLoading(true);
     try {
-      const response = await axios.post(`/shop/product`, formData, {});
+      const response = await axios.post(`/admin/product`, formData, {});
       // const savedUser = await response.json();
       if (response) {
 

@@ -16,7 +16,7 @@ const CartModal = ({ onClose }) => {
     const fetchCart = async () => {
       setLoading(true)
       try {
-        const url = `${import.meta.env.VITE_REACT_APP_API_URL}/shop/cart`;
+        const url = `${import.meta.env.VITE_REACT_APP_API_URL}/user/cart`;
         const { data } = await axios.get(url, { withCredentials: true });
         setCart(data.cart)
         setLoading(false)

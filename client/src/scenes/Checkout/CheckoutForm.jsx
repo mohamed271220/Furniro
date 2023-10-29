@@ -37,7 +37,7 @@ export default function CheckoutForm() {
     console.log(paymentIntent.status);
     if (paymentIntent.status === "succeeded") {
       try {
-        const response = await axios.post(`${import.meta.env.VITE_REACT_APP_API_URL}/shop/order`, {
+        const response = await axios.post(`${import.meta.env.VITE_REACT_APP_API_URL}/order`, {
           paymentIntent: paymentIntent.id,
         });
         if (response) {
@@ -46,15 +46,19 @@ export default function CheckoutForm() {
         }
       } catch (err) {
         console.log(err);
+        setMessage("An unexpected error occurred.");
+        setIsProcessing(false); // re-enable the button
       }
       setMessage("Payment Succeeded!");
 
     }
     else if (error?.type === "card_error" || error?.type === "validation_error") {
       setMessage(error.message);
+      setIsProcessing(false); 
     }
     else {
       setMessage("An unexpected error occurred.");
+      setIsProcessing(false); 
     }
     setIsProcessing(false);
   };
@@ -62,7 +66,7 @@ export default function CheckoutForm() {
   return (
     <form id="payment-form" onSubmit={handleSubmit}>
       <PaymentElement id="payment-element" />
-      <button className="bg-dim-yellow rounded-lg text-white border-0 py-3 px-4 mt-4 font-semibold cursor-pointer transition-all duration-200 ease-in-out block hover:filter hover:contrast-115 active:transform active:scale-98 active:brightness-90 disabled:opacity-50 disabled:cursor-not-allowed" disabled={isProcessing || !stripe || !elements} id="submit">
+      <button className="btn-3 !disabled:opacity-50 !disabled:cursor-not-allowed" disabled={  isProcessing || !stripe || !elements} id="submit">
         <span id="button-text">
           {isProcessing ? "Processing ... " : "Pay now"}
         </span>

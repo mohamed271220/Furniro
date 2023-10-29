@@ -18,6 +18,8 @@ const passportSetup = require("./passport");
 const { resolve } = require("path");
 const env = require("dotenv").config({ path: "./.env" });
 const { Storage } = require("@google-cloud/storage");
+const swagger = require('./swagger');
+
 //routes
 const authRouter = require("./routes/Auth");
 
@@ -161,8 +163,13 @@ app.post("/upload", filesUpload.array("photos", 40), async (req, res) => {
 
 
 
-app.use("/auth", authRouter);
-app.use("/shop", require("./routes/shop"));
+app.use("/auth", authRouter);//
+app.use("/shop", require("./routes/shop"));//
+app.use("/user", require("./routes/user"));//
+app.use('/order', require('./routes/order'))//
+app.use('/admin', require('./routes/admin'));//
+app.use('/post', require('./routes/blog'));
+
 
 app.use((error, req, res, next) => {
   if (req.file) {
@@ -181,7 +188,7 @@ app.use((error, req, res, next) => {
   res.status(status).json({ message: message, data: data });
 });
 
-
+swagger(app);
 
 
 mongoose

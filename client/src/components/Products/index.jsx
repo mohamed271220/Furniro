@@ -29,7 +29,7 @@ const Products = ({ products, home,user }) => {
     const id = toast.loading("Please wait...");
     try {
       const response = await axios.post(
-        `http://localhost:4000/shop/products/${productId}/cart`,
+        `http://localhost:4000/user/products/${productId}/cart`,
         { number: 1 },
         {
           headers: {
