@@ -5,17 +5,19 @@ import Entry from "./scenes/Entry";
 import Shop from "./scenes/Shop";
 import Product from "./scenes/Product";
 import Cart from "./scenes/Cart";
-import ProductComparison from "./scenes/ProductComparison";
+import ProductComparison from "./scenes/Comparison";
 import Contact from "./scenes/Contact";
 import Blog from "./scenes/Blog";
 import Dashboard from "./scenes/Dashboard";
 import Layout from "./scenes/Layout";
 import AddProduct from "./scenes/AddProduct";
 import AddPost from "./scenes/AddPost";
+import NotFound from "./scenes/404";
 import "./index.css";
 import Payment from "./scenes/Checkout/Payment";
 import Completion from "./scenes/Checkout/Completion";
 import { useAuth } from "./hooks/useAuth";
+
 
 axios.defaults.baseURL = "http://localhost:4000";
 axios.defaults.withCredentials = true;
@@ -86,7 +88,7 @@ function App() {
           }
         />
         <Route
-          path="/checkout/completion"
+          path="/completion"
           element={
             user ? <Completion user={user} /> : <Navigate to="/entry" />
           }
@@ -116,7 +118,7 @@ function App() {
           <Route path="users" />
         </Route>
 
-        <Route path="*" element={<p>Page not found 404</p>} />
+        <Route path="*" element={<NotFound />} />
 
 
       </Route>

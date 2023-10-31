@@ -59,7 +59,7 @@ const Cart = () => {
 
     try {
       const response = await axios.put(
-        `http://localhost:4000/user/proudcts/${productId}/cart/remove`,
+        `http://localhost:4000/user/products/${productId}/cart/remove`,
         {
           number: 1,
         },
@@ -124,10 +124,10 @@ const Cart = () => {
                   alt=""
                 />
 
-                <h4 className="font-semibold text-[2vh]  ">{item.name}</h4>
+                <h4 className="font-semibold text-[2vh] w-[25%]  ">{item.name}</h4>
                 <p className=" text-[2vh] ">
                   <span className="border-2 p-[1vh] w-[4vh] h-[4vh] rounded-full shadow-sm" >{item.number}</span>
-                  <span className="text-dim-yellow">${item.price} </span>
+                  <span className="text-dim-yellow">${item.price.toFixed(2)} </span>
                 </p>
 
                 <span className=" cursor-pointer" onClick={() => removeItemHandler(item.product, item.price)}>
@@ -144,7 +144,7 @@ const Cart = () => {
           <div className="flex pb-[2vh] flex-row gap-[2vh] items-center font-semibold text-[2vh]">
             <p>Subtotal</p>
             <p className="text-dim-yellow">
-              ${total}
+              ${total.toFixed(2)}
             </p>
           </div>
 
@@ -155,7 +155,7 @@ const Cart = () => {
 
           <h2 className="font-semibold text-center">Cart total</h2>
 
-          <p className="text-dim-yellow text-center"><span className="text-black m-0">Total : </span>${total}</p>
+          <p className="text-dim-yellow text-center"><span className="text-black m-0">Total : </span>${total.toFixed(2)}</p>
 
      
           <Link to="/checkout">

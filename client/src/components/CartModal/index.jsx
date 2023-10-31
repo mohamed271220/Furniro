@@ -51,14 +51,14 @@ const CartModal = ({ onClose }) => {
           >
             <img
               className="w-[10vh] h-[10vh] object-cover rounded-lg "
-              src={`http://localhost:4000/uploads${item.image.split(",")[0]}`}
+              src={item.image.split(",")[0]}
               alt=""
             />
             <div className="">
               <h4 className="font-semibold text-[2vh]  ">{item.name}</h4>
               <p className=" text-[2vh] ">
                 {item.number} x{" "}
-                <span className="text-dim-yellow">${item.price} </span>
+                <span className="text-dim-yellow">${item.price.toFixed(2)} </span>
               </p>
             </div>
             <span className="">
@@ -77,7 +77,7 @@ const CartModal = ({ onClose }) => {
         <p className="text-dim-yellow">
           ${cart
             .map((item) => item.price * item.number)
-            .reduce((partialSum, a) => partialSum + a, 0)}
+            .reduce((partialSum, a) => partialSum + a, 0).toFixed(2)}
         </p>
       </div>
 

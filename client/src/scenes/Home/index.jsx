@@ -30,7 +30,7 @@ const Home = ({user}) => {
       {
         isError && <ErrorBlock title='Something went wrong' message={error} />
       }
-      <HomeCarousel />
+      <HomeCarousel products={products?.products.sort(() => 0.5 - Math.random()).slice(0, 3)} />
       <Hashes />
     </div>
   );

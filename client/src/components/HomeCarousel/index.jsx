@@ -1,6 +1,6 @@
 import Swiper from "./Swiper/index";
 
-const HomeCarousel = () => {
+const HomeCarousel = ({products}) => {
   return (
     <div
       className="bg-secondary 
@@ -12,7 +12,7 @@ const HomeCarousel = () => {
           50+ Beautiful rooms inspiration
         </h4>
         <p className="pb-7 lg:pb-6  md:text-[3vh] text-[2vh] ">
-          Our designer already made a lot of beautiful prototipe of rooms that
+          Our designer already made a lot of beautiful prototype of rooms that
           inspire you
         </p>
         <button className="bg-dim-yellow text-white md:text-[3vh] text-[2vh]  font-semibold w-fit px-3 py-1 3xl:text-lg lg:px-5 lg:py-2 lg:w-[50%]">
@@ -22,7 +22,7 @@ const HomeCarousel = () => {
       </div>
 
       <div className="lg:w-[60%]">
-        <Swiper />
+       { products &&  <Swiper products={products} />}
       </div>
     </div>
   );

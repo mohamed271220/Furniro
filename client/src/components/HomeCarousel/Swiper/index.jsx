@@ -10,7 +10,10 @@ import Ex from "../../../assets/images/Ex.png";
 import "./index.css";
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
 import Line from "../../../assets/icons/Line";
-function SwiperComp() {
+import { useNavigate } from "react-router-dom";
+function SwiperComp({products}) {
+  const navigate=useNavigate()
+  console.log(products);
   return (
     <div className="container ">
       <Swiper
@@ -40,66 +43,33 @@ function SwiperComp() {
         ]}
         className="swiper_container"
       >
-        <SwiperSlide className="relative">
-        {({ isActive }) => (
-            <>
-              {isActive && (
-                <div className="absolute bottom-[10%] left-[9%]   flex flex-row items-end gap-0">
-                  <div className="box flex bg-white bg-opacity-75 p-[5vh] flex-col items-center">
-                    <p className="flex flex-row items-center justify-start">
-                      01 <Line /> Bed Room{" "}
-                    </p>
-                    <p className="font-semibold text-[3vh]">Inner Peace</p>
-                  </div>
-                  <div className="box bg-dim-yellow  p-[1vh] text-white">
-                    <AiOutlineArrowRight size="4vh" />
-                  </div>
-                </div>
-              )}
-              <img src={Ex} alt="slide_image" />
-            </>
-          )}
-        </SwiperSlide>
-        <SwiperSlide>
-          {({ isActive }) => (
-            <>
-              {isActive && (
-                <div className="absolute bottom-[10%] left-[9%]   flex flex-row items-end gap-0">
-                  <div className="box flex bg-white bg-opacity-75 p-[5vh] flex-col items-center">
-                    <p className="flex flex-row items-center justify-start">
-                      01 <Line /> Bed Room{" "}
-                    </p>
-                    <p className="font-semibold text-[3vh]">Inner Peace</p>
-                  </div>
-                  <div className="box bg-dim-yellow  p-[1vh] text-white">
-                    <AiOutlineArrowRight size="4vh" />
-                  </div>
-                </div>
-              )}
-              <img src={Ex} alt="slide_image" />
-            </>
-          )}
-        </SwiperSlide>
-        <SwiperSlide>
-        {({ isActive }) => (
-            <>
-              {isActive && (
-                <div className="absolute bottom-[10%] left-[9%]   flex flex-row items-end gap-0">
-                  <div className="box flex bg-white bg-opacity-75 p-[5vh] flex-col items-center">
-                    <p className="flex flex-row items-center justify-start">
-                      01 <Line /> Bed Room{" "}
-                    </p>
-                    <p className="font-semibold text-[3vh]">Inner Peace</p>
-                  </div>
-                  <div className="box bg-dim-yellow  p-[1vh] text-white">
-                    <AiOutlineArrowRight size="4vh" />
-                  </div>
-                </div>
-              )}
-              <img src={Ex} alt="slide_image" />
-            </>
-          )}
-        </SwiperSlide>
+{products.map((product, index) => (
+  <SwiperSlide className="relative" key={product.id}>
+    {({ isActive }) => (
+      <>
+        {isActive && (
+          <div
+            className="absolute bottom-[10%] left-[9%] flex flex-row items-end gap-0"
+            onClick={() => {
+              navigate();
+            }}
+          >
+            <div className="box flex bg-white bg-opacity-75 p-[5vh] flex-col items-center">
+              <p className="flex flex-row items-center justify-start">
+                {index + 1 < 10 ? `0${index + 1}` : index + 1} <Line /> {product.title}{" "}
+              </p>
+              <p className="font-semibold text-[3vh]">Inner Peace</p>
+            </div>
+            <div className="box bg-dim-yellow p-[1vh] text-white">
+              <AiOutlineArrowRight size="4vh" />
+            </div>
+          </div>
+        )}
+        <img src={product.images[0]} alt="slide_image" />
+      </>
+    )}
+  </SwiperSlide>
+))}
 
         <div className="slider-controler">
           <div className="swiper-button-prev slider-arrow">

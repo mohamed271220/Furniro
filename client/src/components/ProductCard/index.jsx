@@ -1,5 +1,6 @@
 import Compare from "../../assets/icons/Compare.jsx";
 import { AiOutlineHeart, AiOutlineShareAlt, AiFillPlusCircle } from "react-icons/ai";
+import {BiGitCompare} from 'react-icons/bi'
 import { Link } from "react-router-dom";
 
 import { useDispatch, useSelector } from 'react-redux'
@@ -32,11 +33,11 @@ const Card = ({ product, addItemToCartHandler, user }) => {
       <div >
         <div className="relative">
           <img src={product.images[0]} className="3xl:w-full w-[35vh] h-[45vh]" alt=" " />
-          <div onClick={compareHandler} className="absolute bottom-1 left-1 rounded-full h-7 w-7 bg-white bg-opacity-60 text-dim-yellow
-        flex items-center justify-center
+          <div onClick={compareHandler} className="lg:hidden absolute bottom-1 left-1 rounded-full h-10 w-10 bg-white bg-opacity-60 text-dim-yellow
+        flex items-center justify-center text-2xl  hover:bg-primary transition-all
         ">
             <span className="m-0">
-              <Compare color={"#B88E2F"} />
+              <BiGitCompare color={"#B88E2F"} />
             </span>
           </div>
           {user &&
@@ -48,8 +49,8 @@ const Card = ({ product, addItemToCartHandler, user }) => {
                 price: product.price,
                 sale: product.sale
               });
-            }} className="absolute bottom-1 right-1 rounded-full h-10 w-10 bg-white bg-opacity-60 text-dim-yellow
-        flex items-center justify-center text-2xl
+            }} className="lg:hidden absolute bottom-1 right-1 rounded-full h-10 w-10 bg-white bg-opacity-60 text-dim-yellow
+        flex items-center justify-center text-2xl hover:bg-primary transition-all
         ">
               <span className="m-0 ">
                 <AiFillPlusCircle color={"#B88E2F"} />
@@ -65,17 +66,17 @@ const Card = ({ product, addItemToCartHandler, user }) => {
           </p>
           <div className="flex flex-row justify-between text-gray-700 text-[1.5] ">
             <p className="font-semibold text-[3vh] text-black">
-              $ {product.price - product.price * product.sale}
+              $ {(product.price - product.price * product.sale).toFixed(2)}
             </p>
             <p className="text-[1.7vh]">
-              <s>$ {product.price}</s>
+              <s>$ {(product.price).toFixed()}</s>
             </p>
           </div>
         </div>
       </div>
 
       <div
-        className="h-full hidden md:flex flex-col justify-center items-center w-[35vh] absolute opacity-0  bg-slate-950/75 text-white bottom-0 transition-all
+        className="h-full hidden lg:flex flex-col justify-center items-center w-[35vh] absolute opacity-0  bg-slate-950/75 text-white bottom-0 transition-all
  hover:bottom-30 hover:h-220 hover:opacity-100 "
       >
         {user ? <button
@@ -113,7 +114,7 @@ const Card = ({ product, addItemToCartHandler, user }) => {
 
           <button onClick={compareHandler} className="flex justify-center items-center cursor-pointer flex-row gap-1">
             <span className="m-0">
-              <Compare />
+              <BiGitCompare />
             </span>
             Compare
           </button>

@@ -77,10 +77,9 @@ const Products = ({ products, home,user }) => {
           </h4>
         </div>
       )}
-      <div className="flex flex-wrap justify-center items-center  flex-row  gap-5 ">
+      <div className="flex flex-wrap justify-center items-start  flex-row  gap-5 ">
         {products?.map((product) => (
           <ProductCard
-
             key={product.title}
             product={product}
           user={user}

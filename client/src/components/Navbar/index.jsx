@@ -18,20 +18,20 @@ const Navbar = ({
     gap-[2vh] justify-between items-center padding-x py-3 "
     >
       <Link className=" cursor-pointer" to="/">
-        <img className="   w-[5rem] md:w-[10rem] lg:w-[15rem]" src={Logo} alt="logo" />
+        <img className=" max-w-[15rem]  w-[8rem] md:w-[10rem] lg:w-[15rem]" src={Logo} alt="logo" />
       </Link>
       <ul className="flex flex-row space-x-4">
         <li className="nav-text">
-          <NavLink className='text-[2vh] lg:text-[3vh]' to="/">Home</NavLink>
+          <NavLink className='text-[1vh]  lg:text-[3vh]' to="/">Home</NavLink>
         </li>
         <li className="nav-text">
-          <NavLink className='text-[2vh] lg:text-[3vh]' to="/shop">Shop</NavLink>
+          <NavLink className='text-[1vh]  lg:text-[3vh]' to="/shop">Shop</NavLink>
         </li>
         <li className="nav-text">
-          <NavLink className='text-[2vh] lg:text-[3vh]' to="/blog">Blog</NavLink>
+          <NavLink className='text-[1vh]  lg:text-[3vh]' to="/blog">Blog</NavLink>
         </li>
         <li className="nav-text">
-          <NavLink className='text-[2vh] lg:text-[3vh]' to="/contact">Contact</NavLink>
+          <NavLink className='text-[1vh]  lg:text-[3vh]' to="/contact">Contact</NavLink>
         </li>
       </ul>
       <div
