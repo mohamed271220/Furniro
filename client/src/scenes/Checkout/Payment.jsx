@@ -37,16 +37,19 @@ function Payment() {
     , []);
 
   return (
-    <>
-      <h1>Payment </h1>
-
+    <div
+      className=" flex flex-col justify-center items-center h-[700px]  bg-gradient-to-r from-primary to-secondary"
+    >
+      <h1 className="text-[3vh] font-semibold ">Payment methods</h1>
       {/* Elements provider allows to use comps and give access to resolve comp  !IMPORTANT */}
       {clientSecret && stripePromise && (
         <Elements stripe={stripePromise} options={{ clientSecret }}>
           <CheckoutForm />
         </Elements>
       )}
-    </>
+      <div className=" text-gray-400 font-semibold text-[1.2vh] ">This is a test version</div>
+
+    </div>
   );
 }
 

@@ -1,6 +1,7 @@
+import { Link } from "react-router-dom";
 import Swiper from "./Swiper/index";
 
-const HomeCarousel = ({products}) => {
+const HomeCarousel = ({ products }) => {
   return (
     <div
       className="bg-secondary 
@@ -15,14 +16,16 @@ const HomeCarousel = ({products}) => {
           Our designer already made a lot of beautiful prototype of rooms that
           inspire you
         </p>
-        <button className="bg-dim-yellow text-white md:text-[3vh] text-[2vh]  font-semibold w-fit px-3 py-1 3xl:text-lg lg:px-5 lg:py-2 lg:w-[50%]">
-          {" "}
-          Explore More
+        <button className="bg-dim-yellow text-white md:text-[2.2vh] text-[2vh]  font-semibold w-fit px-3 py-1 3xl:text-lg lg:px-5 lg:py-2 lg:w-[50%]">
+          <Link to='/shop'>
+
+            Explore More
+          </Link>
         </button>
       </div>
 
       <div className="lg:w-[60%]">
-       { products &&  <Swiper products={products} />}
+        {products && <Swiper products={products} />}
       </div>
     </div>
   );

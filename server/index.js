@@ -19,6 +19,9 @@ const { resolve } = require("path");
 const env = require("dotenv").config({ path: "./.env" });
 const { Storage } = require("@google-cloud/storage");
 const swagger = require('./swagger');
+const cron = require('node-cron');
+const retryFailedRequests = require('./retryFailedRequests');
+
 
 //routes
 const authRouter = require("./routes/Auth");
@@ -188,7 +191,11 @@ app.use((error, req, res, next) => {
   res.status(status).json({ message: message, data: data });
 });
 
+// Set up Swagger for documentation
 swagger(app);
+
+// Set up cron job for automating failed requests
+cron.schedule('0 * * * *', retryFailedRequests);
 
 
 mongoose

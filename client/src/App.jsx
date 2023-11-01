@@ -84,7 +84,7 @@ function App() {
         <Route
           path="/checkout"
           element={
-            user ? <Payment user={user} /> : <Navigate to="/entry" />
+            user || user?.data.cart ? <Payment user={user} /> : <Navigate to="/entry" />
           }
         />
         <Route

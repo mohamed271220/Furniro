@@ -1,14 +1,5 @@
-const Product = require("../models/Product");
-const Review = require("../models/Review");
 const User = require("../models/User");
-const Order = require("../models/Order");
 const Post = require("../models/BlogPost")
-const passport = require("passport");
-const mongoose = require("mongoose");
-const { validationResult } = require("express-validator");
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY, {
-    apiVersion: "2022-08-01",
-});
 
 //user
 
@@ -62,7 +53,7 @@ exports.postPost = async (req, res, next) => {
             }
             console.log(user);
             if (user.role === "customer") {
-                const error = new Error("You are not authorized");
+                const error = new Error("You are not authorized to post");
                 error.statusCode = 404;
                 next(error);
             }

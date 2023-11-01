@@ -1,6 +1,8 @@
 import { Link, NavLink } from "react-router-dom";
+
 import Logo from "../../assets/icons/LOGO.svg";
 import { AiOutlineSearch } from "react-icons/ai";
+
 import Dropdown from "./Dropdown";
 
 const Navbar = ({
@@ -11,27 +13,27 @@ const Navbar = ({
   compareQuantity = 0,
   handleStartAddNewChallenge,
 }) => {
- 
+
   return (
     <div
-      className="hidden w-full md:flex flex-row 
-    gap-[2vh] justify-between items-center padding-x py-3 "
+      className=" hidden w-full md:flex flex-row 
+    gap-[2vh] justify-between items-center px-[2vh] py-3  "
     >
       <Link className=" cursor-pointer" to="/">
         <img className=" max-w-[15rem]  w-[8rem] md:w-[10rem] lg:w-[15rem]" src={Logo} alt="logo" />
       </Link>
       <ul className="flex flex-row space-x-4">
         <li className="nav-text">
-          <NavLink className='text-[1vh]  lg:text-[3vh]' to="/">Home</NavLink>
+          <NavLink className='text-[1.4vh]   lg:text-[2.3vh]' to="/">Home</NavLink>
         </li>
         <li className="nav-text">
-          <NavLink className='text-[1vh]  lg:text-[3vh]' to="/shop">Shop</NavLink>
+          <NavLink className='text-[1.4vh] lg:text-[2.3vh]' to="/shop">Shop</NavLink>
         </li>
         <li className="nav-text">
-          <NavLink className='text-[1vh]  lg:text-[3vh]' to="/blog">Blog</NavLink>
+          <NavLink className='text-[1.4vh]  lg:text-[2.3vh]' to="/blog">Blog</NavLink>
         </li>
         <li className="nav-text">
-          <NavLink className='text-[1vh]  lg:text-[3vh]' to="/contact">Contact</NavLink>
+          <NavLink className='text-[1.4vh]  lg:text-[2.3vh]' to="/contact">Contact</NavLink>
         </li>
       </ul>
       <div

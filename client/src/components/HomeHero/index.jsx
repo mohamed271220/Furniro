@@ -3,7 +3,7 @@ import HomeHero from "../../assets/images/HomeHero.png";
 const Hero = () => {
   return (
     <section className="hero relative pb-4 z-20">
-      <img src={HomeHero} alt="hero" className="max-w:[100%] w-[200vh] h:[100%]" />
+      <img src={HomeHero} alt="hero" className="max-w:[100%] w-[210vh] h:[100%]" />
       <div className="flex flex-col justify-start  lg:absolute w-[100%]   lg:w-[40%] lg:top-[25%] lg:right-[15%]  py-12 bg-secondary ">
         <div className="flex flex-col px-5">
           <p className="font-semibold tracking-[1vh] text-[2vh] xl:text-lg pb-3">

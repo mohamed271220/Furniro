@@ -63,11 +63,13 @@ export default function CheckoutForm() {
     setIsProcessing(false);
   };
 
+  // TODO: add a confirm payment button and a cancel payment button
+
   return (
-    <form id="payment-form" onSubmit={handleSubmit}>
+    <form id="payment-form" onSubmit={handleSubmit} className="bg-white flex flex-col items-center justify-center gap-[2vh]">
       <PaymentElement id="payment-element" />
-      <button className="btn-3 !disabled:opacity-50 !disabled:cursor-not-allowed" disabled={  isProcessing || !stripe || !elements} id="submit">
-        <span id="button-text">
+      <button className="btn-3 !text-[1rem] !disabled:opacity-50 !disabled:cursor-not-allowed" disabled={  isProcessing || !stripe || !elements} id="submit">
+        <span className="m-0" id="button-text">
           {isProcessing ? "Processing ... " : "Pay now"}
         </span>
       </button>

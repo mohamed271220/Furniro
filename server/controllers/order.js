@@ -1,17 +1,15 @@
-
-const Product = require("../models/Product");
-const Review = require("../models/Review");
+const FailedRequest = require("../models/FailedRequest");
 const User = require("../models/User");
 const Order = require("../models/Order");
 const mongoose = require("mongoose");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY, {
     apiVersion: "2022-08-01",
-  });
-  
+});
 
 
 
-exports.paymentIntent = async (req, res) => {
+
+exports.paymentIntent = async (req, res, next) => {
     let products;
     let user;
     console.log(req.user);
@@ -20,6 +18,11 @@ exports.paymentIntent = async (req, res) => {
             user = await User.findOne({ googleId: req.user.id });
             // console.log(data);
             products = user.cart;
+            if (products.length === 0 || !products) {
+                const error = new Error("Cart is empty");
+                error.statusCode = 404;
+                return next(error);
+            }
             const total = products
                 .map((p) => p.price * p.number)
                 .reduce((acc, prod) => acc + prod, 0);
@@ -60,9 +63,6 @@ exports.makeOrder = async (req, res, next) => {
                 .map((p) => p.price * p.number)
                 .reduce((acc, prod) => acc + prod, 0);
             console.log(products);
-
-
-
             const sess = await mongoose.startSession();
             sess.startTransaction();
             const order = new Order({
@@ -81,9 +81,16 @@ exports.makeOrder = async (req, res, next) => {
             res.status(201).send({});
         }
     } catch (err) {
-        const error = new Error("Something went wrong , please try again later " + err);
-        error.statusCode = 404;
-        next(error);
+        console.log(err);
+        // Save the failed request for later retry
+        const failedRequest = new FailedRequest({
+            endpoint: '/makeOrder',
+            method: 'POST',
+            data: req.body,
+            error: err.message,
+        });
+        await failedRequest.save();
+        return res.status(500).json({ error: err.message });
     }
 };
 

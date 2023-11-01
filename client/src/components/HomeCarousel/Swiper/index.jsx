@@ -1,15 +1,15 @@
+import { EffectCoverflow, Pagination, Navigation } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
+
 import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-
-import { EffectCoverflow, Pagination, Navigation } from "swiper";
-import { EffectCards } from "swiper";
-import Ex from "../../../assets/images/Ex.png";
+import "swiper/css";
 import "./index.css";
+
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
 import Line from "../../../assets/icons/Line";
+
 import { useNavigate } from "react-router-dom";
 function SwiperComp({products}) {
   const navigate=useNavigate()
