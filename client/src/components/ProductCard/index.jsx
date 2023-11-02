@@ -60,12 +60,12 @@ const Card = ({ product, addItemToCartHandler, user }) => {
         </div>
 
         <div className="py-3 flex flex-col px-2 gap-2">
-          <h3 className="font-bold text-[3vh]">{product.title}</h3>
+          <h3 className=" text-[2.5vh]">{product.title}</h3>
           <p className="text-gray-700 font-semibold text-[2.5vh]">
             {product.ShortDescription}
           </p>
           <div className="flex flex-row justify-between text-gray-700 text-[1.5] ">
-            <p className="font-semibold text-[3vh] text-black">
+            <p className="font-semibold text-[2.5vh] text-black">
               $ {(product.price - product.price * product.sale).toFixed(2)}
             </p>
             <p className="text-[1.7vh]">

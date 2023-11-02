@@ -58,9 +58,22 @@ exports.postPost = async (req, res, next) => {
                 next(error);
             }
             // TODO: take parameters from req.body and complete the function
-            const postedBy = user.name
-            const { title, author, image, tag, body } = req.body
+            const postedBy = user.username;
+       
+            const { title, author, image, tag, body } = req.body;
             console.log(title, author, image, tag, body);
+
+            const post = new Post({
+                title,
+                author,
+                image,
+                tag,
+                body: JSON.parse(body),
+                postedBy
+            });
+            await post.save();
+            res.status(201).json({ message: "Post created successfully", post });
+
         }
     } catch (err) {
         if (!err.statusCode) {

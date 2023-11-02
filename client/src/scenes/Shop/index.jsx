@@ -20,7 +20,7 @@ const Shop = ({ user }) => {
   console.log(data);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [productsPerPage, setProductPerPage] = useState(6);
+  const [productsPerPage, setProductPerPage] = useState(8);
   const indexOfLastProduct = currentPage * productsPerPage;
   const firstIndexOfProduct = indexOfLastProduct - productsPerPage;
   const records = data?.products?.slice(firstIndexOfProduct, indexOfLastProduct) || [];

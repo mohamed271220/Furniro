@@ -16,7 +16,10 @@ import "react-toastify/dist/ReactToastify.css";
 const productSchema = yup.object().shape({
   name: yup.string().required("Name is required"),
   price: yup.number().required("Price is required"),
-  sale: yup.number().required("Sale is required"),
+  sale: yup.number()
+    .min(0.01, "Sale must be at least 0.01")
+    .max(0.99, "Sale must be at most 0.99")
+    .required("Sale is required"),
   images: yup.array().required("Images is required"),
   sizeOptions: yup
     .array()
@@ -236,6 +239,7 @@ const AddProduct = () => {
                     type="text"
                     name="name"
                     id="name"
+                    placeholder="Enter the name of the product"
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.name}
@@ -252,6 +256,8 @@ const AddProduct = () => {
                     type="number"
                     name="price"
                     id="price"
+                    placeholder="Enter the price(minimum 20)"
+                    min="20"
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.price}
@@ -268,6 +274,10 @@ const AddProduct = () => {
                     type="number"
                     name="sale"
                     id="sale"
+                    min="0.00"
+                    max="0.99"
+                    step="0.01"
+                    placeholder="Enter the sale(minimum 0.00 for no sale and maximum 0.99 for 99% sale)"
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.sale}
@@ -300,6 +310,7 @@ const AddProduct = () => {
                               <Field
                                 type="text"
                                 name={`sizeOptions.${i}.size`}
+                                placeholder="Enter the size of the product (eg: sm,md,lg,xl)"
                                 className={
                                   "form-control" +
                                   (sizeErrors.name && sizeTouched.name
@@ -356,8 +367,10 @@ const AddProduct = () => {
                             <div className="inner-div" key={index}>
                               <label htmlFor={`Tags.${index}.tag`}>tag</label>
                               <Field
+
                                 type="text"
                                 name={`Tags.${index}.tag`}
+                                placeholder="Enter the tag of the product (eg: new,hot)"
                                 id="tag"
                                 className={
                                   "form-control" +
@@ -405,6 +418,7 @@ const AddProduct = () => {
                   <textarea
                     name="shortDescription"
                     id="shortDescription"
+                    placeholder="Enter the short description of the product"
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.shortDescription}
@@ -444,6 +458,7 @@ const AddProduct = () => {
                               <Field
                                 as="textarea"
                                 type="text"
+                                placeholder="Enter detailed paragraphs of the product"
                                 name={`description.${index}.paragraph`}
                                 className={
                                   "form-control" +
@@ -485,10 +500,11 @@ const AddProduct = () => {
                   </FieldArray>
                 </div>
                 <div className="form-control-input">
-                  <label htmlFor="salesPackage">salesPackage</label>
+                  <label htmlFor="salesPackage">Sales package</label>
                   <textarea
                     name="salesPackage"
                     id="salesPackage"
+                    placeholder="Enter what's in the package of the product"
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.salesPackage}
@@ -504,10 +520,11 @@ const AddProduct = () => {
                 </div>
 
                 <div className="form-control-input">
-                  <label htmlFor="modal">modal</label>
+                  <label htmlFor="modal">Modal</label>
                   <input
                     type="text"
                     name="modal"
+                    placeholder="Enter the modal of the product"
                     id="modal"
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -520,11 +537,12 @@ const AddProduct = () => {
                 </div>
 
                 <div className="form-control-input">
-                  <label htmlFor="secondaryMat">secondaryMat</label>
+                  <label htmlFor="secondaryMat">Secondary material</label>
                   <input
                     type="text"
                     name="secondaryMat"
                     id="secondaryMat"
+                    placeholder="Enter the secondary material of the product"
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.secondaryMat}
@@ -544,6 +562,7 @@ const AddProduct = () => {
                   <input
                     type="text"
                     name="config"
+                    placeholder="Enter the configuration of the product"
                     id="config"
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -570,17 +589,22 @@ const AddProduct = () => {
                           return (
                             <div key={index} className="inner-div">
                               <label htmlFor={`color.${index}.c`}>color</label>
+                            <div className="flex flex-col !mt-0 !gap-0 justify-center bg-white text-[2vh] rounded text-gray-300">
+                            <span className="m-0 ">Code</span>
                               <Field
-                                type="text"
+                                type="color"
                                 name={`color.${index}.c`}
                                 id="c"
+                                
                                 className={
-                                  "form-control" +
+                                  "!m-0  appearance-none w-[10vh] h-[10vh] border border-gray-300 rounded-full" +
                                   (colorErrors.c && colorTouched.c
                                     ? " is-invalid"
                                     : "")
                                 }
                               />
+                            </div>
+                            
                               <ErrorMessage
                                 name={`color.${index}.c`}
                                 component="div"
@@ -614,11 +638,12 @@ const AddProduct = () => {
                 </div>
 
                 <div className="form-control-input">
-                  <label htmlFor="fillingMat">fillingMat</label>
+                  <label htmlFor="fillingMat">filling material</label>
                   <input
                     type="text"
                     name="fillingMat"
                     id="fillingMat"
+                    placeholder="Enter the filling material of the product"
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.fillingMat}
@@ -639,6 +664,8 @@ const AddProduct = () => {
                     type="text"
                     name="load"
                     id="load"
+                    placeholder="Enter the load of the product in KG"
+                    min={0}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.load}
@@ -655,6 +682,7 @@ const AddProduct = () => {
                     type="text"
                     name="origin"
                     id="origin"
+                    placeholder="Enter the origin of the product (eg: Egypt)"
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.origin}
@@ -671,6 +699,8 @@ const AddProduct = () => {
                     type="number"
                     name="width"
                     id="width"
+                    placeholder="Enter the width of the product in cm"
+                    min='0'
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.width}
@@ -687,6 +717,8 @@ const AddProduct = () => {
                     type="number"
                     name="height"
                     id="height"
+                    min='0'
+                    placeholder="Enter the height of the product in cm"
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.height}
@@ -703,6 +735,8 @@ const AddProduct = () => {
                     type="number"
                     name="depth"
                     id="depth"
+                    min='0'
+                    placeholder="Enter the depth of the product in cm"
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.depth}
@@ -718,7 +752,9 @@ const AddProduct = () => {
                   <input
                     type="number"
                     name="weight"
+                    min='0'
                     id="weight"
+                    placeholder="Enter the weight of the product in KG"
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.weight}
@@ -730,11 +766,13 @@ const AddProduct = () => {
                 </div>
 
                 <div className="form-control-input">
-                  <label htmlFor="seatHeight">seatHeight</label>
+                  <label htmlFor="seatHeight">seat height</label>
                   <input
                     type="number"
                     name="seatHeight"
                     id="seatHeight"
+                    min='0'
+                    placeholder="Enter the seat height of the product in cm"
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.seatHeight}
@@ -750,10 +788,12 @@ const AddProduct = () => {
                 </div>
 
                 <div className="form-control-input">
-                  <label htmlFor="legHeight">legHeight</label>
+                  <label htmlFor="legHeight">leg height</label>
                   <input
                     type="number"
                     name="legHeight"
+                    min='0'
+                    placeholder="Enter the leg height of the product in cm"
                     id="legHeight"
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -863,9 +903,9 @@ const AddProduct = () => {
               </div>
             </div>
             <button
-            disabled={isLoading
-            }
-             className="btn-3 bg-[#fdd49e]" type="submit">
+              disabled={isLoading
+              }
+              className="btn-3 bg-[#fdd49e]" type="submit">
               Submit
             </button>
           </form>

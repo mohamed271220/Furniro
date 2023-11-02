@@ -1,17 +1,18 @@
 import { Formik, Form, FieldArray, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Banner from "../../components/Banner";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+import Banner from "../../components/Banner";
 
 const blogPostSchema = Yup.object().shape({
     title: Yup.string().required("Title is required"),
     author: Yup.string().required("Author is required"),
-    image: Yup.string().required("Image URL is required"),
     tag: Yup.string().required("Tag is required"),
+    image: Yup.string(),
     body: Yup.array().of(
         Yup.object().shape({
             type: Yup.string().oneOf(["title", "paragraph", "image"]).required(),
@@ -34,6 +35,8 @@ const BlogPostForm = () => {
     const navigate = useNavigate();
     console.log(addedPhotos);
     const [isLoading, setIsLoading] = useState(false);
+    const setFieldValueRef = useRef();
+
     const config = {
         position: "top-center",
         autoClose: 2000,
@@ -50,26 +53,23 @@ const BlogPostForm = () => {
         const data = new FormData();
         data.append("photos", file[0]);
         axios
-            .post("/upload", data, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-            })
-            .then((response) => {
-                // console.log(response);
-                const { data: filename } = response;
-                // console.log(filenames);
-
-                setAddedPhotos(filename)
-
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-        setIsLoading(false);
-    }
+          .post("/upload", data, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          })
+          .then((response) => {
+            const { data: filename } = response;
+            setFieldValueRef.current('image', filename[0]); // Use the setFieldValue function
+            setAddedPhotos(filename[0])
+            setIsLoading(false);
+          })
+          .catch((error) => {
+            console.log(error);
+            setIsLoading(false);
+          });
+      }
     function removePhoto() {
-
         setIsLoading(true);
         setAddedPhotos('');
         setIsLoading(false);
@@ -77,19 +77,17 @@ const BlogPostForm = () => {
 
     const formSubmitHandler = async (values, onSubmitProps) => {
         const id = toast.loading("Please wait...");
+        console.log(values);
         try {
             const formData = new FormData();
             formData.append("title", values.title);
             formData.append("author", values.author);
             formData.append("image", values.image);
-            formData.append("tag", values.Tag);
-            values.body.forEach((section, index) => {
-                formData.append(`body[${index}][type]`, section.type);
-                formData.append(`body[${index}][content]`, section.content);
-            });
+            formData.append("tag", values.tag);
+            formData.append("body", JSON.stringify(values.body)); // Stringify the body
             setIsLoading(true);
 
-            const response = await axios.post("/api/blog-posts", formData, {});
+            const response = await axios.post("/post", formData, {});
             if (response) {
 
                 toast.update(id, {
@@ -105,7 +103,7 @@ const BlogPostForm = () => {
             navigate("/");
             onSubmitProps.resetForm();
             console.log(response.data);
-            
+
         } catch (error) {
             toast.update(id, {
                 render: "Failed to add post.",
@@ -113,7 +111,7 @@ const BlogPostForm = () => {
                 isLoading: false,
                 ...config,
             });
-         
+
         }
     };
 
@@ -126,9 +124,12 @@ const BlogPostForm = () => {
                 onSubmit={formSubmitHandler}
             >
                 {({ values, errors, touched, handleSubmit, isSubmitting
-                    , handleBlur,
-                    handleChange }) => (
-                    <Form
+                    , handleBlur, setFieldValue,
+                    handleChange }) => {
+                          // Store a reference to the setFieldValue function
+                          console.log(errors);
+          setFieldValueRef.current = setFieldValue;
+                    return <Form
                         onSubmit={handleSubmit}
                         encType="multipart/form-data"
                         method="POST"
@@ -137,19 +138,19 @@ const BlogPostForm = () => {
                         <div className="form-control">
                             <div className="form-control-input">
                                 <label htmlFor="title">Title</label>
-                                <Field type="text" name="title" />
+                                <Field type="text" name="title" placeholder="Write an attractive title." />
                                 <ErrorMessage name="title" component="div"
                                     className="invalid-feedback" />
                             </div>
                             <div className="form-control-input">
                                 <label htmlFor="author">Author</label>
-                                <Field type="text" name="author" />
+                                <Field type="text" name="author" placeholder="What is the name you want to appear with?" />
                                 <ErrorMessage name="author" component="div"
                                     className="invalid-feedback" />
                             </div>
                             <div className="form-control-input">
                                 <label htmlFor="tag">Tag</label>
-                                <Field type="text" name="tag" />
+                                <Field type="text" name="tag" placeholder="Put a relevant tag." />
                                 <ErrorMessage name="tag" component="div"
                                     className="invalid-feedback" />
                             </div>
@@ -233,10 +234,13 @@ const BlogPostForm = () => {
                                                                 "form-control w-full  p-3 bg-primary" +
                                                                 (sectionErrors.type && sectionTouched.type ? " is-invalid" : "")
                                                             }
-                                                            onChange={()=>{
-                                                                console.log(values.body)
+                                                            onChange={(e) => {
+                                                                handleChange(e);
+                                                                if (e.target.value !== "image") {
+                                                                    setFieldValue(`body.${index}.content`, "");
+                                                                }
                                                             }}
-                                                         
+
                                                         >
                                                             <option className="p-1" value="title">Title</option>
                                                             <option className="p-1" value="paragraph">Paragraph</option>
@@ -252,6 +256,7 @@ const BlogPostForm = () => {
                                                                     as="input"
                                                                     type="text"
                                                                     name={`body.${index}.content`}
+                                                                    placeholder="https://example.com/image.jpg"
                                                                     className={
                                                                         "form-control w-full" +
                                                                         (sectionErrors.content && sectionTouched.content
@@ -259,11 +264,13 @@ const BlogPostForm = () => {
                                                                             : "")
                                                                     }
                                                                     validate={(value) => {
-                                                                        if (!value) {
-                                                                            return "Image URL is required";
-                                                                        }
-                                                                        if (!/^https?:\/\/.+/.test(value)) {
-                                                                            return "Invalid URL";
+                                                                        if (values.body[index].type === "image") {
+                                                                            if (!value) {
+                                                                                return "Image URL is required";
+                                                                            }
+                                                                            if (!/^https?:\/\/.+/.test(value)) {
+                                                                                return "Invalid URL";
+                                                                            }
                                                                         }
                                                                         return undefined;
                                                                     }}
@@ -308,6 +315,7 @@ const BlogPostForm = () => {
                                                                 <Field
                                                                     as="textarea"
                                                                     name={`body.${index}.content`}
+                                                                    placeholder="Write something..."
                                                                     className={
                                                                         "form-control w-full" +
                                                                         (sectionErrors.content && sectionTouched.content
@@ -341,12 +349,12 @@ const BlogPostForm = () => {
                             </div>
 
                         </div>
-                        <button type="submit" disabled={isSubmitting || isLoading}
+                        <button type="submit" disabled={!addedPhotos||isSubmitting || Object.keys(errors).length !== 0  || isLoading}
                             className="btn-3 bg-[#fdd49e]" >
                             Submit
                         </button>
                     </Form>
-                )}
+                    }}
             </Formik>
             <ToastContainer
                 position="top-center"

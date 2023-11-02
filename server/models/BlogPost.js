@@ -30,16 +30,20 @@ const blogPostSchema = mongoose.Schema(
     tag: {
       type: String,
     },
+    postedBy: {
+      type: String,
+      required: true,
+    },
 
     comments: [
       {
         author: {
           type: String,
-          required: true,
+
         },
         body: {
           type: String,
-          required: true,
+
         },
         createdAt: {
           type: Date,
