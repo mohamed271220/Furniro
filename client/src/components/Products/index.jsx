@@ -7,7 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-const Products = ({ products, home,user }) => {
+const Products = ({ products, home, user }) => {
   const dispatch = useDispatch();
   const [total, setTotal] = useState(0);
   console.log(products);
@@ -82,14 +82,14 @@ const Products = ({ products, home,user }) => {
           <ProductCard
             key={product.title}
             product={product}
-          user={user}
+            user={user}
             addItemToCartHandler={addItemToCartHandler}
           />
         ))}
       </div>
       {home && (
         <Link
-        to="/shop"
+          to="/shop"
           className=" border-dim-yellow border-2 text-dim-yellow text-center
       font-semibold text-[3vh] lg:text-[3vh] 2xl:text-3xl 
       py-[2vh] px-[7vh]  mt-[4vh]

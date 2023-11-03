@@ -43,10 +43,10 @@ const Footer = () => {
                 <a href="">Payment Options</a>
               </li>
               <li>
-                <a href="">Payment Options</a>
+                <a href="">Returns</a>
               </li>
               <li>
-                <a href="">Payment Options</a>
+                <a href="">Privacy Policies</a>
               </li>
             </ul>
           </div>
