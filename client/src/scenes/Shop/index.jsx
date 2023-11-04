@@ -6,6 +6,8 @@ import { useQuery } from "@tanstack/react-query";
 import { getProducts } from "../../constants/Http";
 import ErrorBlock from "../../components/ErrorBlock";
 import LoadingSkeleton from "../../constants/Loading/SkeletonTwo/Skeleton";
+import Pagination from "../../components/Pagination";
+import { usePagination } from "../../hooks/usePagination";
 
 
 
@@ -16,32 +18,22 @@ const Shop = ({ user }) => {
   });
 
 
+  const {
+    currentPage,
+    itemsPerPage,
+    setItemsPerPage,
+    getPaginatedData,
+    getPageNumbers,
+    goToPreviousPage,
+    goToPage,
+    goToNextPage,
+  } = usePagination(1, 8);
 
-  console.log(data);
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const [productsPerPage, setProductPerPage] = useState(8);
-  const indexOfLastProduct = currentPage * productsPerPage;
-  const firstIndexOfProduct = indexOfLastProduct - productsPerPage;
-  const records = data?.products?.slice(firstIndexOfProduct, indexOfLastProduct) || [];
-  const nPage = Math.ceil(data?.products?.length / productsPerPage) || 0;
-  const numbers = [...Array(nPage + 1).keys()].slice(1);
-  console.log(numbers);
+  const records = getPaginatedData(data?.products || []);
+  const numbers = getPageNumbers(data?.products?.length || 0);
 
 
-  const prePage = () => {
-    if (currentPage !== firstIndexOfProduct) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
-  const changePage = (n) => {
-    setCurrentPage(n);
-  };
-  const nextPage = () => {
-    if (currentPage !== nPage) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
+
 
 
 
@@ -58,8 +50,8 @@ const Shop = ({ user }) => {
           <div className="flex flex-row gap-[2vh]">
             <p>Show</p>
             <select onChange={(e) => {
-              setProductPerPage(e.target.value)
-              setCurrentPage(1)
+              setItemsPerPage(e.target.value)
+              goToNextPage(1)
 
             }}>
               <option>8</option>
@@ -85,34 +77,14 @@ const Shop = ({ user }) => {
           {
             isError && <ErrorBlock title='Something went wrong' message={error} />
           }
-
-          <div className="pagination flex  justify-center">
-            <ul className="flex flex-row flex-wrap justify-center w-[80%] items-center gap-[2.5vh]">
-              {currentPage === 1 ? <li className="hidden"></li> : <li className="bg-secondary  px-[2vh] py-[1vh]  text-[3vh] font-semibold rounded-[3px]">
-                <a href="#" onClick={prePage}>
-                  Previous
-                </a>
-              </li>}
-              {numbers.map((number, index) => (
-                <li
-                  className={`${currentPage === number
-                    ? "bg-dim-yellow text-white px-[2vh] py-[1vh] text-[3vh] font-semibold rounded-[3px]"
-                    : " bg-secondary px-[2vh] py-[1vh] text-[3vh] font-semibold rounded-[3px]"
-                    }`}
-                  key={index}
-                >
-                  <a href="#" onClick={() => changePage(number)}>
-                    {number}
-                  </a>
-                </li>
-              ))}
-              {currentPage === nPage ? <li className="hidden"></li> : <li className="bg-secondary px-[2vh] py-[1vh]  text-[3vh] font-semibold rounded-[3px]">
-                <a href="#" onClick={nextPage}>
-                  Next
-                </a>
-              </li>}
-            </ul>
-          </div>
+          <Pagination
+            numbers={numbers}
+            currentPage={currentPage}
+            changePage={goToPage}
+            prePage={goToPreviousPage}
+            nextPage={() => goToNextPage(data?.products?.length || 0)}
+            nPage={numbers.length}
+          />
         </div>
       </div>
       <CertiBanner />

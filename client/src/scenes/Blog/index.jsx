@@ -6,6 +6,8 @@ import { useRef, useState } from "react"
 import LoadingSpinner from "../../constants/Loading/LoadingSpinner/LoadingSpinner"
 import ErrorBlock from "../../components/ErrorBlock"
 import Posts from "../../components/Posts"
+import Pagination from "../../components/Pagination"
+import { usePagination } from "../../hooks/usePagination"
 
 const Blog = () => {
   const searchElement = useRef();
@@ -15,29 +17,23 @@ const Blog = () => {
     queryFn: ({ signal }) => getPosts({ signal, searchTerm: search })
   })
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage, setPostPerPage] = useState(8);
-  const indexOfLastPost = currentPage * postsPerPage;
-  const firstIndexOfPost = indexOfLastPost - postsPerPage;
-  const records = data?.posts?.slice(firstIndexOfPost, indexOfLastPost) || [];
-  const nPage = Math.ceil(data?.posts?.length / postsPerPage) || 0;
-  const numbers = [...Array(nPage + 1).keys()].slice(1);
+  const {
+    currentPage,
+    itemsPerPage,
+    setItemsPerPage,
+    getPaginatedData,
+    getPageNumbers,
+    goToPreviousPage,
+    goToPage,
+    goToNextPage,
+  } = usePagination(1, 8);
 
+  const records = getPaginatedData(data?.posts || []);
+  const numbers = getPageNumbers(data?.posts?.length || 0);
 
-  const prePage = () => {
-    if (currentPage !== firstIndexOfPost) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
-  const changePage = (n) => {
-    setCurrentPage(n);
-  };
-  const nextPage = () => {
-    if (currentPage !== nPage) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
-
+  if (records) {
+    console.log(records);
+  }
 
 
   function handleSearchSubmit(event) {
@@ -75,16 +71,24 @@ const Blog = () => {
 
       {/* blog made into two columns */}
 
-      <div className="flex flex-col gap-3 justify-center items-center 
-      bg-[#f2f2f2] p-5 rounded-lg shadow-lg md:flex-row md:gap-0 md:justify-between md:items-center md:p-10 
-      lg:p-20 xl:p-40 2xl:p-60 
-      
+      <div className="flex flex-col gap-[2vh] items-start  w-full
+      bg-[#f2f2f2] p-5 rounded-lg shadow-lg 
+       md:flex-row  
       ">
-        <div className="w-[70%] bg-[#f2f2f2] p-5 rounded-lg shadow-lg md:w-[60%] lg:w-[50%] xl:w-[40%] 2xl:w-[30%] 
+        <div className="w-full md:w-[70%] bg-[#f2f2f2] p-5 rounded-lg shadow-lg  
+        flex flex-col justify-center items-center
         ">
           {content}
+          <Pagination
+            numbers={numbers}
+            currentPage={currentPage}
+            changePage={goToPage}
+            prePage={goToPreviousPage}
+            nextPage={() => goToNextPage(data?.products?.length || 0)}
+            nPage={numbers.length}
+          />
         </div>
-        <div className="w-[30%] bg-[#f2f2f2] p-5 rounded-lg shadow-lg md:w-[40%] lg:w-[30%] xl:w-[20%] 2xl:w-[10%] 
+        <div className=" w-full md:w-[30%] bg-[#f2f2f2] p-5 rounded-lg shadow-lg   
         " >
           <form onSubmit={handleSearchSubmit} id="search-form">
             <input

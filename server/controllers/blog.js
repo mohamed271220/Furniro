@@ -6,7 +6,6 @@ const Post = require("../models/BlogPost")
 exports.getPosts = async (req, res, next) => {
     const { tag, search } = req.query;
     try {
-
         if (tag && search) {
             const posts = await Post.find({
                 title: { $regex: search, $options: "i" },
@@ -31,6 +30,7 @@ exports.getPosts = async (req, res, next) => {
 
 
     } catch (err) {
+        console.log(err);
         if (!err.statusCode) {
             err.statusCode = 500;
         }
@@ -59,7 +59,7 @@ exports.postPost = async (req, res, next) => {
             }
             // TODO: take parameters from req.body and complete the function
             const postedBy = user.username;
-       
+
             const { title, author, image, tag, body } = req.body;
             console.log(title, author, image, tag, body);
 

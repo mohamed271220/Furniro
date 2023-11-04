@@ -11,6 +11,6 @@ const { resolve } = require("path");
 router.use(express.static(process.env.STATIC_DIR));
 
 
-router.get("/", blogController.getPosts)
+router.get("/all", blogController.getPosts)
 router.post("/", fileUpload.array("images", 4), blogController.postPost)
 module.exports = router;

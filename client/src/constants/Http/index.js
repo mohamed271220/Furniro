@@ -48,7 +48,7 @@ export async function getProductById({ signal, id }) {
 
 }
 export async function getPosts({ signal, searchTerm, tag }) {
-  let url = "http://localhost:4000/post";
+  let url = "http://localhost:4000/post/all";
 
   if (searchTerm && tag) {
     url += "?search=" + searchTerm + "&tag=" + tag;
@@ -61,7 +61,7 @@ export async function getPosts({ signal, searchTerm, tag }) {
   }
   const response = await fetch(url, { signal });
   if (!response.ok) {
-    const error = new Error("An error occurred while fetching the events");
+    const error = new Error("An error occurred while fetching the posts");
     error.code = response.status;
     error.info = await response.json();
     throw error;
