@@ -3,9 +3,8 @@ import PostCard from '../PostCard'
 
 const Posts = ({ posts }) => {
     return (
-        <section className=" md:py-[56px] py-[37px] md:px-[121px] px-[4vh] flex flex-col gap-3 justify-center items-center">
-
-            <div className="flex flex-wrap justify-center items-start  flex-row  gap-5 ">
+        <section className=" md:pb-[56px] pb-[37px]   flex flex-col gap-3 justify-center items-center w-full">
+            <div className="flex flex-col justify-center items-start gap-[5vh]  w-full ">
                 {posts.map((post) => (
                     <PostCard key={post.id} post={post} />
                 ))}

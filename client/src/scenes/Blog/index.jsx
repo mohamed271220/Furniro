@@ -67,15 +67,14 @@ const Blog = () => {
   return (
     <div>
       <Banner title={'Blog'} />
-
-
       {/* blog made into two columns */}
 
       <div className="flex flex-col gap-[2vh] items-start  w-full
-      bg-[#f2f2f2] p-5 rounded-lg shadow-lg 
+       p-5 rounded-lg shadow-lg 
        md:flex-row  
+       px-[4vh] md:px-[121px]
       ">
-        <div className="w-full md:w-[70%] bg-[#f2f2f2] p-5 rounded-lg shadow-lg  
+        <div className="w-full md:w-[70%] p-5 rounded-lg  
         flex flex-col justify-center items-center
         ">
           {content}
@@ -88,7 +87,7 @@ const Blog = () => {
             nPage={numbers.length}
           />
         </div>
-        <div className=" w-full md:w-[30%] bg-[#f2f2f2] p-5 rounded-lg shadow-lg   
+        <div className=" w-full md:w-[30%]  p-5 rounded-lg   
         " >
           <form onSubmit={handleSearchSubmit} id="search-form">
             <input
