@@ -57,6 +57,10 @@ exports.postPost = async (req, res, next) => {
                 error.statusCode = 404;
                 next(error);
             }
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return res.status(400).json({ errors: errors.array() });
+            }
             // TODO: take parameters from req.body and complete the function
             const postedBy = user.username;
 

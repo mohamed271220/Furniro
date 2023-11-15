@@ -7,24 +7,27 @@ const mongoose = require("mongoose");
 const { validationResult } = require("express-validator");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY, {
     apiVersion: "2022-08-01",
-  });
-  
+});
+
 exports.addProduct = async (req, res, next) => {
+
     try {
         if (req.user) {
-            // console.log(req.user);
             const user = await User.findOne({ googleId: req.user.id });
-
             if (!user) {
                 const error = new Error("User not found");
                 error.statusCode = 404;
-                next(error);
+                return next(error);
             }
             console.log(user);
             if (user.role === "customer") {
                 const error = new Error("You are not authorized");
                 error.statusCode = 404;
-                next(error);
+                return next(error);
+            }
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return res.status(400).json({ errors: errors.array() });
             }
 
             const {
@@ -121,6 +124,10 @@ exports.editProduct = async (req, res, next) => {
                 const error = new Error("You are not authorized");
                 error.statusCode = 404;
                 next(error);
+            }
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return res.status(400).json({ errors: errors.array() });
             }
 
             const {
@@ -283,6 +290,11 @@ exports.updateOrder = async (req, res, next) => {
         error.statusCode = 404;
         return next(error);
     } else {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
         const orderId = req.params.orderId;
         const { status } = req.body;
         try {

@@ -184,8 +184,6 @@ exports.removeFromCart = async (req, res, next) => {
 };
 
 
-
-
 exports.getCart = async (req, res, next) => {
     try {
 
