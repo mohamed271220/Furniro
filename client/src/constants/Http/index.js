@@ -47,19 +47,22 @@ export async function getProductById({ signal, id }) {
   return data;
 
 }
-export async function getPosts({ signal, searchTerm, tag }) {
-  let url = "http://localhost:4000/post/all";
+export async function getPosts({ signal, searchTerm, tag, limit }) {
+  let url = new URL("http://localhost:4000/post/all");
 
-  if (searchTerm && tag) {
-    url += "?search=" + searchTerm + "&tag=" + tag;
+  if (searchTerm) {
+    url.searchParams.append('search', searchTerm);
   }
-  else if (searchTerm) {
-    url += "?search=" + searchTerm;
+
+  if (tag) {
+    url.searchParams.append('tag', tag);
   }
-  else if (tag) {
-    url += "?tag=" + tag;
+
+  if (limit) {
+    url.searchParams.append('limit', limit);
+
   }
-  const response = await fetch(url, { signal });
+  const response = await fetch(url.toString(), { signal });
   if (!response.ok) {
     const error = new Error("An error occurred while fetching the posts");
     error.code = response.status;
@@ -69,6 +72,5 @@ export async function getPosts({ signal, searchTerm, tag }) {
   const data = await response.json();
   return data;
 }
-
 
 

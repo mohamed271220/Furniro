@@ -8,9 +8,9 @@ import { useQuery } from "@tanstack/react-query";
 import { getProducts } from "../../constants/Http";
 import LoadingSpinner from "../../constants/Loading/LoadingSpinner/LoadingSpinner"
 import ErrorBlock from "../../components/ErrorBlock";
-const Home = ({user}) => {
+const Home = ({ user }) => {
 
-  const { data: products, isPending,  isError, error } = useQuery({
+  const { data: products, isPending, isError, error } = useQuery({
     queryKey: ["products"],
     queryFn: ({ signal }) => getProducts({ signal, max: 8 }),
   });
@@ -23,12 +23,12 @@ const Home = ({user}) => {
     >
       <HomeHero />
       <HomeCategories />
-      {isPending ? <LoadingSpinner />
+      {isPending && !isError ? <LoadingSpinner />
         :
         <Products home={true} products={products?.products} user={user} />
       }
       {
-        isError && <ErrorBlock title='Something went wrong' message={error} />
+        isError && !isPending && <ErrorBlock title='Something went wrong' message={error} />
       }
       <HomeCarousel products={products?.products.sort(() => 0.5 - Math.random()).slice(0, 3)} />
       <Hashes />

@@ -3,39 +3,29 @@ const Post = require("../models/BlogPost")
 
 //user
 
-exports.getPosts = async (req, res, next) => {
-    const { tag, search } = req.query;
-    try {
-        if (tag && search) {
-            const posts = await Post.find({
-                title: { $regex: search, $options: "i" },
-                tag
-            });
-            res.status(200).json({ posts });
-        }
-        else if (tag) {
-            const posts = await Post.find({ tag })
-            res.status(200).json({ posts })
 
-        } else if (search) {
-            const posts = await Post.find({
-                title: { $regex: search, $options: "i" },
-            });
-            res.status(200).json({ posts });
-        }
-        else {
-            const posts = await Post.find()
-            res.status(200).json({ posts })
-        }
-
-
-    } catch (err) {
-        console.log(err);
-        if (!err.statusCode) {
+    exports.getPosts = async (req, res, next) => {
+        const { tag, search, limit } = req.query;
+        try {
+          let query = {};
+          if (tag) {
+            query.tag = tag;
+          }
+          if (search) {
+            query.title = { $regex: search, $options: "i" };
+          }
+          let posts = await Post.find(query);
+          if (limit) {
+            posts = posts.slice(0, limit);
+          }
+          res.status(200).json({ posts });
+        } catch (err) {
+          console.log(err);
+          if (!err.statusCode) {
             err.statusCode = 500;
+          }
+          next(err);
         }
-        next(err);
-    }
 }
 
 
