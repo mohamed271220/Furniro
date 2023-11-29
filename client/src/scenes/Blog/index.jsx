@@ -19,7 +19,7 @@ const Blog = () => {
   })
   const [newestPosts, setNewestPosts] = useState(null);
   const { data: newestData, isError: newestError, isPending: newestIsPending, error: newestErrorInfo, refetch: newestRefetch } = useQuery({
-    queryKey: ['newestPosts'], queryFn: ({ signal }) => getPosts({ signal, limit: 2 })
+    queryKey: ['newestPosts'], queryFn: ({ signal }) => getPosts({ signal, limit: 5 })
   });
   console.log(newestData);
 
@@ -48,6 +48,7 @@ const Blog = () => {
     event.preventDefault();
     const searchTerm = searchElement.current.value;
     setSearch(searchTerm);
+    goToPage(1);
     refetch();
   }
 
@@ -97,7 +98,7 @@ const Blog = () => {
             nPage={numbers.length}
           />
         </div>
-        <div className="w-full md:w-[30%]  p-5 rounded-lg flex flex-col justify-center items-center
+        <div className="w-full md:w-[30%]  p-5 rounded-lg flex flex-col justify-center items-center gap-[2vh]
         " >
           <form onSubmit={handleSearchSubmit} id="search-form" className="relative w-full">
             <input
@@ -109,8 +110,15 @@ const Blog = () => {
               onChange={(e) => setSearch(e.target.value)}
             />
             <button className="btn-3 !px-2 !py-1 !text-sm absolute top-0 right-0 h-10 rounded-lg"><AiOutlineSearch /></button>
-          </form> <div>
-
+          </form> 
+          <div className="w-full h-fit rounded-lg">
+            <h2 className="text-[2.5vh] font-semibold pb-[2vh]">Newest Posts</h2>
+              {
+                newestIsPending && !isError && <LoadingSpinner /> 
+                
+              }
+              {isError && !newestIsPending && <ErrorBlock title="An error occurred while fetching the posts" error={newestErrorInfo?.message || "failed"} />}
+              {newestData && !isError && <Posts isWidget={true} posts={newestData?.posts} />}
           </div>
         </div>
       </div>
