@@ -15,6 +15,8 @@ const Home = ({ user }) => {
     queryFn: ({ signal }) => getProducts({ signal, max: 8 }),
   });
 
+
+
   return (
     <div
       className="flex flex-col items-center justify-center
@@ -25,7 +27,7 @@ const Home = ({ user }) => {
       <HomeCategories />
       {isPending && !isError ? <LoadingSpinner />
         :
-        <Products home={true} products={products?.products} user={user} />
+        <Products home={true} isError={isError} error={error} products={products?.products} user={user} />
       }
       {
         isError && !isPending && <ErrorBlock title='Something went wrong' message={error} />

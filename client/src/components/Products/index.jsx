@@ -6,8 +6,9 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import ErrorBlock from "../ErrorBlock";
 
-const Products = ({ products, home, user }) => {
+const Products = ({ products, home, user, error, isError }) => {
   const dispatch = useDispatch();
   const [total, setTotal] = useState(0);
   console.log(products);
@@ -67,6 +68,10 @@ const Products = ({ products, home, user }) => {
       });
     }
   };
+
+  if (isError) {
+    return <ErrorBlock title='Something went wrong' message={error} />
+  }
 
   return (
     <section className=" md:py-[56px] py-[37px] md:px-[121px] px-[4vh] flex flex-col gap-3 justify-center items-center">
