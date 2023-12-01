@@ -7,7 +7,7 @@ const Pagination = ({
     nPage
 }) => {
     return (
-        <div className="Pagination flex justify-center">
+        <div className="Pagination w-full flex justify-center">
             <ul className="flex flex-row flex-wrap justify-center w-[80%] items-center gap-[2.5vh]">
                 {currentPage === 1 ? <li className="hidden"></li> : <li className="bg-secondary px-[2vh] py-[1vh] text-[3vh] font-semibold rounded-[3px]">
                     <a href="#" onClick={(e) => { e.preventDefault(); prePage(); }}>
