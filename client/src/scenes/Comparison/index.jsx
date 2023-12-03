@@ -78,8 +78,6 @@ const ProductComparison = () => {
           <table className="w-[70%]
         m-[6vh]
         ">
-
-
             <tr className="border-none">
               <td className="border-none w-[33%]">
                 <h3 className="font-semibold text-[4vh] pb-[4vh]">

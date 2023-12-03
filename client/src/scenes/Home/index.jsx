@@ -7,6 +7,7 @@ import Hashes from "../../components/HomeHashes";
 import { useQuery } from "@tanstack/react-query";
 import { getProducts } from "../../constants/Http";
 import LoadingSpinner from "../../constants/Loading/LoadingSpinner/LoadingSpinner"
+import LoadingSkeleton from "../../constants/Loading/SkeletonTwo/Skeleton";
 import ErrorBlock from "../../components/ErrorBlock";
 const Home = ({ user }) => {
 
@@ -25,7 +26,7 @@ const Home = ({ user }) => {
     >
       <HomeHero />
       <HomeCategories />
-      {isPending && !isError ? <LoadingSpinner />
+      {isPending && !isError ? <LoadingSkeleton type='feed' />
         :
         <Products home={true} isError={isError} error={error} products={products?.products} user={user} />
       }

@@ -6,9 +6,11 @@ import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { cartActions } from "../../store/cartSlice";
 import { AiFillStar } from "react-icons/ai";
+import { compareActions } from "../../store/compareSlice";
+import Details from '../../components/Details'
 
 const Product = ({ user }) => {
   const dispatch = useDispatch();
@@ -17,6 +19,20 @@ const Product = ({ user }) => {
   const [total, setTotal] = useState(0);
 
   const [cartItems, setItems] = useState([]);
+
+
+  const product1Id = useSelector(state => state.compare.itemOneId)
+  const product2Id = useSelector(state => state.compare.itemTwoId)
+
+  const compareHandler = (id) => {
+
+    if (product1Id && product2Id) {
+      dispatch(compareActions.swapItemOneCompare({ id: id }))
+    } else {
+      dispatch(compareActions.addItemToCompare({ id: id }))
+    }
+
+  }
 
   const config = {
     position: "top-center",
@@ -83,10 +99,10 @@ const Product = ({ user }) => {
       setMainImage(data.images[0]);
     }
   }, [data]);
-  
+
 
   if (isPending) {
-    return <Skeleton type={'feed'} />;
+    return <Skeleton type={'menu'} />;
   }
   if (isError) {
     return <div>Error: {error.message}</div>;
@@ -148,38 +164,18 @@ const Product = ({ user }) => {
                 )
               }
               <div className="border-black border-[.2vh] p-[1vh] px-[2.5vh] rounded-[5px]">
-                <button>+ Compare</button>{" "}
+                <button onClick={() => {
+                  compareHandler({ id: data._id })
+                }}>+ Compare</button>{" "}
               </div>
             </div>
-
             <hr />
-
-            {/* <p className="text-gray-500 text-[2vh]">
-              Tags:{" "}
-              {data.Tags.map((tag) => (
-                <span key={tag}>{tag},</span>
-              ))}
-            </p> */}
           </div>
         </div>
         <hr />
 
-        <div className="desc  w-full px-[9vh] gap-[4vh] py-[2vh]">
-          <div
-            className="control flex flex-row items-center justify-center pb-[6vh]
-          gap-[3vh] text-[4vh]
-          "
-          >
-            <button>Description</button>
-            <button>Additional Information</button>
-            <button>Reviews [{data.reviews.length}]</button>
-          </div>
-          <div className="flex flex-col gap-[3vh] text-[2vh] text-[#9F9F9F]">
-            {data.description.map((desc, i) => (
-              <p key={i}>{desc.paragraph}</p>
-            ))}
-          </div>
-        </div>
+        <Details data={data} />
+
       </div>
       <ToastContainer
         position="top-center"
