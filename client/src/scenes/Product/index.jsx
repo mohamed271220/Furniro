@@ -109,35 +109,36 @@ const Product = ({ user }) => {
   }
 
   return (
-    <div className="w-full flex flex-col gap-[3vh]">
-      <div className="bg-secondary flex flex-row text-[2vh] items-center justify-start gap-[2vh]  p-[4vh]">
+    <div className="w-full flex flex-col gap-3">
+      <div className="bg-secondary flex flex-row text-[2vh] items-center justify-start gap-[2vh] p-5 md:p-[4vh]">
         <span>Home</span> <span>{">"}</span>
         <span>Shop</span> <span>{">"}</span>
         <span className="text-gray-500">{data.title}</span>
       </div>
-      <div className="product flex flex-col gap-[3vh] ">
-        <div className="info w-full px-[9vh] gap-[4vh] py-[2vh] flex md:flex-row flex-col ">
+      <div className="product flex flex-col gap-2 ">
+        <div className="info w-full md:px-9 px-4 gap-4 py-[2vh] flex md:flex-row flex-col ">
           {/* images  */}
-          <div className="md:mx-0 mx-auto flex lg:flex-row flex-col-reverse gap-[2vh] w-[50%]">
+          <div className="md:mx-0 mx-auto flex lg:flex-row flex-col-reverse gap-[2vh] w-full md:w-[50%]">
             <div className="flex flex-row  lg:flex-col gap-[2vh]">
               {data.images.map((image, i) => (
                 <img key={i} className={`w-[10vh] h-[10vh] rounded-lg ${image === mainImage ? 'border-2 border-dim-yellow' : ''}`} src={image} alt="" onClick={() => setMainImage(image)} />
               ))}
             </div>
-            <img className="w-[75%] h-[60vh] rounded-lg" src={mainImage} alt="" />
+            <img className="md:w-[85%] h-[60vh] rounded-lg" src={mainImage} alt="" />
           </div>
           {/* details */}
-          <div className="flex flex-col w-[40%] gap-[2vh]">
+          <div className="flex flex-col w-[40%]">
             <h2 className="text-[6vh]">{data.title}</h2>
+            <h2 className="text-[2vh]">{data.shortDescription}</h2>
             <h3 className="text-[4vh] text-gray-500">{data.price}.00$</h3>
             <div className="text-[2.5vh] flex flex-row items-center"><AiFillStar className="text-dim-yellow" /> | {data.rating}</div>
             <p className="text-[2vh]">{data.ShortDescription}</p>
 
-            <div className="flex flex-col gap-[2vh] text-[2.1vh] mt-[1vh]">
+            <div className="flex flex-col gap-2 text-[2.1vh] mt-[1vh]">
               <p className="text-gray-500">size</p>
-              <div className="flex flex-row gap-[2vh]">
+              <div className="flex flex-row gap-2">
                 {data.sizeOptions.map((size) => (
-                  <span className="bg-secondary p-[1vh] rounded-sm" key={size.size}>
+                  <span className="bg-secondary m-0 p-[1vh] rounded-sm" key={size.size}>
                     {size.size}
                   </span>
                 ))}
@@ -169,13 +170,11 @@ const Product = ({ user }) => {
                 }}>+ Compare</button>{" "}
               </div>
             </div>
-            <hr />
+
           </div>
         </div>
         <hr />
-
         <Details data={data} />
-
       </div>
       <ToastContainer
         position="top-center"

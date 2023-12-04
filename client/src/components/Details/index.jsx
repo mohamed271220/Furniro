@@ -15,20 +15,38 @@ const Details = ({ data }) => {
   };
   const renderDescription = () => {
     return <div className="flex flex-col">
-      <div className="flex flex-col gap-[3vh] text-[2vh] text-[#9F9F9F]">
+      <div className="flex flex-col gap-2 text-[2vh] text-[#9F9F9F]">
         {data.description.map((desc, i) => (
           <p key={i}>{desc.paragraph}</p>
         ))}
       </div>
-      <div>
-        <h1 className="text-[3vh] font-semibold">Additional Information.</h1>
-        <p>package:{data.salesPackage}</p>
-        <p>weight:{data.weight}</p>
-        <p>dimensions:{data.height}X{data.width}</p>
-        <p>filling material:{data.fillingMat}</p>
-        <p>cover material:{data.secondaryMat}</p>
+      <div className="w-full">
+        <h1 className="text-3xl font-semibold mb-4">Additional Information.</h1>
+        <table className="table-auto w-full text-left">
+          <tbody>
+            <tr className="border-t border-gray-200">
+              <td className="py-2">Package</td>
+              <td className="py-2">{data.salesPackage}</td>
+            </tr>
+            <tr className="border-t border-gray-200">
+              <td className="py-2">Weight</td>
+              <td className="py-2">{data.weight}</td>
+            </tr>
+            <tr className="border-t border-gray-200">
+              <td className="py-2">Dimensions</td>
+              <td className="py-2">{data.height}X{data.width}</td>
+            </tr>
+            <tr className="border-t border-gray-200">
+              <td className="py-2">Filling Material</td>
+              <td className="py-2">{data.fillingMat}</td>
+            </tr>
+            <tr className="border-t border-gray-200">
+              <td className="py-2">Cover Material</td>
+              <td className="py-2">{data.secondaryMat}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-
 
 
     </div>
@@ -51,8 +69,8 @@ const Details = ({ data }) => {
 
 
   return (
-    <div className="desc w-full px-[9vh] gap-[4vh] py-[2vh]">
-      <div className="control w-full flex flex-row items-center justify-between mb-[6vh] pb-[1vh] gap-[3vh] text-[4vh] relative">
+    <div className="desc w-full md:px-9 px-4 gap-[4vh] py-[2vh]">
+      <div className="control w-full flex flex-row items-center justify-between mb-5 gap-[3vh] pb-3 text-[3vh] relative">
         <button onClick={() => setActive(0)}>Description</button>
         <button onClick={() => setActive(1)}>Reviews [{data.reviews.length}]</button>
         <motion.div
