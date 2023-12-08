@@ -27,9 +27,9 @@ const Product = ({ user }) => {
   const compareHandler = (id) => {
 
     if (product1Id && product2Id) {
-      dispatch(compareActions.swapItemOneCompare({ id: id }))
+      dispatch(compareActions.swapItemOneCompare( id ))
     } else {
-      dispatch(compareActions.addItemToCompare({ id: id }))
+      dispatch(compareActions.addItemToCompare( id ))
     }
 
   }
@@ -124,10 +124,10 @@ const Product = ({ user }) => {
                 <img key={i} className={`w-[10vh] h-[10vh] rounded-lg ${image === mainImage ? 'border-2 border-dim-yellow' : ''}`} src={image} alt="" onClick={() => setMainImage(image)} />
               ))}
             </div>
-            <img className="md:w-[85%] h-[60vh] rounded-lg" src={mainImage} alt="" />
+            <img className="md:w-[85%] md:h-[60vh] rounded-lg" src={mainImage} alt="" />
           </div>
           {/* details */}
-          <div className="flex flex-col w-[40%]">
+          <div className="flex flex-col w-full md:w-[40%]">
             <h2 className="text-[6vh]">{data.title}</h2>
             <h2 className="text-[2vh]">{data.shortDescription}</h2>
             <h3 className="text-[4vh] text-gray-500">{data.price}.00$</h3>
@@ -150,7 +150,7 @@ const Product = ({ user }) => {
             <div className="flex flex-row items-center  text-[3vh] gap-[3vh] mt-[3vh]">
               {
                 user && (
-                  <div className="border-black border-[.2vh] p-[1vh] px-[2.5vh] rounded-[5px]">
+                  <div className="btn-3  hover:py-[1.5vh] hover:px-[7vh] hover:rounded-[5px]">
                     <button onClick={(e) => {
                       e.preventDefault();
                       addItemToCartHandler({
@@ -164,7 +164,7 @@ const Product = ({ user }) => {
                   </div>
                 )
               }
-              <div className="border-black border-[.2vh] p-[1vh] px-[2.5vh] rounded-[5px]">
+              <div className="btn-3 bg-primary hover:py-[1.5vh] hover:px-[7vh] hover:rounded-[5px]">
                 <button onClick={() => {
                   compareHandler({ id: data._id })
                 }}>+ Compare</button>{" "}

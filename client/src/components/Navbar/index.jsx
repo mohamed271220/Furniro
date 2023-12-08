@@ -1,9 +1,10 @@
 import { Link, NavLink } from "react-router-dom";
-
+import { IoMdCheckmarkCircleOutline } from 'react-icons/io';
 import Logo from "../../assets/icons/LOGO.svg";
 import { AiOutlineSearch } from "react-icons/ai";
 
 import Dropdown from "./Dropdown";
+import { useState } from "react";
 
 const Navbar = ({
   user,
@@ -13,7 +14,6 @@ const Navbar = ({
   compareQuantity = 0,
   handleStartAddNewChallenge,
 }) => {
-
   return (
     <div
       className=" hidden w-full md:flex flex-row 

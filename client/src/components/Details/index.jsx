@@ -47,13 +47,12 @@ const Details = ({ data }) => {
           </tbody>
         </table>
       </div>
-
-
     </div>
   };
 
   const renderReviews = () => {
     return <div>
+    
       {data.reviews.length === 0 && <p>No reviews yet.</p>}
       {data.reviews.map((review, i) => (
         <div key={i} className="flex flex-col  justify-between   pb-[3vh] text-[2vh] " >
@@ -88,7 +87,7 @@ const Details = ({ data }) => {
             initial="hidden"
             animate="visible"
             exit="hidden"
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.2 }}
           >
             {renderDescription()}
           </motion.div>
@@ -100,7 +99,7 @@ const Details = ({ data }) => {
             initial="hidden"
             animate="visible"
             exit="hidden"
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.2 }}
           >
             {renderReviews()}
           </motion.div>
