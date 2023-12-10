@@ -11,7 +11,8 @@ import { cartActions } from "../../store/cartSlice";
 import { AiFillStar } from "react-icons/ai";
 import { compareActions } from "../../store/compareSlice";
 import Details from '../../components/Details'
-
+import { IoIosArrowUp, IoIosArrowDown } from 'react-icons/io';
+import "./index.css"
 const Product = ({ user }) => {
   const dispatch = useDispatch();
   const id = useParams().id;
@@ -27,9 +28,9 @@ const Product = ({ user }) => {
   const compareHandler = (id) => {
 
     if (product1Id && product2Id) {
-      dispatch(compareActions.swapItemOneCompare( id ))
+      dispatch(compareActions.swapItemOneCompare(id))
     } else {
-      dispatch(compareActions.addItemToCompare( id ))
+      dispatch(compareActions.addItemToCompare(id))
     }
 
   }
@@ -119,7 +120,7 @@ const Product = ({ user }) => {
         <div className="info w-full md:px-9 px-4 gap-4 py-[2vh] flex md:flex-row flex-col ">
           {/* images  */}
           <div className="md:mx-0 mx-auto flex lg:flex-row flex-col-reverse gap-[2vh] w-full md:w-[50%]">
-            <div className="flex flex-row  lg:flex-col gap-[2vh]">
+            <div className=" relative flex flex-row lg:flex-col gap-[2vh] md:h-[60vh] md:pr-2 overflow-auto custom-scrollbar">
               {data.images.map((image, i) => (
                 <img key={i} className={`w-[10vh] h-[10vh] rounded-lg ${image === mainImage ? 'border-2 border-dim-yellow' : ''}`} src={image} alt="" onClick={() => setMainImage(image)} />
               ))}
@@ -130,7 +131,13 @@ const Product = ({ user }) => {
           <div className="flex flex-col w-full md:w-[40%]">
             <h2 className="text-[6vh]">{data.title}</h2>
             <h2 className="text-[2vh]">{data.shortDescription}</h2>
-            <h3 className="text-[4vh] text-gray-500">{data.price}.00$</h3>
+            <h3 className="text-[4vh] text-gray-500">{(data.price - data.price * (data.sale / 100)).toFixed(2)}$
+            {data.sale && <span className="text-[1.5vh] m-0 ml-1 text-red-400 font-semibold"> sale:{data.sale}%
+              </span>}
+            </h3>
+            {data.sale && <p className="text-[1.7vh]">
+              <s>$ {(data.price).toFixed()}</s>
+            </p>}
             <div className="text-[2.5vh] flex flex-row items-center"><AiFillStar className="text-dim-yellow" /> | {data.rating}</div>
             <p className="text-[2vh]">{data.ShortDescription}</p>
 
@@ -138,8 +145,8 @@ const Product = ({ user }) => {
               <p className="text-gray-500">size</p>
               <div className="flex flex-row gap-2">
                 {data.sizeOptions.map((size) => (
-                  <span className="bg-secondary m-0 p-[1vh] rounded-sm" key={size.size}>
-                    {size.size}
+                  <span className="bg-secondary m-0 p-[1vh] rounded-sm" key={size}>
+                    {size}
                   </span>
                 ))}
               </div>

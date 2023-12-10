@@ -26,7 +26,6 @@ module.exports = (app) => {
 
 
 /*
-
 https://storage.googleapis.com/furniro/759d12ad4c595bdcdb1c54a620321714.png
 https://storage.googleapis.com/furniro/759d12ad4c595bdcdb1c54a620321714.png
 https://storage.googleapis.com/furniro/FB_IMG_1672320015572.jpg

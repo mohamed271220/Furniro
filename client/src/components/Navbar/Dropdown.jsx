@@ -17,7 +17,8 @@ const Dropdown = ({
   logout,
   cartTotalQuantity,
   compareQuantity,
-  handleStartAddNewChallenge,
+  handleModalOpen,
+
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   // console.log(user);
@@ -54,6 +55,7 @@ const Dropdown = ({
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5 }}
           className="bg-white z-50 absolute top-10  flex flex-col items-start rounded-lg ">
+
           {user && <motion.div
             whileHover={{
               backgroundColor: "#FFF3E3",
@@ -63,7 +65,7 @@ const Dropdown = ({
             }}
             onClick={() => {
               setIsOpen((prev) => !prev);
-              handleStartAddNewChallenge();
+              handleModalOpen();
             }}
             className="flex flex-row w-full gap-[1vh]  text-black p-2  cursor-pointer "
           >
@@ -82,7 +84,9 @@ const Dropdown = ({
             whileHover={{
               backgroundColor: "#FFF3E3",
             }}
-
+            onClick={() => {
+              setIsOpen((prev) => !prev);
+            }}
             className="flex flex-row w-full gap-[1vh]  text-black p-2 cursor-pointer items-center justify-center">
             <Link to='/productComparison'>
 
@@ -102,6 +106,9 @@ const Dropdown = ({
               <motion.div
                 whileHover={{
                   backgroundColor: "#FFF3E3",
+                }}
+                onClick={() => {
+                  setIsOpen((prev) => !prev);
                 }}
                 className="flex flex-row w-full gap-[1vh]   text-black p-2 cursor-pointer items-center justify-center">
                 <Link to="/addProduct">
@@ -124,6 +131,9 @@ const Dropdown = ({
                 whileHover={{
                   backgroundColor: "#FFF3E3",
                 }}
+                onClick={() => {
+                  setIsOpen((prev) => !prev);
+                }}
                 className="flex flex-row w-full gap-[1vh]   text-black p-2  cursor-pointer items-center justify-center">
                 <Link to="/addPost">
 
@@ -143,6 +153,9 @@ const Dropdown = ({
           {user && <motion.div
             whileHover={{
               backgroundColor: "#FFF3E3",
+            }}
+            onClick={() => {
+              setIsOpen((prev) => !prev);
             }}
             className="flex flex-row w-full gap-[1vh] text-[2vh]  text-black p-2 rounded-lg cursor-pointer items-center justify-center">
             <h2 onClick={logout}>

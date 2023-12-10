@@ -31,7 +31,7 @@ exports.addProduct = async (req, res, next) => {
             }
 
             const {
-                name,
+                title,
                 price,
                 sale,
                 images,
@@ -61,7 +61,7 @@ exports.addProduct = async (req, res, next) => {
             // console.log(sizes);
 
             const product = new Product({
-                title: name,
+                title,
                 price,
                 sale,
                 images: JSON.parse(images),

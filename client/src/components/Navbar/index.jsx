@@ -12,7 +12,7 @@ const Navbar = ({
   logout,
   cartTotalQuantity,
   compareQuantity = 0,
-  handleStartAddNewChallenge,
+  handleModalOpen,
 }) => {
   return (
     <div
@@ -42,7 +42,7 @@ const Navbar = ({
        space-x-4"
       >
         <Dropdown
-          handleStartAddNewChallenge={handleStartAddNewChallenge}
+          handleModalOpen={handleModalOpen}
           compareQuantity={compareQuantity}
           cartTotalQuantity={cartTotalQuantity}
           user={user}

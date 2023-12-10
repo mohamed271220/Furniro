@@ -191,6 +191,8 @@ app.use((error, req, res, next) => {
   res.status(status).json({ message: message, data: data });
 });
 
+
+
 // Set up Swagger for documentation
 swagger(app);
 

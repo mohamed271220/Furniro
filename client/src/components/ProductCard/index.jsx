@@ -1,6 +1,6 @@
 import Compare from "../../assets/icons/Compare.jsx";
 import { AiOutlineHeart, AiOutlineShareAlt, AiFillPlusCircle } from "react-icons/ai";
-import {BiGitCompare} from 'react-icons/bi'
+import { BiGitCompare } from 'react-icons/bi'
 import { Link } from "react-router-dom";
 
 import { useDispatch, useSelector } from 'react-redux'
@@ -66,11 +66,14 @@ const Card = ({ product, addItemToCartHandler, user }) => {
           </p>
           <div className="flex flex-row justify-between text-gray-700 text-[1.5] ">
             <p className="font-semibold text-[2.5vh] text-black">
-              $ {(product.price - product.price * product.sale).toFixed(2)}
+              $ {(product.price - product.price * (product.sale / 100)).toFixed(2)}
+
+              {product.sale && <span className="text-[1.5vh] m-0 ml-1 text-red-400 font-semibold"> sale:{product.sale}%
+              </span>}
             </p>
-            <p className="text-[1.7vh]">
+            {product.sale && <p className="text-[1.7vh]">
               <s>$ {(product.price).toFixed()}</s>
-            </p>
+            </p>}
           </div>
         </div>
       </div>

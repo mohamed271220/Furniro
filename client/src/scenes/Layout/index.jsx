@@ -32,16 +32,16 @@ const Layout = ({ user, userData }) => {
   const [prevCompareState, setPrevCompareState] = useState(compareItems);
   const [showNotification, setShowNotification] = useState(true);
 
-  const [isCreatingNewChallenge, setIsCreatingNewChallenge] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const animationControls = useAnimation();
 
-  function handleStartAddNewChallenge() {
-    setIsCreatingNewChallenge(true);
+  function handleModalOpen() {
+    setIsModalOpen(true);
   }
 
   function handleClose() {
-    setIsCreatingNewChallenge(false);
+    setIsModalOpen(false);
   }
 
 
@@ -74,7 +74,7 @@ const Layout = ({ user, userData }) => {
 
   return (
     <div className='relative'>
-      {isCreatingNewChallenge && <CartModal user={user} onClose={handleClose} />}
+      {isModalOpen && <CartModal user={user} onClose={handleClose} />}
       <ScrollToTop />
       <Navbar
         cartItems={cartItems}
@@ -84,7 +84,7 @@ const Layout = ({ user, userData }) => {
         logout={logout}
         compareItems={compareItems}
         compareQuantity={compareQuantity}
-        handleStartAddNewChallenge={handleStartAddNewChallenge}
+        handleModalOpen={handleModalOpen}
       />
       <Sidebar
         cartTotalQuantity={cartTotalQuantity}

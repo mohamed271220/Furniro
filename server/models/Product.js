@@ -11,6 +11,9 @@ const productSchema = mongoose.Schema(
     },
     sale: {
       type: Number,
+      min: 0,
+      max: 100,
+      default: 0,
     },
     isNew: {
       type: Boolean,
@@ -34,12 +37,12 @@ const productSchema = mongoose.Schema(
     ],
     sizeOptions: [
       {
-        size: String,
+        type: String,
       },
     ],
     Tags: [
       {
-        tag: String,
+        type: String,
       },
     ],
     shortDescription: {
@@ -48,7 +51,7 @@ const productSchema = mongoose.Schema(
     },
     description: [
       {
-        paragraph: String,
+        type: String,
       },
     ],
     salesPackage: {
@@ -69,7 +72,7 @@ const productSchema = mongoose.Schema(
     },
     color: [
       {
-        c: String,
+        type: String,
       },
     ],
     fillingMat: {

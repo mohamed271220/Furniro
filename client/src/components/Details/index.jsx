@@ -14,10 +14,10 @@ const Details = ({ data }) => {
     visible: { x: 0, opacity: 1 },
   };
   const renderDescription = () => {
-    return <div className="flex flex-col">
-      <div className="flex flex-col gap-2 text-[2vh] text-[#9F9F9F]">
+    return <div className="flex flex-col gap-2">
+      <div className="flex flex-col  text-[2vh] text-[#9F9F9F]">
         {data.description.map((desc, i) => (
-          <p key={i}>{desc.paragraph}</p>
+          <p key={i}>{desc}</p>
         ))}
       </div>
       <div className="w-full">

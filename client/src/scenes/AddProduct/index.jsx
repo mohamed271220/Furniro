@@ -12,51 +12,39 @@ import Banner from "../../components/Banner";
 import "./index.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ErrorBlock from "../../components/ErrorBlock";
 
 const productSchema = yup.object().shape({
   name: yup.string().required("Name is required"),
   price: yup.number().required("Price is required"),
   sale: yup.number()
-    .min(0.01, "Sale must be at least 0.01")
-    .max(0.99, "Sale must be at most 0.99")
+    .min(0, "Sale must be at least 0")
+    .max(99, "Sale must be at most 99")
     .required("Sale is required"),
   images: yup.array().required("Images is required"),
   sizeOptions: yup
     .array()
-    .of(
-      yup.object().shape({
-        size: yup.string(),
-      })
-    )
+    .of(yup.string().required('SizeOptions is required'))
+    .min(1, 'SizeOptions is required')
     .required("SizeOptions is required"),
   Tags: yup
     .array()
-    .of(
-      yup.object().shape({
-        tag: yup.string(),
-      })
-    )
+    .of(yup.string().required('Tag is required'))
+    .min(1, 'Tags is required')
     .required("Tags is required"),
   shortDescription: yup.string().required("ShortDescription is required"),
   description: yup
     .array()
-    .of(
-      yup.object().shape({
-        paragraph: yup.string(),
-      })
-    )
+    .of(yup.string().required('Description is required'))
+    .min(1, 'Description is required')
     .required("Description is required"),
   salesPackage: yup.string().required("SalesPackage is required"),
   modal: yup.string().required("Modal is required"),
   secondaryMat: yup.string().required("SecondaryMat is required"),
   config: yup.string().required("Config is required"),
-  color: yup
-    .array()
-    .of(
-      yup.object().shape({
-        c: yup.string(),
-      })
-    )
+  color: yup.array()
+    .of(yup.string().required('Color is required'))
+    .min(1, 'Color is required')
     .required("Color is required"),
   fillingMat: yup.string().required("FillingMat is required"),
   load: yup.string().required("Load is required"),
@@ -99,7 +87,7 @@ const AddProduct = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState();
+  const [errors, setErrors] = useState();
 
 
   const config = {
@@ -156,7 +144,7 @@ const AddProduct = () => {
   const formSubmitHandler = async (values, onSubmitProps) => {
     const id = toast.loading("Please wait...");
     const formData = new FormData();
-    formData.append("name", values.name);
+    formData.append("title", values.name);
     formData.append("price", values.price);
     formData.append("sale", values.sale);
     formData.append("images", JSON.stringify(addedPhotos));
@@ -204,7 +192,8 @@ const AddProduct = () => {
         isLoading: false,
         ...config,
       });
-      setError(err.message);
+      setErrors(err.response.data.errors);
+      console.log(err.response.data.errors);
     }
     setIsLoading(false);
   };
@@ -274,10 +263,10 @@ const AddProduct = () => {
                     type="number"
                     name="sale"
                     id="sale"
-                    min="0.00"
-                    max="0.99"
-                    step="0.01"
-                    placeholder="Enter the sale(minimum 0.00 for no sale and maximum 0.99 for 99% sale)"
+                    min="0"
+                    max="99"
+                    step="1"
+                    placeholder="Enter the sale(minimum 0% for no sale and maximum 99% sale)"
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.sale}
@@ -297,30 +286,30 @@ const AddProduct = () => {
                           const sizeErrors =
                             (errors.sizeOptions?.length &&
                               errors.sizeOptions[i]) ||
-                            {};
+                            "";
                           const sizeTouched =
                             (touched.sizeOptions?.length &&
                               touched.sizeOptions[i]) ||
-                            {};
+                            "";
                           return (
                             <div className="inner-div" key={i}>
-                              <label htmlFor={`sizeOptions.${i}.size}`}>
+                              <label htmlFor={`sizeOptions.${i}}`}>
                                 size
                               </label>
                               <Field
                                 type="text"
-                                name={`sizeOptions.${i}.size`}
+                                name={`sizeOptions.${i}`}
                                 placeholder="Enter the size of the product (eg: sm,md,lg,xl)"
                                 className={
                                   "form-control" +
-                                  (sizeErrors.name && sizeTouched.name
+                                  (sizeErrors && sizeTouched
                                     ? " is-invalid"
                                     : "")
                                 }
                               />
 
                               <ErrorMessage
-                                name={`sizeOptions.${i}.size`}
+                                name={`sizeOptions.${i}`}
                                 component="div"
                                 className="invalid-feedback"
                               />
@@ -342,8 +331,8 @@ const AddProduct = () => {
                           className="btn-3"
                           onClick={(e) => {
                             e.preventDefault();
-                            arrayHelpers.push({ size: "" });
-                            // console.log(values.sizeOptions)
+                            arrayHelpers.push();
+                            console.log(values.sizeOptions)
                           }}
                         >
                           Add another size
@@ -359,28 +348,23 @@ const AddProduct = () => {
                       <div>
                         <h3>Add tags</h3>
                         {values.Tags.map((tag, index) => {
-                          const tagErrors =
-                            (errors.Tags?.length && errors.Tags[index]) || {};
-                          const tagTouched =
-                            (touched.Tags?.length && touched.Tags[index]) || {};
+                          const tagErrors = (errors.Tags?.length && errors.Tags[index]) || "";
+                          const tagTouched = (touched.Tags?.length && touched.Tags[index]) || false;
                           return (
                             <div className="inner-div" key={index}>
-                              <label htmlFor={`Tags.${index}.tag`}>tag</label>
+                              <label htmlFor={`Tags.${index}`}>tag</label>
                               <Field
-
                                 type="text"
-                                name={`Tags.${index}.tag`}
+                                name={`Tags.${index}`}
                                 placeholder="Enter the tag of the product (eg: new,hot)"
                                 id="tag"
                                 className={
                                   "form-control" +
-                                  (tagErrors.tag && tagTouched.tag
-                                    ? " is-invalid"
-                                    : "")
+                                  (tagErrors && tagTouched ? " is-invalid" : "")
                                 }
                               />
                               <ErrorMessage
-                                name={`Tags.${index}.tag`}
+                                name={`Tags.${index}`}
                                 component="div"
                                 className="invalid-feedback"
                               />
@@ -402,8 +386,7 @@ const AddProduct = () => {
                           className="btn-3"
                           onClick={(e) => {
                             e.preventDefault();
-                            arrayHelpers.push({ tag: "" });
-                            // console.log(values.sizeOptions)
+                            arrayHelpers.push("");
                           }}
                         >
                           Add another tag
@@ -452,24 +435,24 @@ const AddProduct = () => {
 
                           return (
                             <div key={index} className="inner-div">
-                              <label htmlFor={`description.${index}.paragraph`}>
+                              <label htmlFor={`description.${index}`}>
                                 paragraph
                               </label>
                               <Field
                                 as="textarea"
                                 type="text"
                                 placeholder="Enter detailed paragraphs of the product"
-                                name={`description.${index}.paragraph`}
+                                name={`description.${index}`}
                                 className={
                                   "form-control" +
-                                  (paragraphErrors.paragraph &&
-                                    paragraphTouched.paragraph
+                                  (paragraphErrors &&
+                                    paragraphTouched
                                     ? " is-invalid"
                                     : "")
                                 }
                               />
                               <ErrorMessage
-                                name={`description.${index}.paragraph`}
+                                name={`description.${index}`}
                                 component="div"
                                 className="invalid-feedback"
                               />
@@ -489,7 +472,7 @@ const AddProduct = () => {
                           className="btn-3"
                           onClick={(e) => {
                             e.preventDefault();
-                            arrayHelpers.push({ paragraph: "" });
+                            arrayHelpers.push("");
                             // console.log(values.sizeOptions)
                           }}
                         >
@@ -588,25 +571,25 @@ const AddProduct = () => {
 
                           return (
                             <div key={index} className="inner-div">
-                              <label htmlFor={`color.${index}.c`}>color</label>
-                            <div className="flex flex-col !mt-0 !gap-0 justify-center bg-white text-[2vh] rounded text-gray-300">
-                            <span className="m-0 ">Code</span>
-                              <Field
-                                type="color"
-                                name={`color.${index}.c`}
-                                id="c"
-                                
-                                className={
-                                  "!m-0  appearance-none w-[10vh] h-[10vh] border border-gray-300 rounded-full" +
-                                  (colorErrors.c && colorTouched.c
-                                    ? " is-invalid"
-                                    : "")
-                                }
-                              />
-                            </div>
-                            
+                              <label htmlFor={`color.${index}`}>color</label>
+                              <div className="flex flex-col !mt-0 !gap-0 justify-center bg-white text-[2vh] rounded text-gray-300">
+                                <span className="m-0 ">Code</span>
+                                <Field
+                                  type="color"
+                                  name={`color.${index}`}
+                                  id="c"
+
+                                  className={
+                                    "!m-0  appearance-none w-[10vh] h-[10vh] border border-gray-300 rounded-full" +
+                                    (colorErrors && colorTouched
+                                      ? " is-invalid"
+                                      : "")
+                                  }
+                                />
+                              </div>
+
                               <ErrorMessage
-                                name={`color.${index}.c`}
+                                name={`color.${index}`}
                                 component="div"
                                 className="invalid-feedback"
                               />
@@ -626,7 +609,7 @@ const AddProduct = () => {
                           className="btn-3"
                           onClick={(e) => {
                             e.preventDefault();
-                            arrayHelpers.push({ c: "" });
+                            arrayHelpers.push("");
                             // console.log(values.sizeOptions)
                           }}
                         >
@@ -923,6 +906,7 @@ const AddProduct = () => {
         pauseOnHover
         theme="light"
       />
+      {errors && errors.map((error, i) => <ErrorBlock key={i} title="Validation error" message={error.msg} />)}
     </div>
   );
 };
