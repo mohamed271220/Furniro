@@ -7,6 +7,8 @@ const { resolve } = require("path");
 router.use(express.static(process.env.STATIC_DIR));
 
 
+
+
 router.post("/products/:productId/review", userController.postReview);
 router.post("/products/:productId/cart", userController.addToCart);
 router.put("/products/:productId/cart/remove", userController.removeFromCart);
@@ -14,4 +16,7 @@ router.get(
     '/cart',
     userController.getCart
 )
+router.get("/profile", userController.getProfile);
+router.put("/profile", userController.editProfile);
+
 module.exports = router;

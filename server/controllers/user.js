@@ -202,8 +202,10 @@ exports.getCart = async (req, res, next) => {
 
 }
 
+exports.getProfile = async (req, res, next) => {
 
+}
+exports.editProfile = async (req, res, next) => {
 
-
-
+}
 

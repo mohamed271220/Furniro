@@ -311,3 +311,67 @@ exports.updateOrder = async (req, res, next) => {
 };
 
 
+exports.getUsers = async (req, res, next) => {
+    try {
+        const { max, search } = req.query;
+        let query = {};
+        if (max) {
+            query.max = max;
+        }
+        if (search) {
+            query.$or = [
+                { username: { $regex: search, $options: 'i' } },
+                { name: { $regex: search, $options: 'i' } }
+            ];
+        }
+
+        const users = await User.find(query);
+        res.json({ users });
+    } catch {
+        const error = new Error("something went wrong");
+        error.statusCode = 500;
+        next(error);
+     }
+}
+exports.getUser = async (req, res, next) => {
+
+    try{
+        const user = await User.findById(req.params.userId);
+        res.json({ user });
+
+    }catch{
+        const error = new Error("something went wrong");
+        error.statusCode = 500;
+        next(error);
+
+    }
+
+}
+exports.updateUser = async (req, res, next) => {
+
+}
+exports.getAdmins = async (req, res, next) => {
+try{
+    const admins = await User.find({role: "admin"});
+    res.json({ admins });
+}catch{
+    const error = new Error("something went wrong");
+    error.statusCode = 500;
+    next(error);
+}
+}
+exports.getAdmin = async (req, res, next) => {
+    try{
+        const admin = await User.findById(req.params.adminId);
+        res.json({ admin });
+    }catch{
+        const error = new Error("something went wrong");
+        error.statusCode = 500;
+        next(error);
+    }
+
+}
+exports.updateAdmin = async (req, res, next) => {
+    
+
+}
