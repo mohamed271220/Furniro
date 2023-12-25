@@ -82,6 +82,12 @@
 
 .menuSk {
   animation: skeleton 1s ease infinite alternate;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 40px;
 }
 
 .menuSkItem {
@@ -89,7 +95,7 @@
   height: 40px;
   border-radius: 50%;
   background-color: #313131;
-  margin-top: 40px;
+  margin-right: 40px;
 }
 
 .circle,

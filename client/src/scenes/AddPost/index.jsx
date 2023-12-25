@@ -53,22 +53,22 @@ const BlogPostForm = () => {
         const data = new FormData();
         data.append("photos", file[0]);
         axios
-          .post("/upload", data, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          })
-          .then((response) => {
-            const { data: filename } = response;
-            setFieldValueRef.current('image', filename[0]); // Use the setFieldValue function
-            setAddedPhotos(filename[0])
-            setIsLoading(false);
-          })
-          .catch((error) => {
-            console.log(error);
-            setIsLoading(false);
-          });
-      }
+            .post("/upload", data, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            })
+            .then((response) => {
+                const { data: filename } = response;
+                setFieldValueRef.current('image', filename[0]); // Use the setFieldValue function
+                setAddedPhotos(filename[0])
+                setIsLoading(false);
+            })
+            .catch((error) => {
+                console.log(error);
+                setIsLoading(false);
+            });
+    }
     function removePhoto() {
         setIsLoading(true);
         setAddedPhotos('');
@@ -87,7 +87,7 @@ const BlogPostForm = () => {
             formData.append("body", JSON.stringify(values.body)); // Stringify the body
             setIsLoading(true);
 
-            const response = await axios.post("/post", formData, {});
+            const response = await axios.post("/admin/post", formData, {});
             if (response) {
 
                 toast.update(id, {
@@ -126,9 +126,9 @@ const BlogPostForm = () => {
                 {({ values, errors, touched, handleSubmit, isSubmitting
                     , handleBlur, setFieldValue,
                     handleChange }) => {
-                          // Store a reference to the setFieldValue function
-                          console.log(errors);
-          setFieldValueRef.current = setFieldValue;
+                    // Store a reference to the setFieldValue function
+                    console.log(errors);
+                    setFieldValueRef.current = setFieldValue;
                     return <Form
                         onSubmit={handleSubmit}
                         encType="multipart/form-data"
@@ -349,12 +349,12 @@ const BlogPostForm = () => {
                             </div>
 
                         </div>
-                        <button type="submit" disabled={!addedPhotos||isSubmitting || Object.keys(errors).length !== 0  || isLoading}
+                        <button type="submit" disabled={!addedPhotos || isSubmitting || Object.keys(errors).length !== 0 || isLoading}
                             className="btn-3 bg-[#fdd49e]" >
                             Submit
                         </button>
                     </Form>
-                    }}
+                }}
             </Formik>
             <ToastContainer
                 position="top-center"

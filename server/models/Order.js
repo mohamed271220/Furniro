@@ -18,8 +18,8 @@ const orderSchema = new Schema(
       },
     ],
     madeBy: {
-      type: String,
-
+      type: mongoose.Types.ObjectId,
+      ref: "User",
       required: true,
     },
     paymentIntent: {

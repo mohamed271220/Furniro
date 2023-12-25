@@ -66,7 +66,7 @@ function Navbar({ user, userData, logout, cartTotalQuantity, compareQuantity }) 
                 </NavLink>
               </li>
               <li>
-                <Link className="nav-text">
+                <Link to={`/profile`} className="nav-text">
                   <img
                     src={user?.picture}
                     alt="profile"

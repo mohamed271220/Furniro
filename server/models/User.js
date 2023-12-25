@@ -3,11 +3,15 @@ const passportLocalMongoose = require("passport-local-mongoose");
 const findOrCreate = require("mongoose-findorcreate");
 
 const userSchema = mongoose.Schema({
-  username: String,
+  username: {
+    required: true,
+    type:String},
   name: String,
   googleId: String,
+  password: String,
   secret: String,
   email: {
+    required: true,
     type: String,
 
   },
@@ -37,10 +41,11 @@ const userSchema = mongoose.Schema({
     },
   ],
   address: [{ type: mongoose.Types.ObjectId, ref: "Address" }],
-  role:{
-    type:String,
-    default:"customer",
-    enum:["customer","admin",'coolerAdmin']
+  phone: String,
+  role: {
+    type: String,
+    default: "customer",
+    enum: ["customer", "admin", 'coolerAdmin']
   },
   addedProducts: [
     {

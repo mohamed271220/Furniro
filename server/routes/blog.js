@@ -9,9 +9,10 @@ const router = express.Router();
 const env = require("dotenv").config({ path: "./.env" });
 const { resolve } = require("path");
 const { validateBlogPost } = require("./validators/post");
+const { isAdmin } = require("../middlewares/isAdmin");
 router.use(express.static(process.env.STATIC_DIR));
 
 
 router.get("/all", blogController.getPosts)
-router.post("/", fileUpload.array("images", 4),validateBlogPost, blogController.postPost)
+router.get("/:postId", blogController.getPost)
 module.exports = router;

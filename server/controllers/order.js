@@ -68,7 +68,7 @@ exports.makeOrder = async (req, res, next) => {
             const order = new Order({
                 products: products,
                 paymentIntent: paymentIntent,
-                madeBy: req.user.id,
+                madeBy: user.id,
                 status: "pending",
                 totalPrice: total,
             });

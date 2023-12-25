@@ -11,6 +11,7 @@ const { validateProduct } = require("./validators/product");
 const { body } = require("express-validator");
 const { isAdmin } = require("../middlewares/isAdmin");
 const { isCoolerAdmin } = require("../middlewares/isCoolerAdmin");
+const { validateBlogPost } = require("./validators/post");
 router.use(express.static(process.env.STATIC_DIR));
 
 
@@ -51,5 +52,8 @@ router.put("/users/:userId", isAdmin, adminController.updateUser);
 router.get("/admins", isAdmin, adminController.getAdmins);
 router.get("/admins/:adminId", isAdmin, adminController.getAdmin);
 router.put("/admins/:adminId", isCoolerAdmin, adminController.updateAdmin);
+
+router.post("/post", fileUpload.array("images", 4), isAdmin, validateBlogPost, adminController.postPost)
+
 
 module.exports = router;

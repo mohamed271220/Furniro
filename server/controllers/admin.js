@@ -372,6 +372,61 @@ exports.getAdmin = async (req, res, next) => {
 
 }
 exports.updateAdmin = async (req, res, next) => {
-    
-
+    try{
+        const admin = await User.findById(req.params.adminId);
+        admin.role = req.body.role;
+        await admin.save();
+        res.json({ admin });
+    }catch{
+        const error = new Error("something went wrong");
+        error.statusCode = 500;
+        next(error);
+    }
 }
+
+exports.postPost = async (req, res, next) => {
+    try {
+      if (req.user) {
+        // console.log(req.user);
+        const user = await User.findOne({ googleId: req.user.id });
+  
+        if (!user) {
+          const error = new Error("User not found");
+          error.statusCode = 404;
+          next(error);
+        }
+        console.log(user);
+        if (user.role === "customer") {
+          const error = new Error("You are not authorized to post");
+          error.statusCode = 404;
+          next(error);
+        }
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+          return res.status(400).json({ errors: errors.array() });
+        }
+        // TODO: take parameters from req.body and complete the function
+        const postedBy = user.username;
+  
+        const { title, author, image, tag, body } = req.body;
+        console.log(title, author, image, tag, body);
+  
+        const post = new Post({
+          title,
+          author,
+          image,
+          tag,
+          body: JSON.parse(body),
+          postedBy
+        });
+        await post.save();
+        res.status(201).json({ message: "Post created successfully", post });
+  
+      }
+    } catch (err) {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    }
+  }

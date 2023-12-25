@@ -17,6 +17,7 @@ import "./index.css";
 import Payment from "./scenes/Checkout/Payment";
 import Completion from "./scenes/Checkout/Completion";
 import { useAuth } from "./hooks/useAuth";
+import Profile from './scenes/Profile';
 
 
 axios.defaults.baseURL = "http://localhost:4000";
@@ -96,12 +97,18 @@ function App() {
         <Route
           path="/contact"
           element={
-            user ? <Contact user={user} /> : <Navigate to="/entry" />
+            <Contact />
           }
         />
         <Route
           path="/blog"
           element={user ? <Blog user={user} /> : <Blog />}
+        />
+        <Route
+          path="/profile"
+          element={
+            user ? <Profile user={user} /> : <Navigate to="/entry" />
+          }
         />
         <Route
           path="/dashboard"

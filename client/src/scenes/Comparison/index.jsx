@@ -3,6 +3,7 @@ import Banner from "../../components/Banner"
 import { useEffect, useState } from "react"
 import { AiFillStar } from 'react-icons/ai'
 import './index.css'
+import { Link } from "react-router-dom"
 const ProductComparison = () => {
   const [loading, setLoading] = useState(false)
 
@@ -92,27 +93,27 @@ const ProductComparison = () => {
               <td className="border-none">
                 {
                   firstItem ?
-                    <>
+                    <Link to={`/product/${itemOneId}`}>
 
                       <img className="h-[30vh] w-[30vh] rounded-md " src={`${firstItem?.images[0]}`} alt="" />
                       <h4 className="font-semibold text-[3vh] pt-[3vh] ">{firstItem?.title}</h4>
                       <p className="font-semibold text-[2.5vh] ">$ {firstItem?.price}</p>
                       <p className=" pt-[2vh] text-[2.5vh] flex flex-row   items-center">{firstItem?.rating}<AiFillStar className="text-dim-yellow mr-[1.5vh] " />  | <span className="text-[1.5vh]">{firstItem?.reviews.length} reviews</span> </p>
-                    </>
+                    </Link>
                     : "__"
                 }
               </td>
 
               <td className="border-none">
                 {secondItem ?
-                  <>
+                  <Link to={`/product/${itemTwoId}`}>
                     <img className="h-[30vh] w-[30vh] rounded-md " src={`${secondItem?.images[0]}`} alt="" />
                     <h4 className="font-semibold text-[3vh] pt-[3vh] ">{secondItem?.title}</h4>
                     <p className="font-semibold text-[2.5vh] ">{secondItem?.price}</p>
                     <p className=" pt-[2vh] text-[2.5vh] flex flex-row  items-center">
                       {secondItem?.rating}<AiFillStar className="text-dim-yellow mr-[1.5vh]" /> | <span className="text-[1.5vh]">{secondItem?.reviews.length} reviews</span> </p>
 
-                  </> : '__'
+                  </Link> : '__'
                 }
               </td>
             </tr>

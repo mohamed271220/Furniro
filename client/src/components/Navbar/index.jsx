@@ -52,11 +52,13 @@ const Navbar = ({
         <div className="rounded-full flex justify-center items-center w-7 h-7 lg:shadow-lg active:text-secondary hover:text-dim-yellow">
           <AiOutlineSearch />
         </div>
-        {user ? <img
-          src={user?.picture}
-          alt="profile"
-          className={"w-10 h-10 rounded-full"}
-        /> : <Link to="/entry" className="text-[2vh] lg:text-[3vh} bg-dim-yellow text-white px-[3vh] py-[1vh] rounded-lg" >Login</Link>
+        {user ? <Link to={`/profile`}>
+          <img
+            src={user?.picture}
+            alt="profile"
+            className={"w-10 h-10 rounded-full"}
+          />
+        </Link> : <Link to="/entry" className="text-[2vh] lg:text-[3vh} bg-dim-yellow text-white px-[3vh] py-[1vh] rounded-lg" >Login</Link>
         }
       </div>
     </div>

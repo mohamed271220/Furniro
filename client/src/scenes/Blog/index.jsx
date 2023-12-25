@@ -19,7 +19,7 @@ const Blog = () => {
     queryFn: ({ signal }) => getPosts({ signal, searchTerm: search })
   })
   const { data: newestData, isError: newestError, isPending: newestIsPending, error: newestErrorInfo, refetch: newestRefetch } = useQuery({
-    queryKey: ['newestPosts'], queryFn: ({ signal }) => getPosts({ signal, limit: 5 })
+    queryKey: ['newestPosts'], queryFn: ({ signal }) => getPosts({ signal, limit: 3 })
   });
   console.log(newestData);
 
@@ -124,7 +124,7 @@ const Blog = () => {
           <form onSubmit={handleSearchSubmit} id="search-form" className="relative w-full">
             <input
               type="search"
-              placeholder="Search events"
+              placeholder="Search posts"
               className="w-full border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none"
               ref={searchElement}
               onChange={(e) => setSearch(e.target.value)}
