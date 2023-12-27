@@ -1,14 +1,19 @@
+import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
+import { getOrders } from "../../constants/Http";
 
 const Profile = ({ user }) => {
-    console.log(user);
+    const { data, isError, isPending, error, refetch } = useQuery({
+        queryKey: ['profile'], queryFn: ({ signal }) => getOrders({ signal })
+    });
+    console.log(data);
     return (
         <div>
             {user.data.role === "admin" || user.data.role === "coolerAdmin" && (
-                <div className="bg-dim-yellow h-[10vh] px-6 flex flex-row justify-between items-center">
-                    <h1 className="text-[2vh] text-white">Looks like you&apos;re an admin!</h1>
+                <div className="bg-dim-yellow h-[10vh] px-6 flex flex-row justify-between items-center gap-3">
+                    <h1 className="text-[2vh] text-white">Welcome back admin!</h1>
                     <Link className="btn-3" to={"dashboard"}>
-                        Go to Admin Dashboard
+                        Admin Dashboard
                     </Link>
                 </div>
             )}
@@ -22,6 +27,8 @@ const Profile = ({ user }) => {
             <p>Status: {user.data.status}</p>
             <p>Created at: {user.data.createdAt}</p>
             <p>Updated at: {user.data.updatedAt}</p>
+            <p>Orders: {data?.user?.orders?.length || 0}</p>
+            <p>orders goes here</p>
         </div>
     )
 }

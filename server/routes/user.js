@@ -5,7 +5,7 @@ const router = express.Router();
 const env = require("dotenv").config({ path: "./.env" });
 const { resolve } = require("path");
 router.use(express.static(process.env.STATIC_DIR));
-
+const {isUser} = require("../middlewares/isUser");
 
 
 
@@ -16,7 +16,7 @@ router.get(
     '/cart',
     userController.getCart
 )
-router.get("/profile", userController.getProfile);
+router.get("/orders", isUser ,userController.getOrders);
 router.put("/profile", userController.editProfile);
 
 module.exports = router;

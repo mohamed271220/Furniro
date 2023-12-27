@@ -202,8 +202,21 @@ exports.getCart = async (req, res, next) => {
 
 }
 
-exports.getProfile = async (req, res, next) => {
-
+exports.getOrders = async (req, res, next) => {
+    try {
+        const user = await User.findOne({ googleId: req.user.id }).populate("orders").select('orders -_id');
+        if (!user) {
+            const error = new Error("User not found");
+            error.statusCode = 404;
+        }
+        res.status(200).json({ user: user });
+    }
+    catch (err) {
+        const error = new Error(err);
+        error.statusCode = 500;
+        console.log(err);
+        return next(err);
+    }
 }
 exports.editProfile = async (req, res, next) => {
 

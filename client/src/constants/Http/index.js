@@ -73,4 +73,20 @@ export async function getPosts({ signal, searchTerm, tag, limit }) {
   return data;
 }
 
+export async function getOrders({ signal }) {
+  const response = await fetch("http://localhost:4000/user/orders", {
+    signal,
+    credentials: 'include', 
+  });
 
+  if (!response.ok) {
+    const error = new Error("An error occurred while fetching the profile");
+    error.code = response.status;
+    error.info = await response.json();
+    throw error;
+  }
+
+  const data = await response.json();
+
+  return data;
+}
