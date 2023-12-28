@@ -22,6 +22,10 @@ const orderSchema = new Schema(
       ref: "User",
       required: true,
     },
+    address: {
+      type: String,
+      required: true,
+    },
     paymentIntent: {
       type: String,
       required: true,

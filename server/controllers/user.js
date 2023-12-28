@@ -105,9 +105,6 @@ exports.addToCart = async (req, res, next) => {
                 image: product.images[0],
             });
         }
-        // console.log(user.cart.find((p) => p.product.toString() === productId));
-
-        // console.log(user.cart);
         await user.save();
         res.status(201).json({ message: "Product added to cart", user });
     } catch (err) {
@@ -120,13 +117,10 @@ exports.addToCart = async (req, res, next) => {
 
 exports.removeFromCart = async (req, res, next) => {
     const productId = req.params.productId;
-    console.log(productId);
-
     let user;
     const number = req.body.number;
     let product;
     if (req.user) {
-        console.log(req.user);
         user = await User.findOne({ googleId: req.user.id });
     }
     if (!user) {
@@ -209,7 +203,7 @@ exports.getOrders = async (req, res, next) => {
             const error = new Error("User not found");
             error.statusCode = 404;
         }
-        res.status(200).json({ user: user });
+        res.status(200).json({ orders: user.orders });
     }
     catch (err) {
         const error = new Error(err);
@@ -219,6 +213,58 @@ exports.getOrders = async (req, res, next) => {
     }
 }
 exports.editProfile = async (req, res, next) => {
-
+    try {
+        const user = await User.findById(req.user.id);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        // Validate the input
+        if (!req.body.username && !req.body.phoneNumber) {
+            return res.status(400).json({ message: 'At least one of username or phone number is required' });
+        }
+        // Update the user's username and phone number if they were provided
+        if (req.body.username) {
+            user.username = req.body.username;
+        }
+        if (req.body.phoneNumber) {
+            user.phoneNumber = req.body.phoneNumber;
+        }
+        await user.save();
+        res.status(200).json({ message: 'Profile updated successfully' });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
 }
+
+exports.getAddresses = async (req, res) => {
+    try {
+        const user = await User.findOne({ googleId: req.user.id });
+        res.status(200).json({ addresses: user.addresses });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
+exports.postAddress = async (req, res) => {
+    try {
+        const user = await User.findOne({ googleId: req.user.id });
+        user.addresses.push(req.body.address);
+        await user.save();
+
+        res.status(201).json({ message: 'Address added successfully' });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
+exports.deleteAddress = async (req, res) => {
+    try {
+        const user = await User.findOne({ googleId: req.user.id });
+        user.addresses = user.addresses.filter(address => address.street !== req.body.address.street);
+        await user.save();
+        res.status(200).json({ message: 'Address removed successfully' });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
 

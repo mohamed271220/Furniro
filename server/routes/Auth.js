@@ -4,7 +4,6 @@ const User = require("../models/User");
 
 router.get("/login/success", async (req, res) => {
   if (req.user) {
-    console.log(req.user);
     const data = await User.findOne({ googleId: req.user.id });
     console.log(data);
     res.status(200).json({
@@ -41,24 +40,3 @@ router.get("/logout", (req, res) => {
 });
 
 module.exports = router;
-
-//Authorization
-//const express = require('express');
-// const passport = require('passport');
-// const router = express.Router();
-
-// router.get('/profile', isLoggedIn, (req, res) => {
-//     res.render('profile.ejs', {
-//         user: req.user
-//     });
-// });
-
-// function isLoggedIn(req, res, next) {
-//     if (req.isAuthenticated()) {
-//         return next();
-//     }
-
-//     res.redirect('/login');
-// }
-
-// module.exports = router;

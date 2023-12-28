@@ -78,15 +78,28 @@ export async function getOrders({ signal }) {
     signal,
     credentials: 'include', 
   });
-
   if (!response.ok) {
     const error = new Error("An error occurred while fetching the profile");
     error.code = response.status;
     error.info = await response.json();
     throw error;
   }
-
   const data = await response.json();
-
   return data;
 }
+
+export async function getAddresses({ signal }){
+  const response = await fetch("http://localhost:4000/user/addresses", {
+    signal,
+    credentials: 'include', 
+  });
+  if (!response.ok) {
+    const error = new Error("An error occurred while fetching the profile");
+    error.code = response.status;
+    error.info = await response.json();
+    throw error;
+  }
+  const data = await response.json();
+  return data;
+}
+

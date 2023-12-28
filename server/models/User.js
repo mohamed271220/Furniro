@@ -5,7 +5,8 @@ const findOrCreate = require("mongoose-findorcreate");
 const userSchema = mongoose.Schema({
   username: {
     required: true,
-    type:String},
+    type: String
+  },
   name: String,
   googleId: String,
   password: String,
@@ -40,7 +41,13 @@ const userSchema = mongoose.Schema({
       ref: "Order",
     },
   ],
-  address: [{ type: mongoose.Types.ObjectId, ref: "Address" }],
+  addresses: [{
+    street: { type: String, required: true },
+    city: { type: String, required: true },
+    state: { type: String, required: true },
+    postalCode: { type: String, required: true },
+    country: { type: String, required: true },
+  }],
   phone: String,
   role: {
     type: String,

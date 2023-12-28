@@ -63,7 +63,8 @@ const Dropdown = ({
             whileTap={{
               backgroundColor: "#FFF3E3",
             }}
-            onClick={() => {
+            onClick={(e) => {
+              e.stopPropagation();
               setIsOpen((prev) => !prev);
               handleModalOpen();
             }}
@@ -84,7 +85,8 @@ const Dropdown = ({
             whileHover={{
               backgroundColor: "#FFF3E3",
             }}
-            onClick={() => {
+            onClick={(e) => {
+              e.stopPropagation();
               setIsOpen((prev) => !prev);
             }}
             className="flex flex-row w-full gap-[1vh]  text-black p-2 cursor-pointer items-center justify-center">
@@ -107,7 +109,8 @@ const Dropdown = ({
                 whileHover={{
                   backgroundColor: "#FFF3E3",
                 }}
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation();
                   setIsOpen((prev) => !prev);
                 }}
                 className="flex flex-row w-full gap-[1vh]   text-black p-2 cursor-pointer items-center justify-center">
@@ -131,7 +134,8 @@ const Dropdown = ({
                 whileHover={{
                   backgroundColor: "#FFF3E3",
                 }}
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation();
                   setIsOpen((prev) => !prev);
                 }}
                 className="flex flex-row w-full gap-[1vh]   text-black p-2  cursor-pointer items-center justify-center">
@@ -154,11 +158,9 @@ const Dropdown = ({
             whileHover={{
               backgroundColor: "#FFF3E3",
             }}
-            onClick={() => {
-              setIsOpen((prev) => !prev);
-            }}
+            onClick={logout}
             className="flex flex-row w-full gap-[1vh] text-[2vh]  text-black p-2 rounded-lg cursor-pointer items-center justify-center">
-            <h2 onClick={logout}>
+            <h2>
               <Link>Logout</Link>
             </h2>
           </motion.div>

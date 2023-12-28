@@ -58,6 +58,7 @@ exports.makeOrder = async (req, res, next) => {
                 error.statusCode = 404;
                 next(error);
             }
+            const address = user.addresses.find(address => address === req.body.address);
             products = user.cart;
             const total = products
                 .map((p) => p.price * p.number)
@@ -69,6 +70,7 @@ exports.makeOrder = async (req, res, next) => {
                 products: products,
                 paymentIntent: paymentIntent,
                 madeBy: user.id,
+                address: address,
                 status: "pending",
                 totalPrice: total,
             });

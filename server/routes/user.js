@@ -19,4 +19,8 @@ router.get(
 router.get("/orders", isUser ,userController.getOrders);
 router.put("/profile", userController.editProfile);
 
+router.get('/addresses', isUser, userController.getAddresses);
+router.post('/addresses', isUser, userController.postAddress);
+router.delete('/addresses', isUser, userController.deleteAddress);
+
 module.exports = router;

@@ -18,15 +18,24 @@ import Payment from "./scenes/Checkout/Payment";
 import Completion from "./scenes/Checkout/Completion";
 import { useAuth } from "./hooks/useAuth";
 import Profile from './scenes/Profile';
+import LoadingSpinner from "./constants/Loading/LoadingSpinner/LoadingSpinner";
 
 
 axios.defaults.baseURL = "http://localhost:4000";
 axios.defaults.withCredentials = true;
 
 function App() {
-  const user = useAuth()
-  return (
+  const { user, loading } = useAuth();
 
+  if (loading) return (
+    <div className="flex h-screen w-full items-center justify-center bg-primary">
+      <div className="flex h-[150px] w-[150px] items-center justify-center rounded-lg bg-white">
+        <LoadingSpinner />
+      </div>
+    </div>
+  )
+
+  return (
     <Routes>
       <Route element={<Layout user={user?.user?._json} userData={user?.data} />}>
         <Route
@@ -132,7 +141,7 @@ function App() {
       <Route
         exact={false}
         path="/entry"
-        element={user ? <Navigate to=".." /> : <Entry />}
+        element={user ? <Navigate to="../.." /> : <Entry />}
       />
 
     </Routes>
