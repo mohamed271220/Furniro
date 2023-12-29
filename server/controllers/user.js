@@ -99,7 +99,7 @@ exports.addToCart = async (req, res, next) => {
             user.cart.push({
                 product: productId,
                 number: number,
-                price: product.price - product.price * product.sale,
+                price: product.price - (product.price * (product.sale / 100)),
                 name: product.title,
                 sale: product.sale,
                 image: product.images[0],
@@ -199,10 +199,6 @@ exports.getCart = async (req, res, next) => {
 exports.getOrders = async (req, res, next) => {
     try {
         const user = await User.findOne({ googleId: req.user.id }).populate("orders").select('orders -_id');
-        if (!user) {
-            const error = new Error("User not found");
-            error.statusCode = 404;
-        }
         res.status(200).json({ orders: user.orders });
     }
     catch (err) {
@@ -246,11 +242,15 @@ exports.getAddresses = async (req, res) => {
 };
 
 exports.postAddress = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
     try {
         const user = await User.findOne({ googleId: req.user.id });
         user.addresses.push(req.body.address);
         await user.save();
-
         res.status(201).json({ message: 'Address added successfully' });
     } catch (err) {
         res.status(500).json({ message: err.message });

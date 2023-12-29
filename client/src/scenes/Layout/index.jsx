@@ -74,7 +74,7 @@ const Layout = ({ user, userData }) => {
 
   return (
     <div className='relative'>
-      {isModalOpen && <CartModal user={user} onClose={handleClose} />}
+      {isModalOpen && <CartModal user={user} isOpen={isModalOpen} onClose={handleClose} />}
       <ScrollToTop />
       <Navbar
         cartItems={cartItems}

@@ -5,22 +5,25 @@ const router = express.Router();
 const env = require("dotenv").config({ path: "./.env" });
 const { resolve } = require("path");
 router.use(express.static(process.env.STATIC_DIR));
-const {isUser} = require("../middlewares/isUser");
+const { isUser } = require("../middlewares/isUser");
+const { validateAddress } = require("./validators/address");
 
 
 
-router.post("/products/:productId/review", userController.postReview);
-router.post("/products/:productId/cart", userController.addToCart);
-router.put("/products/:productId/cart/remove", userController.removeFromCart);
+router.post("/products/:productId/review", isUser, userController.postReview);
+router.post("/products/:productId/cart", isUser, userController.addToCart);
+router.put("/products/:productId/cart/remove", isUser, userController.removeFromCart);
 router.get(
     '/cart',
+    isUser,
     userController.getCart
 )
-router.get("/orders", isUser ,userController.getOrders);
-router.put("/profile", userController.editProfile);
+router.get("/orders", isUser, userController.getOrders);
+
+router.put("/profile", isUser, userController.editProfile);
 
 router.get('/addresses', isUser, userController.getAddresses);
-router.post('/addresses', isUser, userController.postAddress);
+router.post('/addresses', isUser, validateAddress, userController.postAddress);
 router.delete('/addresses', isUser, userController.deleteAddress);
 
 module.exports = router;

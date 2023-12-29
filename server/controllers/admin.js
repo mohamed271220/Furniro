@@ -430,3 +430,6 @@ exports.postPost = async (req, res, next) => {
       next(err);
     }
   }
+  exports.editPost = async (req, res, next) => {
+    
+  }

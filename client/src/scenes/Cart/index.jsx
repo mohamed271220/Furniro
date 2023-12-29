@@ -55,8 +55,6 @@ const Cart = () => {
 
   const removeItemHandler = async (productId, price) => {
     const id = toast.loading("Please wait...");
-
-
     try {
       const response = await axios.put(
         `http://localhost:4000/user/products/${productId}/cart/remove`,

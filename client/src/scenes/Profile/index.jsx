@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import { getAddresses, getOrders } from "../../constants/Http";
+import Addresses from "../../components/Addresses";
 
 const Profile = ({ user }) => {
     const { data: orders, isError: isOrdersError, isPending: isOrdersPending, error: ordersError, refetch: ordersRefetch } = useQuery({
@@ -41,20 +42,7 @@ const Profile = ({ user }) => {
                     )
                 })
             }
-            <p>address</p>
-            {
-                addresses?.addresses?.map((address) => {
-                    return (
-                        <div key={address._id} >
-                            <p>{address.street}</p>
-                            <p>{address.city}</p>
-                            <p>{address.state}</p>
-                            <p>{address.postalCode}</p>
-                            <p>{address.country}</p>
-                        </div>
-                    )
-                })
-            }
+        <Addresses addresses={addresses} />
         </div>
     )
 }

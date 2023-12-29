@@ -2,7 +2,11 @@ const User = require("../models/User");
 
 exports.isUser = async (req, res, next) => {
     try {
-        const user = await User.findOne({ googleId: req.user.id });
+        console.log(req.user);
+        let user = await User.findOne({ googleId: req.user.id });
+        if (!user) {
+            user = await User.findById(req.user.id);
+        }
         if (!user) {
             return res.status(404).json({
                 success: false,

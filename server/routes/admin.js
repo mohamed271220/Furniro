@@ -54,6 +54,7 @@ router.get("/admins/:adminId", isAdmin, adminController.getAdmin);
 router.put("/admins/:adminId", isCoolerAdmin, adminController.updateAdmin);
 
 router.post("/post", fileUpload.array("images", 4), isAdmin, validateBlogPost, adminController.postPost)
+router.put("/post/:id", fileUpload.array("images", 4), isAdmin, validateBlogPost, adminController.editPost)
 
 
 module.exports = router;

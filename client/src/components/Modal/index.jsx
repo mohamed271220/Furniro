@@ -1,35 +1,40 @@
 import { createPortal } from "react-dom";
-
+import { AnimatePresence } from 'framer-motion';
 import { motion } from "framer-motion";
 
-export default function Modal({ title, children, onClose }) {
+export default function Modal({ title, children, onClose, isForm, isOpen }) {
   return createPortal(
-    <>
+    <div className="relative">
       <div
-        className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50 "
+        className={`fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50 `}
         onClick={onClose}
       />
-      <motion.dialog
-        className=" p-[3vh] w-[30rem] max-w-[90%] top-[0]  z-50
-    bg-white
-        "
-        open
-        //To reuse states
-        variants={{
-          visible: { opacity: 1, y: 0 },
-          hidden: { opacity: 0, y: 30 },
-        }}
-        //from these
-        initial="hidden"
-        //to these
-        animate="visible"
-        //ends with this
-        exit="hidden"
-      >
-        <h2>{title}</h2>
-        {children}
-      </motion.dialog>
-    </>,
+      <AnimatePresence mode="wait">
+        {isOpen && (
+          <motion.dialog
+            key="modal"
+            className={`absolute ${isForm ? "top-4 m-auto" : "top-0 left-0"} transform -translate-x-1/2 -translate-y-1/2 p-[3vh] w-[30rem] max-w-[90%] z-50 bg-white
+          overflow-auto
+          `}
+            open
+            variants={{
+              visible: { opacity: 1, y: 0 },
+              hidden: { opacity: 0.3, y: 30 },
+              exit: { opacity: 0.3, y: 50 },
+            }}
+            transition={{ exit: { duration: 0.5 } }}
+
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+          >
+            <h2 className="font-bold text-[3vh]">{title}</h2>
+            {children}
+          </motion.dialog>
+        )}
+      </AnimatePresence>
+    </div>
+    ,
     document.getElementById("modal")
   );
 }
