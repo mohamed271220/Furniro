@@ -5,92 +5,105 @@ const mongoose = require("mongoose");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY, {
     apiVersion: "2022-08-01",
 });
-
-
-
+const Payment = require("../models/payment");
 
 exports.paymentIntent = async (req, res, next) => {
-    let products;
-    let user;
-    console.log(req.user);
     try {
-        if (req.user) {
-            user = await User.findOne({ googleId: req.user.id });
-            // console.log(data);
-            products = user.cart;
-            if (products.length === 0 || !products) {
-                const error = new Error("Cart is empty");
-                error.statusCode = 404;
-                return next(error);
-            }
-            const total = products
-                .map((p) => p.price * p.number)
-                .reduce((acc, prod) => acc + prod, 0);
-            console.log(total);
-            const totalInCents = Math.round(total * 100);
-            const paymentIntent = await stripe.paymentIntents.create({
-                currency: "usd",
-                amount: totalInCents,
-                automatic_payment_methods: {
-                    enabled: true,
-                },
-            });
-            res.send({ clientSecret: paymentIntent.client_secret });
+        if (!req.user) throw new Error("User not authenticated");
 
+        const user = await User.findOne({ googleId: req.user.id });
+        const products = user.cart;
+
+        if (!products || products.length === 0) {
+            const error = new Error("Cart is empty");
+            error.statusCode = 404;
+            return next(error);
         }
+
+        const total = products
+            .map((p) => p.price * p.number)
+            .reduce((acc, prod) => acc + prod, 0);
+
+        const totalInCents = Math.round(total * 100);
+        const paymentIntent = await stripe.paymentIntents.create({
+            currency: "usd",
+            amount: totalInCents,
+            automatic_payment_methods: {
+                enabled: true,
+            },
+        });
+        // Create a new Payment document
+        const payment = new Payment({
+            paymentIntentId: paymentIntent.id,
+            status: paymentIntent.status,
+            amount: paymentIntent.amount,
+            currency: paymentIntent.currency,
+            order: null, 
+        });
+        await payment.save(); // Save the Payment document
+        res.send({ clientSecret: paymentIntent.client_secret });
     } catch (err) {
-        console.log(err);
+        console.error(err);
         return res.status(500).json({ error: err.message });
     }
 };
 
-
 exports.makeOrder = async (req, res, next) => {
-    let products;
-    const paymentIntent = req.body.paymentIntent;
     try {
-        if (req.user) {
-            const user = await User.findOne({ googleId: req.user.id });
-            console.log(user);
+        if (!req.user) throw new Error("User not authenticated");
 
-            if (!user) {
-                const error = new Error("Something went wrong , please check your cart");
-                error.statusCode = 404;
-                next(error);
-            }
-            const address = user.addresses.find(address => address === req.body.address);
-            products = user.cart;
-            const total = products
-                .map((p) => p.price * p.number)
-                .reduce((acc, prod) => acc + prod, 0);
-            console.log(products);
-            const sess = await mongoose.startSession();
-            sess.startTransaction();
-            const order = new Order({
-                products: products,
-                paymentIntent: paymentIntent,
-                madeBy: user.id,
-                address: address,
-                status: "pending",
-                totalPrice: total,
-            });
-            console.log(order);
-            await order.save({ session: sess });
-            user.cart = [];
-            user.orders.push(order);
-            await user.save({ session: sess });
-            await sess.commitTransaction();
-            res.status(201).send({});
+        const user = await User.findOne({ googleId: req.user.id });
+        if (!user) throw new Error("User not found");
+
+        const address = user.addresses.find(address => address === req.body.address);
+        const products = user.cart;
+
+        const total = products
+            .map((p) => p.price * p.number)
+            .reduce((acc, prod) => acc + prod, 0);
+
+        const sess = await mongoose.startSession();
+        sess.startTransaction();
+
+        const order = new Order({
+            products: products,
+            paymentIntent: req.body.paymentIntent,
+            madeBy: user.id,
+            address: address || "",
+            status: "pending",
+            totalPrice: total,
+        });
+
+        await order.save({ session: sess });
+
+        // Find the Payment document and update the order field
+        const payment = await Payment.findOne({ paymentIntentId: req.body.paymentIntent });
+        if (!payment) {
+            // If no Payment document was found, throw an error
+            throw new Error("No Payment found for this payment intent");
+        } else {
+            // If a Payment document was found, update the order field
+            payment.order = order.id;
         }
+        await payment.save({ session: sess })
+
+        user.cart = [];
+        user.orders.push(order);
+        await user.save({ session: sess });
+
+        await sess.commitTransaction();
+
+        res.status(201).send({});
     } catch (err) {
-        console.log(err);
-        // Save the failed request for later retry
+        console.error(err);
+
         const failedRequest = new FailedRequest({
             endpoint: '/makeOrder',
             method: 'POST',
             data: req.body,
             error: err.message,
         });
+
         await failedRequest.save();
         return res.status(500).json({ error: err.message });
     }
@@ -132,8 +145,6 @@ exports.checkOrderStatus = async (req, res, next) => {
         next(error);
     }
 };
-
-
 
 exports.getOrder = async (req, res, next) => {
     const orderId = req.params.orderId;
