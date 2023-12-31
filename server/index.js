@@ -102,27 +102,8 @@ passport.deserializeUser((user, done) => {
   done(null, user);
 });
 
-// Logging Middleware
 app.use(morgan("dev"));
-
 app.use(helmet());
-
-// //file upload
-// app.post("/upload", filesUpload.array("photos", 40), (req, res) => {
-//   console.log(req.files);
-//   const uploadedFiles = [];
-//   for (let i = 0; i < req.files.length; i++) {
-//     const { path, originalname } = req.files[i];
-//     const parts = originalname.split(".");
-//     const ext = parts[parts.length - 1];
-//     const newPath = path + "." + ext;
-//     fs.renameSync(path, newPath);
-//     uploadedFiles.push(newPath.replace("uploads", ""));
-//   }
-//   res.json(uploadedFiles);
-// });
-
-// cloud file upload
 
 // Set up Google Cloud Storage client
 const storage = new Storage({

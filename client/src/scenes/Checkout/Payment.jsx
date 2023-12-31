@@ -11,10 +11,15 @@ function Payment() {
 
   useEffect(() => {
     const getConfig = async () => {
-      await fetch("http://localhost:4000/order/config").then(async (r) => {
-        const { publishableKey } = await r.json();
-        setStripePromise(loadStripe(publishableKey));
-      });
+      try {
+        await fetch("http://localhost:4000/order/config").then(async (r) => {
+          const { publishableKey } = await r.json();
+          setStripePromise(loadStripe(publishableKey));
+        });
+      }
+      catch (err) {
+        console.log(err);
+      }
     }
     getConfig()
   }, []);
@@ -24,13 +29,18 @@ function Payment() {
 
   useEffect(() => {
     const paymentIntent = async () => {
-      await axios.post(`${import.meta.env.VITE_REACT_APP_API_URL}/order/create-payment-intent`, {}).then(async (result) => {
-        var { clientSecret } = result.data;
-        console.log(result);
-        setClientSecret(clientSecret);
-      }).catch((err) => {
+      try {
+        await axios.post(`${import.meta.env.VITE_REACT_APP_API_URL}/order/create-payment-intent`, {}).then(async (result) => {
+          var { clientSecret } = result.data;
+          console.log(result);
+          setClientSecret(clientSecret);
+        }).catch((err) => {
+          console.log(err);
+        });
+      }
+      catch (err) {
         console.log(err);
-      });
+      }
     }
     paymentIntent()
   }
