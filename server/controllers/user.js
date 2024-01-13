@@ -246,10 +246,20 @@ exports.postAddress = async (req, res) => {
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
-
     try {
         const user = await User.findOne({ googleId: req.user.id });
-        user.addresses.push(req.body.address);
+        const { street,
+            city,
+            state,
+            postalCode,
+            country } = req.body;
+        user.addresses.push({
+            street,
+            city,
+            state,
+            postalCode,
+            country
+        });
         await user.save();
         res.status(201).json({ message: 'Address added successfully' });
     } catch (err) {

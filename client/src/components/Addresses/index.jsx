@@ -2,6 +2,10 @@ import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { useState } from 'react';
 import * as Yup from 'yup';
 import Modal from '../Modal';
+import axios from 'axios';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 const addressSchema = Yup.object().shape({
     street: Yup.string().required("Street is required"),
     city: Yup.string().required("City is required"),
@@ -17,8 +21,61 @@ const initialAddressValues = {
     postalCode: "",
     country: "",
 };
+
+
+
 const Addresses = ({ addresses }) => {
+    const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate();
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const config = {
+        position: "top-center",
+        autoClose: 2000,
+        closeOnClick: true,
+        pauseOnHover: true,
+        hideProgressBar: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    };
+
+    const formSubmitHandler = async (values, onSubmitProps) => {
+        const id = toast.loading("Please wait...");
+        console.log(values);
+        try {
+            const formData = new FormData();
+            formData.append("street", values.street);
+            formData.append("city", values.city);
+            formData.append("state", values.state);
+            formData.append("state", values.state);
+            formData.append("postalCode", values.postalCode);
+            formData.append("country", values.country);
+            setIsLoading(true);
+            const response = await axios.post("/user/addresses", formData, {});
+            if (response) {
+                toast.update(id, {
+                    render: "Product added successfully",
+                    type: "success",
+                    ...config,
+                    isLoading: false,
+                });
+
+            }
+            setIsLoading(false);
+            navigate("/");
+            onSubmitProps.resetForm();
+            console.log(response.data);
+
+        } catch (error) {
+            toast.update(id, {
+                render: "Failed to add post.",
+                type: "error",
+                isLoading: false,
+                ...config,
+            });
+        }
+    };
     return (
         <div>
             {
@@ -41,15 +98,14 @@ const Addresses = ({ addresses }) => {
                     <Formik
                         initialValues={initialAddressValues}
                         validationSchema={addressSchema}
-                        onSubmit={(values, { resetForm }) => {
-                            // handle form submission
-                            console.log(values);
-                            resetForm();
-                            setIsModalOpen(false);
-                        }}
+                        onSubmit={formSubmitHandler}
                     >
-                        {({ errors, touched }) => (
-                            <Form className='flex flex-col'>
+                        {({ errors, isSubmitting, handleSubmit }) => (
+                            <Form
+                                onSubmit={handleSubmit}
+                                encType="multipart/form-data"
+                                method="POST"
+                                className='flex flex-col gap-6'>
                                 <div className="form-control">
                                     <div className="form-control-input">
                                         <label htmlFor="street">Street</label>
@@ -82,12 +138,27 @@ const Addresses = ({ addresses }) => {
                                     </div>
                                 </div>
 
-                                <button type="submit">Submit</button>
+                                <button type="submit" disabled={isSubmitting || Object.keys(errors).length !== 0 || isLoading}
+                                    className="btn-3 bg-[#fdd49e]" >
+                                    Submit
+                                </button>
                             </Form>
                         )}
                     </Formik>
                 </Modal>
             )}
+            <ToastContainer
+                position="top-center"
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
         </div>
     )
 }
