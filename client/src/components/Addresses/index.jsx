@@ -21,7 +21,6 @@ const Addresses = ({ addresses }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     return (
         <div>
-
             {
                 addresses?.addresses?.map((address) => {
                     return (
@@ -37,7 +36,6 @@ const Addresses = ({ addresses }) => {
             }
 
             <button onClick={() => setIsModalOpen(true)}>Add Address</button>
-
             {isModalOpen && (
                 <Modal title="Add Address" isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} isForm={true}>
                     <Formik
