@@ -33,6 +33,11 @@
 }
 
 @layer utilities {
+
+  .td {
+    @apply text-slate-gray text-base font-montserrat font-normal p-0 px-4 border-none text-[2vh];
+  }
+
   .padding {
     @apply sm:px-16 px-8 sm:py-24 py-12;
   }

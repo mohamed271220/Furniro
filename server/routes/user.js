@@ -23,6 +23,7 @@ router.get("/orders", isUser, userController.getOrders);
 router.put("/profile", isUser, userController.editProfile);
 
 router.get('/addresses', isUser, userController.getAddresses);
+router.put('/addresses', isUser, validateAddress, userController.setActiveAddress);
 router.post('/addresses', isUser, validateAddress, userController.postAddress);
 router.delete('/addresses', isUser, userController.deleteAddress);
 

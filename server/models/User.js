@@ -48,6 +48,7 @@ const userSchema = mongoose.Schema({
     postalCode: { type: String, required: true },
     country: { type: String, required: true },
   }],
+  activeAddress: { type: mongoose.Schema.Types.ObjectId },
   phone: String,
   role: {
     type: String,

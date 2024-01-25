@@ -6,6 +6,7 @@ import axios from 'axios';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
+import { set } from 'mongoose';
 const addressSchema = Yup.object().shape({
     street: Yup.string().required("Street is required"),
     city: Yup.string().required("City is required"),
@@ -24,10 +25,14 @@ const initialAddressValues = {
 
 
 
-const Addresses = ({ addresses }) => {
+const Addresses = ({ addresses, activeAddress, isModalOpen, setIsModalOpen }) => {
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    // const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [selectedAddress, setSelectedAddress] = useState(null);
+    const [selectedAddressId, setSelectedAddressId] = useState(null);
+    const [modalError, setModalError] = useState(false)
 
     const config = {
         position: "top-center",
@@ -40,19 +45,30 @@ const Addresses = ({ addresses }) => {
         theme: "light",
     };
 
+    const handleActiveChange = async (id) => {
+        try {
+            const response = await axios.put('/user/addresses', { address: id });
+            if (response.status === 200) {
+                setSelectedAddress(id);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     const formSubmitHandler = async (values, onSubmitProps) => {
         const id = toast.loading("Please wait...");
         console.log(values);
         try {
-            const formData = new FormData();
-            formData.append("street", values.street);
-            formData.append("city", values.city);
-            formData.append("state", values.state);
-            formData.append("state", values.state);
-            formData.append("postalCode", values.postalCode);
-            formData.append("country", values.country);
+            const data = {
+                street: values.street,
+                city: values.city,
+                state: values.state,
+                postalCode: values.postalCode,
+                country: values.country
+            };
             setIsLoading(true);
-            const response = await axios.post("/user/addresses", formData, {});
+            const response = await axios.post("/user/addresses", data, {});
             if (response) {
                 toast.update(id, {
                     render: "Product added successfully",
@@ -63,36 +79,54 @@ const Addresses = ({ addresses }) => {
 
             }
             setIsLoading(false);
-            navigate("/");
+            setIsModalOpen(false);
             onSubmitProps.resetForm();
             console.log(response.data);
 
         } catch (error) {
             toast.update(id, {
-                render: "Failed to add post.",
+                render: "Failed to add address.",
                 type: "error",
                 isLoading: false,
                 ...config,
             });
+            setIsLoading(false);
+            setModalError("Failed to add address.");
         }
     };
     return (
         <div>
-            {
-                addresses?.addresses?.map((address) => {
-                    return (
-                        <div key={address._id} >
-                            <p>{address.street}</p>
-                            <p>{address.city}</p>
-                            <p>{address.state}</p>
-                            <p>{address.postalCode}</p>
-                            <p>{address.country}</p>
-                        </div>
-                    )
-                })
-            }
+            <table className='w-full'>
+                <thead>
+                    <tr className=' border-none td w-full'>
+                        <th className='border-none py-2 px-4'>Active</th>
+                        <th className='border-none py-2 px-4'>Street</th>
+                        <th className='border-none py-2 px-4'>City</th>
+                        <th className='border-none py-2 px-4'>State</th>
+                        <th className='border-none py-2 px-4 w-24 whitespace-nowrap'>Postal Code</th>
+                        <th className='border-none py-2 px-4'>Country</th>
+                    </tr>
+                </thead>
+                {
+                    addresses?.map((address) => {
+                        return (
+                            <tbody key={address._id}>
+                                <tr className='p-0 px-4 w-full'>
+                                    <td className='td'>
+                                        <input type="checkbox" checked={selectedAddress === address._id} onChange={() => handleActiveChange(address._id)} />
+                                    </td>
+                                    <td className='td'>{address.street}</td>
+                                    <td className='td'>{address.city}</td>
+                                    <td className='td'>{address.state}</td>
+                                    <td className='td'>{address.postalCode}</td>
+                                    <td className='td'>{address.country}</td>
+                                </tr>
+                            </tbody>
+                        )
+                    })
+                }
+            </table>
 
-            <button onClick={() => setIsModalOpen(true)}>Add Address</button>
             {isModalOpen && (
                 <Modal title="Add Address" isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} isForm={true}>
                     <Formik
@@ -142,6 +176,7 @@ const Addresses = ({ addresses }) => {
                                     className="btn-3 bg-[#fdd49e]" >
                                     Submit
                                 </button>
+                                {modalError && <p className="invalid-feedback">{modalError}</p>}
                             </Form>
                         )}
                     </Formik>

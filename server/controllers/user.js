@@ -4,6 +4,8 @@ const User = require("../models/User");
 const Order = require("../models/Order");
 const mongoose = require("mongoose");
 
+const { validationResult } = require("express-validator");
+
 exports.postReview = async (req, res, next) => {
     const productId = req.params.productId;
     const errors = validationResult(req);
@@ -243,6 +245,7 @@ exports.getAddresses = async (req, res) => {
 
 exports.postAddress = async (req, res) => {
     const errors = validationResult(req);
+    console.log(req.body.street);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
@@ -260,8 +263,26 @@ exports.postAddress = async (req, res) => {
             postalCode,
             country
         });
+        user.activeAddress = user.addresses[user.addresses.length - 1]._id;
         await user.save();
         res.status(201).json({ message: 'Address added successfully' });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
+exports.setActiveAddress = async (req, res) => {
+    try {
+        const user = await User.findOne({ googleId: req.user.id });
+        const addressExists = user.addresses.some(address => address._id.toString() === req.body.address);
+
+        if (!addressExists) {
+            return res.status(400).json({ message: 'Address does not exist' });
+        }
+
+        user.activeAddress = req.body.address;
+        await user.save();
+        res.status(200).json({ message: 'Address set as active successfully' });
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
