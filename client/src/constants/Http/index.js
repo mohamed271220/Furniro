@@ -73,10 +73,22 @@ export async function getPosts({ signal, searchTerm, tag, limit }) {
   return data;
 }
 
+export async function getPostById({ signal, id }) {
+  const response = await fetch(`http://localhost:4000/post/${id}`, { signal });
+  if (!response.ok) {
+    const error = new Error("An error occurred while fetching the post");
+    error.code = response.status;
+    error.info = await response.json();
+    throw error;
+  }
+  const data = await response.json();
+  return data;
+}
+
 export async function getOrders({ signal }) {
   const response = await fetch("http://localhost:4000/user/orders", {
     signal,
-    credentials: 'include', 
+    credentials: 'include',
   });
   if (!response.ok) {
     const error = new Error("An error occurred while fetching the profile");
@@ -88,10 +100,10 @@ export async function getOrders({ signal }) {
   return data;
 }
 
-export async function getAddresses({ signal }){
+export async function getAddresses({ signal }) {
   const response = await fetch("http://localhost:4000/user/addresses", {
     signal,
-    credentials: 'include', 
+    credentials: 'include',
   });
   if (!response.ok) {
     const error = new Error("An error occurred while fetching the profile");

@@ -12,7 +12,7 @@ const Navbar = ({
   logout,
   cartTotalQuantity,
   compareQuantity = 0,
-  handleModalOpen,
+  handleModalOpen
 }) => {
   return (
     <div

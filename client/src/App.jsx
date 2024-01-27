@@ -19,6 +19,7 @@ import Completion from "./scenes/Checkout/Completion";
 import { useAuth } from "./hooks/useAuth";
 import Profile from './scenes/Profile';
 import LoadingSpinner from "./constants/Loading/LoadingSpinner/LoadingSpinner";
+import Post from "./scenes/post";
 
 
 axios.defaults.baseURL = "http://localhost:4000";
@@ -112,6 +113,10 @@ function App() {
         <Route
           path="/blog"
           element={user ? <Blog user={user} /> : <Blog />}
+        />
+        <Route
+          path="/blog/:id"
+          element={user ? <Post user={user} /> : <Post />}
         />
         <Route
           path="/profile"

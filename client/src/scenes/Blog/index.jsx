@@ -10,6 +10,7 @@ import Pagination from "../../components/Pagination"
 import { usePagination } from "../../hooks/usePagination"
 import { AiOutlineSearch } from "react-icons/ai"
 
+
 const Blog = () => {
   const searchElement = useRef();
   const [search, setSearch] = useState('');
@@ -37,12 +38,6 @@ const Blog = () => {
 
   const records = getPaginatedData(data?.posts || []);
   const numbers = getPageNumbers(data?.posts?.length || 0);
-
-  // if (records) {
-  //   console.log(records);
-  // }
-
-
 
   function handleSearchSubmit(event) {
     event.preventDefault();

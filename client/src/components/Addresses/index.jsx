@@ -6,7 +6,8 @@ import axios from 'axios';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
-import { set } from 'mongoose';
+import { FaCheck, FaTimes } from 'react-icons/fa';
+import './index.css';
 const addressSchema = Yup.object().shape({
     street: Yup.string().required("Street is required"),
     city: Yup.string().required("City is required"),
@@ -30,7 +31,7 @@ const Addresses = ({ addresses, activeAddress, isModalOpen, setIsModalOpen }) =>
     const navigate = useNavigate();
     // const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-    const [selectedAddress, setSelectedAddress] = useState(null);
+    const [selectedAddress, setSelectedAddress] = useState(activeAddress);
     const [selectedAddressId, setSelectedAddressId] = useState(null);
     const [modalError, setModalError] = useState(false)
 
@@ -46,6 +47,7 @@ const Addresses = ({ addresses, activeAddress, isModalOpen, setIsModalOpen }) =>
     };
 
     const handleActiveChange = async (id) => {
+        setIsLoading(true);
         try {
             const response = await axios.put('/user/addresses', { address: id });
             if (response.status === 200) {
@@ -54,6 +56,7 @@ const Addresses = ({ addresses, activeAddress, isModalOpen, setIsModalOpen }) =>
         } catch (error) {
             console.error(error);
         }
+        setIsLoading(false);
     };
 
     const formSubmitHandler = async (values, onSubmitProps) => {
@@ -71,7 +74,7 @@ const Addresses = ({ addresses, activeAddress, isModalOpen, setIsModalOpen }) =>
             const response = await axios.post("/user/addresses", data, {});
             if (response) {
                 toast.update(id, {
-                    render: "Product added successfully",
+                    render: "Address added successfully",
                     type: "success",
                     ...config,
                     isLoading: false,
@@ -111,9 +114,18 @@ const Addresses = ({ addresses, activeAddress, isModalOpen, setIsModalOpen }) =>
                     addresses?.map((address) => {
                         return (
                             <tbody key={address._id}>
-                                <tr className='p-0 px-4 w-full'>
+                                <tr className='p-0  px-4 w-full'>
                                     <td className='td'>
-                                        <input type="checkbox" checked={selectedAddress === address._id} onChange={() => handleActiveChange(address._id)} />
+                                        {isLoading ? (
+                                            <div className="spinner"></div>
+                                        ) : (
+                                            <button
+                                                className={`text-[1.3vh] rounded-lg py-[1vh] px-[3vh]  ${selectedAddress === address._id ? 'bg-green-500 text-white' : 'bg-slate-200'}`}
+                                                onClick={() => handleActiveChange(address._id)}
+                                            >
+                                                {selectedAddress === address._id ? <FaCheck /> : <FaTimes />}
+                                            </button>
+                                        )}
                                     </td>
                                     <td className='td'>{address.street}</td>
                                     <td className='td'>{address.city}</td>

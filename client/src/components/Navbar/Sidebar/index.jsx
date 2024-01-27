@@ -10,9 +10,7 @@ import { BiSolidLogInCircle } from 'react-icons/bi'
 
 function Navbar({ user, userData, logout, cartTotalQuantity, compareQuantity }) {
   const [sidebar, setSidebar] = useState(false);
-
   const showSidebar = () => setSidebar(!sidebar);
-
   return (
     <div className="md:hidden block z-50">
       <IconContext.Provider value={{ color: "#000" }}>
@@ -20,7 +18,6 @@ function Navbar({ user, userData, logout, cartTotalQuantity, compareQuantity }) 
           <Link to="#" className="menu-bars">
             <FaIcons.FaBars onClick={showSidebar} />
           </Link>
-
           <img src={Logo} alt="logo" />
         </div>
         <nav className={sidebar ? "nav-menu active" : "nav-menu"}>
@@ -75,8 +72,6 @@ function Navbar({ user, userData, logout, cartTotalQuantity, compareQuantity }) 
                   <span>{user?.name}</span>
                 </Link>
               </li>
-
-
               {user && (userData.role === "admin" ||
                 userData.role === "coolerAdmin") && (
                   <>
@@ -92,13 +87,14 @@ function Navbar({ user, userData, logout, cartTotalQuantity, compareQuantity }) 
                       <NavLink to="/addPost">
                         <span className="">Add post</span>
                       </NavLink>
-
+                    </li>
+                    <li className="nav-text">
+                      <NavLink to="/dashboard">
+                        <span className="">Admin dashboard</span>
+                      </NavLink>
                     </li>
                   </>
                 )}
-
-
-
             </>
             }
             {
