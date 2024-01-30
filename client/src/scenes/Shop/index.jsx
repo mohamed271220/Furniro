@@ -33,10 +33,6 @@ const Shop = ({ user }) => {
   const numbers = getPageNumbers(data?.products?.length || 0);
 
 
-
-
-
-
   if (isError) {
     return <ErrorBlock title="Something went wrong" message={error} />;
   }

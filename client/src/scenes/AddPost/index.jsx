@@ -84,7 +84,7 @@ const BlogPostForm = () => {
             formData.append("author", values.author);
             formData.append("image", values.image);
             formData.append("tag", values.tag);
-            formData.append("body", JSON.stringify(values.body)); // Stringify the body
+            formData.append("body", JSON.stringify(values.body));
             setIsLoading(true);
 
             const response = await axios.post("/admin/post", formData, {});
@@ -103,8 +103,9 @@ const BlogPostForm = () => {
             navigate("/");
             onSubmitProps.resetForm();
             console.log(response.data);
-
+            
         } catch (error) {
+            setIsLoading(false);
             toast.update(id, {
                 render: "Failed to add post.",
                 type: "error",

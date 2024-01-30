@@ -1,3 +1,7 @@
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { useLocation } from 'react-router-dom';
+
 const Pagination = ({
     currentPage,
     prePage,
@@ -6,6 +10,16 @@ const Pagination = ({
     nextPage,
     nPage
 }) => {
+    const location = useLocation();
+    useEffect(() => {
+        const searchParams = new URLSearchParams(location.search);
+        const page = searchParams.get('page');
+      
+        if (page !== null && page !== currentPage) {
+          changePage(Number(page));
+        }
+      }, []);
+
     // Define the range of page numbers to display
     const range = 5;
     const start = Math.max(2, currentPage - Math.floor(range / 2));
@@ -17,18 +31,19 @@ const Pagination = ({
         displayedNumbers.push(i);
     }
 
+
     return (
         <div className="Pagination w-full flex justify-center">
             <ul className="flex flex-row flex-wrap justify-center w-[80%] items-center gap-[2vh]">
                 {currentPage === 1 ? <li className="hidden"></li> : <li className="bg-secondary px-[2vh] py-[1vh] text-[2vh] font-semibold rounded-[3px]">
-                    <a href="#" onClick={(e) => { e.preventDefault(); prePage(); }}>
+                    <Link href="#" onClick={(e) => { e.preventDefault(); prePage(); }}>
                         Previous
-                    </a>
+                    </Link>
                 </li>}
                 <li className={currentPage === 1 ? "bg-dim-yellow text-white px-[2vh] py-[1vh] text-[2vh] font-semibold rounded-[3px]" : "bg-secondary px-[2vh] py-[1vh] text-[2vh] font-semibold rounded-[3px]"}>
-                    <a href="#" onClick={(e) => { e.preventDefault(); changePage(1); }}>
+                    <Link href="#" onClick={(e) => { e.preventDefault(); changePage(1); }}>
                         1
-                    </a>
+                    </Link>
                 </li>
                 {start > 2 && <li>...</li>}
                 {displayedNumbers.map((number, index) => (
@@ -39,21 +54,21 @@ const Pagination = ({
                             }`}
                         key={index}
                     >
-                        <a href="#" onClick={(e) => { e.preventDefault(); changePage(number); }}>
+                        <Link href="#" onClick={(e) => { e.preventDefault(); changePage(number); }}>
                             {number}
-                        </a>
+                        </Link>
                     </li>
                 ))}
                 {end < nPage - 1 && <li>...</li>}
                 <li className={currentPage === nPage ? "bg-dim-yellow text-white px-[2vh] py-[1vh] text-[2vh] font-semibold rounded-[3px]" : "bg-secondary px-[2vh] py-[1vh] text-[2vh] font-semibold rounded-[3px]"}>
-                    <a href="#" onClick={(e) => { e.preventDefault(); changePage(nPage); }}>
+                    <Link href="#" onClick={(e) => { e.preventDefault(); changePage(nPage); }}>
                         {nPage}
-                    </a>
+                    </Link>
                 </li>
                 {currentPage === nPage || nPage === 0 ? <li className="hidden"></li> : <li className="bg-secondary px-[2vh] py-[1vh] text-[2vh] font-semibold rounded-[3px]">
-                    <a href="#" onClick={(e) => { e.preventDefault(); nextPage(); }}>
+                    <Link href="#" onClick={(e) => { e.preventDefault(); nextPage(); }}>
                         Next
-                    </a>
+                    </Link>
                 </li>}
             </ul>
         </div>

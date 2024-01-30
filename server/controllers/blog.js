@@ -29,9 +29,9 @@ exports.getPosts = async (req, res, next) => {
 }
 
 exports.getPost = async (req, res, next) => {
-  const { id } = req.params;
+  const { postId } = req.params;
   try {
-    let post = await Post.findById(id);
+    let post = await Post.findById(postId);
     res.status(200).json({ post });
   } catch (err) {
     console.log(err);

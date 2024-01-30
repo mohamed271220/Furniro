@@ -1,5 +1,6 @@
 const Product = require("../models/Product");
 const Review = require("../models/Review");
+const Post  = require("../models/BlogPost");
 const User = require("../models/User");
 const Order = require("../models/Order");
 const passport = require("passport");
