@@ -57,10 +57,7 @@ const Post = () => {
 
       <div className="w-full h-fit rounded-lg">
         <h2 className="text-[2.5vh] font-semibold pb-[2vh] border-black">Newest Posts</h2>
-        {
-          newestIsPending && !isError && <LoadingSpinner />
-
-        }
+        {newestIsPending && !isError && <LoadingSpinner />}
         {newestError && !newestIsPending && <ErrorBlock title="An error occurred while fetching the posts" error={newestErrorInfo?.message || "failed"} />}
         {newestData && !newestError && <div className="bg-primary m-auto p-5 rounded-lg"> <Posts isPost={true} isWidget={true} posts={newestData?.posts} /> </div>}
       </div>

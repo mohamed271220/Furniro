@@ -43,13 +43,13 @@ export default function CheckoutForm() {
         if (response) {
           dispatch(cartActions.clearCart())
           navigate('/completion')
+          setMessage("Payment Succeeded!");
         }
       } catch (err) {
         console.log(err);
         setMessage("An unexpected error occurred.");
         setIsProcessing(false); // re-enable the button
       }
-      setMessage("Payment Succeeded!");
 
     }
     else if (error?.type === "card_error" || error?.type === "validation_error") {

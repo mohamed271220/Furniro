@@ -128,7 +128,7 @@ const BlogPostForm = () => {
                     , handleBlur, setFieldValue,
                     handleChange }) => {
                     // Store a reference to the setFieldValue function
-                    console.log(errors);
+                 
                     setFieldValueRef.current = setFieldValue;
                     return <Form
                         onSubmit={handleSubmit}

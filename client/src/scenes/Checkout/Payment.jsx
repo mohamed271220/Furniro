@@ -4,10 +4,13 @@ import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "./CheckoutForm";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
+import ErrorBlock from "../../components/ErrorBlock";
 
 function Payment() {
   const [stripePromise, setStripePromise] = useState(null);
   const [clientSecret, setClientSecret] = useState("");
+  
+  const [message, setMessage] = useState(null);
 
   useEffect(() => {
     const getConfig = async () => {
@@ -29,18 +32,14 @@ function Payment() {
 
   useEffect(() => {
     const paymentIntent = async () => {
-      try {
         await axios.post(`${import.meta.env.VITE_REACT_APP_API_URL}/order/create-payment-intent`, {}).then(async (result) => {
           var { clientSecret } = result.data;
           console.log(result);
           setClientSecret(clientSecret);
         }).catch((err) => {
+          setMessage(err.response.data.message)
           console.log(err);
         });
-      }
-      catch (err) {
-        console.log(err);
-      }
     }
     paymentIntent()
   }
@@ -52,11 +51,14 @@ function Payment() {
     >
       <h1 className="text-[3vh] font-semibold ">Payment methods</h1>
       {/* Elements provider allows to use comps and give access to resolve comp  !IMPORTANT */}
-      {clientSecret && stripePromise && (
+      {(clientSecret && stripePromise) ? (
         <Elements stripe={stripePromise} options={{ clientSecret }}>
           <CheckoutForm />
         </Elements>
-      )}
+      ): 
+      <ErrorBlock title='Something went wrong' message={message}
+      />
+      }
       <div className=" text-gray-400 font-semibold text-[1.2vh] ">This is a test version</div>
 
     </div>
