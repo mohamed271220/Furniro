@@ -22,6 +22,9 @@ const swagger = require('./swagger');
 const cron = require('node-cron');
 const retryFailedRequests = require('./retryFailedRequests');
 
+//! REMOVE THIS LINE IN PRODUCTION
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
 
 //routes
 const authRouter = require("./routes/Auth");
@@ -153,7 +156,7 @@ app.use("/user", require("./routes/user"));//
 app.use('/order', require('./routes/order'))//
 app.use('/admin', require('./routes/admin'));//
 app.use('/post', require('./routes/blog'));
-
+app.use('/contact', require('./routes/contact'));
 
 app.use((error, req, res, next) => {
   if (req.file) {

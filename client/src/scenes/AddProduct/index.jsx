@@ -215,8 +215,11 @@ const AddProduct = () => {
           handleSubmit,
           setFieldValue,
           resetForm,
-        }) => (
-          <form
+        }) =>
+        {
+          const isFormEmpty = Object.values(values).some((value) => value === '');
+
+           return <form
             onSubmit={handleSubmit}
             className="flex flex-col gap-[2vh] p-[4vh]"
           >
@@ -886,13 +889,13 @@ const AddProduct = () => {
               </div>
             </div>
             <button
-              disabled={isLoading
+              disabled={isLoading || isFormEmpty || Object.keys(errors).length !== 0 || addedPhotos.length === 0
               }
               className="btn-3 bg-[#fdd49e]" type="submit">
               Submit
             </button>
           </form>
-        )}
+        }}
       </Formik>
       <ToastContainer
         position="top-center"

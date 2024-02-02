@@ -33,7 +33,6 @@ const initialValues = {
 const BlogPostForm = () => {
     const [addedPhotos, setAddedPhotos] = useState();
     const navigate = useNavigate();
-    console.log(addedPhotos);
     const [isLoading, setIsLoading] = useState(false);
     const setFieldValueRef = useRef();
 
@@ -77,7 +76,6 @@ const BlogPostForm = () => {
 
     const formSubmitHandler = async (values, onSubmitProps) => {
         const id = toast.loading("Please wait...");
-        console.log(values);
         try {
             const formData = new FormData();
             formData.append("title", values.title);
@@ -102,8 +100,7 @@ const BlogPostForm = () => {
             setIsLoading(false);
             navigate("/");
             onSubmitProps.resetForm();
-            console.log(response.data);
-            
+
         } catch (error) {
             setIsLoading(false);
             toast.update(id, {
@@ -128,7 +125,8 @@ const BlogPostForm = () => {
                     , handleBlur, setFieldValue,
                     handleChange }) => {
                     // Store a reference to the setFieldValue function
-                 
+                    const isFormEmpty = Object.values(values).some((value) => value === '');
+
                     setFieldValueRef.current = setFieldValue;
                     return <Form
                         onSubmit={handleSubmit}
@@ -350,7 +348,7 @@ const BlogPostForm = () => {
                             </div>
 
                         </div>
-                        <button type="submit" disabled={!addedPhotos || isSubmitting || Object.keys(errors).length !== 0 || isLoading}
+                        <button type="submit" disabled={isFormEmpty || !addedPhotos || isSubmitting || Object.keys(errors).length !== 0 || isLoading}
                             className="btn-3 bg-[#fdd49e]" >
                             Submit
                         </button>

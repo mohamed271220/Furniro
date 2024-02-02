@@ -5,7 +5,6 @@ const User = require("../models/User");
 router.get("/login/success", async (req, res) => {
   if (req.user) {
     const data = await User.findOne({ googleId: req.user.id });
-    console.log(data);
     res.status(200).json({
       error: false,
       message: "Successfully Logged In",

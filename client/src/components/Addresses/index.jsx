@@ -61,7 +61,6 @@ const Addresses = ({ addresses, activeAddress, isModalOpen, setIsModalOpen }) =>
 
     const formSubmitHandler = async (values, onSubmitProps) => {
         const id = toast.loading("Please wait...");
-        console.log(values);
         try {
             const data = {
                 street: values.street,
