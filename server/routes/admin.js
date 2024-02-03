@@ -4,9 +4,6 @@ const fileUpload = require("../middlewares/fileUpload");
 const router = express.Router();
 const adminController = require("../controllers/admin");
 
-
-const env = require("dotenv").config({ path: "./.env" });
-const { resolve } = require("path");
 const { validateProduct } = require("./validators/product");
 const { body } = require("express-validator");
 const { isAdmin } = require("../middlewares/isAdmin");

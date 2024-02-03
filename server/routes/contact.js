@@ -3,7 +3,6 @@ const router = express.Router();
 const nodemailer = require('nodemailer');
 const { google } = require('googleapis');
 const OAuth2 = google.auth.OAuth2;
-const fs = require('fs');
 require('dotenv').config();
 const { validationResult } = require('express-validator');
 const { validateMessage } = require('./validators/message');
@@ -12,7 +11,6 @@ router.post('/', validateMessage, async (req, res, next) => {
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        // If there are errors, send them back as a response
         return res.status(400).json({ errors: errors.array() });
     }
 

@@ -24,27 +24,19 @@ const retryFailedRequests = require('./retryFailedRequests');
 
 //! REMOVE THIS LINE IN PRODUCTION
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-
-
 //routes
 const authRouter = require("./routes/Auth");
-
 //models
 const User = require("./models/User");
-
-
-
 
 const app = express();
 app.use(express.json());
 
 const filesUpload = multer({ dest: "uploads/images" });
-
 app.use(
   cookieSession({
     name: "session",
     keys: ["key1", "key2"],
-
     maxAge: 24 * 60 * 60 * 100,
   })
 );
@@ -52,18 +44,12 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-
-
 app.use(express.static(process.env.STATIC_DIR));
-
 app.get("/", (req, res) => {
   const path = resolve(process.env.STATIC_DIR + "/index.html");
   res.sendFile(path);
 });
 
-
-// Serving static files
-// app.use("/uploads", express.static(__dirname + "/uploads"));
 app.use(
   cors({
     origin: "http://localhost:5173",
@@ -123,9 +109,7 @@ app.post("/upload", filesUpload.array("photos", 40), async (req, res) => {
     const ext = path.extname(originalname);
     const newPath = filePath + ext;
 
-    // Check if file exists before uploading to Google Cloud Storage
     if (fs.existsSync(filePath)) {
-      // Upload file to Google Cloud Storage
       const file = bucket.file(originalname);
       fs.createReadStream(filePath)
         .pipe(file.createWriteStream())
@@ -147,14 +131,11 @@ app.post("/upload", filesUpload.array("photos", 40), async (req, res) => {
   }
 });
 
-
-
-
-app.use("/auth", authRouter);//
-app.use("/shop", require("./routes/shop"));//
-app.use("/user", require("./routes/user"));//
-app.use('/order', require('./routes/order'))//
-app.use('/admin', require('./routes/admin'));//
+app.use("/auth", authRouter);
+app.use("/shop", require("./routes/shop"));
+app.use("/user", require("./routes/user"));
+app.use('/order', require('./routes/order'))
+app.use('/admin', require('./routes/admin'));
 app.use('/post', require('./routes/blog'));
 app.use('/contact', require('./routes/contact'));
 
@@ -171,18 +152,11 @@ app.use((error, req, res, next) => {
   const status = error.statusCode || 500;
   const message = error.message || "something went wrong";
   const data = error.data;
-  console.log(error);
+  // console.log(error);
   res.status(status).json({ message: message, data: data });
 });
-
-
-
-// Set up Swagger for documentation
 swagger(app);
-
-// Set up cron job for automating failed requests
 cron.schedule('0 * * * *', retryFailedRequests);
-
 
 mongoose
   .connect(process.env.MONGO_DB, {
@@ -197,4 +171,3 @@ mongoose
   .catch((error) => {
     console.log(error);
   });
-// 

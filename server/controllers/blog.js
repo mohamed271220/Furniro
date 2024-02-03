@@ -20,7 +20,6 @@ exports.getPosts = async (req, res, next) => {
     res.status(200).json({ posts });
 
   } catch (err) {
-    console.log(err);
     if (!err.statusCode) {
       err.statusCode = 500;
     }
@@ -34,7 +33,6 @@ exports.getPost = async (req, res, next) => {
     let post = await Post.findById(postId);
     res.status(200).json({ post });
   } catch (err) {
-    console.log(err);
     if (!err.statusCode) {
       err.statusCode = 500;
     }

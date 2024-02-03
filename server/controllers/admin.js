@@ -20,7 +20,6 @@ exports.addProduct = async (req, res, next) => {
                 error.statusCode = 404;
                 return next(error);
             }
-            console.log(user);
             if (user.role === "customer") {
                 const error = new Error("You are not authorized");
                 error.statusCode = 404;
@@ -112,7 +111,6 @@ exports.editProduct = async (req, res, next) => {
 
     try {
         if (req.user) {
-            console.log(req.user);
             const user = await User.findOne({ googleId: req.user.id });
 
             if (!user) {
@@ -267,7 +265,6 @@ exports.getOrders = async (req, res, next) => {
                 .sort(sortFormatted)
                 .skip(page * pageSize)
                 .limit(pageSize);
-            console.log(transactions);
             const total = await Order.countDocuments({
                 name: { $regex: search, $options: "i" },
             });
@@ -396,7 +393,6 @@ exports.postPost = async (req, res, next) => {
           error.statusCode = 404;
           next(error);
         }
-        console.log(user);
         if (user.role === "customer") {
           const error = new Error("You are not authorized to post");
           error.statusCode = 404;
@@ -410,7 +406,6 @@ exports.postPost = async (req, res, next) => {
         const postedBy = user.username;
   
         const { title, author, image, tag, body } = req.body;
-        console.log(title, author, image, tag, body);
   
         const post = new Post({
           title,

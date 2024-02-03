@@ -2,13 +2,9 @@
 const express = require("express");
 const userController = require("../controllers/user");
 const router = express.Router();
-const env = require("dotenv").config({ path: "./.env" });
-const { resolve } = require("path");
 router.use(express.static(process.env.STATIC_DIR));
 const { isUser } = require("../middlewares/isUser");
 const { validateAddress } = require("./validators/address");
-
-
 
 router.post("/products/:productId/review", isUser, userController.postReview);
 router.post("/products/:productId/cart", isUser, userController.addToCart);

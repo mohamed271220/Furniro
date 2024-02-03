@@ -13,7 +13,7 @@ const Dropdown = ({
   logout,
   cartTotalQuantity,
   compareQuantity,
-  handleModalOpen,
+  handleCartModalOpen,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   // console.log(user);
@@ -68,7 +68,7 @@ const Dropdown = ({
               onClick={(e) => {
                 e.stopPropagation();
                 setIsOpen((prev) => !prev);
-                handleModalOpen();
+                handleCartModalOpen();
               }}
               className="flex flex-row w-full gap-[1vh]  text-black p-2  cursor-pointer "
             >

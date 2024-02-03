@@ -16,7 +16,6 @@ exports.postReview = async (req, res, next) => {
     }
     const content = req.body.comment.trim();
     const rating = parseInt(req.body.rating);
-    console.log(rating);
     const userId = req.user.id;
     try {
         const product = await Product.findById(productId).populate("reviews");
@@ -63,7 +62,6 @@ exports.addToCart = async (req, res, next) => {
 
     let user;
     if (req.user) {
-        console.log(req.user);
         user = await User.findOne({ googleId: req.user.id });
         // console.log(data);
     }
@@ -206,7 +204,6 @@ exports.getOrders = async (req, res, next) => {
     catch (err) {
         const error = new Error(err);
         error.statusCode = 500;
-        console.log(err);
         return next(err);
     }
 }
@@ -245,7 +242,6 @@ exports.getAddresses = async (req, res) => {
 
 exports.postAddress = async (req, res) => {
     const errors = validationResult(req);
-    console.log(req.body.street);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }

@@ -48,17 +48,9 @@ const Shop = ({ user }) => {
             <select onChange={(e) => {
               setItemsPerPage(e.target.value)
               goToNextPage(1)
-
             }}>
               <option>8</option>
               <option>12</option>
-            </select>
-          </div>
-          <div className="flex flex-row gap-[2vh]">
-            <p>Sort by</p>
-            <select>
-              <option>Price: Low to High</option>
-              <option>Price: High to Low</option>
             </select>
           </div>
         </div>

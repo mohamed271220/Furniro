@@ -11,6 +11,7 @@ import { AnimatePresence, motion, useAnimation } from 'framer-motion';
 import Footer from "../../components/Footer";
 
 import CartModal from "../../components/CartModal";
+import SearchModal from "../../components/SearchModal";
 import ScrollToTop from "../../hooks/scroll-to-top";
 
 const Layout = ({ user, userData }) => {
@@ -32,16 +33,23 @@ const Layout = ({ user, userData }) => {
   const [prevCompareState, setPrevCompareState] = useState(compareItems);
   const [showNotification, setShowNotification] = useState(true);
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isCartModalOpen, setIsCartModalOpen] = useState(false);
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false)
 
   const animationControls = useAnimation();
 
-  function handleModalOpen() {
-    setIsModalOpen(true);
+  function handleCartModalOpen() {
+    setIsCartModalOpen(true);
   }
 
+  function handleSearchModalOpen() {
+    setIsSearchModalOpen(true);
+  }
+
+
   function handleClose() {
-    setIsModalOpen(false);
+    setIsCartModalOpen(false);
+    setIsSearchModalOpen(false);
   }
 
 
@@ -74,7 +82,8 @@ const Layout = ({ user, userData }) => {
 
   return (
     <div className='relative'>
-      {isModalOpen && <CartModal user={user} isOpen={isModalOpen} onClose={handleClose} />}
+      {isCartModalOpen && <CartModal user={user} isOpen={isCartModalOpen} onClose={handleClose} />}
+      {isSearchModalOpen && <SearchModal user={user} isOpen={isSearchModalOpen} onClose={handleClose} />}
       <ScrollToTop />
       <Navbar
         cartItems={cartItems}
@@ -84,7 +93,8 @@ const Layout = ({ user, userData }) => {
         logout={logout}
         compareItems={compareItems}
         compareQuantity={compareQuantity}
-        handleModalOpen={handleModalOpen}
+        handleCartModalOpen={handleCartModalOpen}
+        handleSearchModalOpen={handleSearchModalOpen}
       />
       <Sidebar
         cartTotalQuantity={cartTotalQuantity}
