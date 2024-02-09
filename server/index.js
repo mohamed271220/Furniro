@@ -22,17 +22,9 @@ const swagger = require('./swagger');
 const cron = require('node-cron');
 const retryFailedRequests = require('./retryFailedRequests');
 
-//! REMOVE THIS LINE IN PRODUCTION
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-//routes
-const authRouter = require("./routes/Auth");
-//models
-const User = require("./models/User");
-
 const app = express();
 app.use(express.json());
 
-const filesUpload = multer({ dest: "uploads/images" });
 app.use(
   cookieSession({
     name: "session",
@@ -41,14 +33,19 @@ app.use(
   })
 );
 
+//routes
+const authRouter = require("./routes/Auth");
+
+//models
+const User = require("./models/User");
+
+const filesUpload = multer({ dest: "uploads/images" });
+
 app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(express.static(process.env.STATIC_DIR));
-app.get("/", (req, res) => {
-  const path = resolve(process.env.STATIC_DIR + "/index.html");
-  res.sendFile(path);
-});
+
 
 app.use(
   cors({
@@ -59,6 +56,7 @@ app.use(
 );
 
 passport.use(User.createStrategy());
+
 passport.use(
   new GoogleStrategy(
     {
@@ -76,7 +74,7 @@ passport.use(
           email: profile.emails[0].value,
         },
         function (err, user) {
-          return callback(err, profile);
+          return callback(err, user); // Pass `user` instead of `profile`
         }
       );
     }
@@ -84,11 +82,13 @@ passport.use(
 );
 
 passport.serializeUser((user, done) => {
-  done(null, user);
+  done(null, user.id); // Pass user ID
 });
 
-passport.deserializeUser((user, done) => {
-  done(null, user);
+passport.deserializeUser((id, done) => {
+  User.findById(id, (err, user) => { // Find user by ID
+    done(err, user);
+  });
 });
 
 app.use(morgan("dev"));
@@ -165,9 +165,9 @@ mongoose
   })
   .then(() => {
     app.listen(4000, () => {
-      //console.log(`Server running on port 4000`);
+      console.log(`Server running on port 4000`);
     });
   })
   .catch((error) => {
-    //console.log(error);
+    console.log(error);
   });

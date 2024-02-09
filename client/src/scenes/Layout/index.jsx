@@ -22,8 +22,6 @@ const Layout = ({ user, userData }) => {
     );
   };
 
-
-
   const cartItems = useSelector((state) => state.cart.items);
   const cartTotalQuantity = useSelector((state) => state.cart.totalQuantity) || 0;
 

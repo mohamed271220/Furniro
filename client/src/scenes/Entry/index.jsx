@@ -4,7 +4,6 @@ import Google from "../../assets/icons/google.svg";
 
 function Entry() {
 
-
   const googleAuth = () => {
     // console.log(import.meta.env.VITE_REACT_APP_API_URL);
     sessionStorage.setItem("redirectUrl", window.location.href);
@@ -12,7 +11,6 @@ function Entry() {
       `${import.meta.env.VITE_REACT_APP_API_URL}/auth/google/callback`,
       "_self"
     );
-
 
 
   };

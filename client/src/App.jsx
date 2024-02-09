@@ -62,8 +62,8 @@ function App() {
           path="/addProduct"
           element={
             user &&
-              (user?.data.role === "admin" ||
-                user?.data.role === "coolerAdmin") ? (
+              (user?.data?.role === "admin" ||
+                user?.data?.role === "coolerAdmin") ? (
               <AddProduct user={user} />
             ) : (
               <Navigate to="/entry" />
@@ -74,8 +74,8 @@ function App() {
           path="/addPost"
           element={
             user &&
-              (user?.data.role === "admin" ||
-                user?.data.role === "coolerAdmin") ? (
+              (user?.data?.role === "admin" ||
+                user?.data?.role === "coolerAdmin") ? (
               <AddPost user={user} />
             ) : (
               <Navigate to="/entry" />
@@ -95,7 +95,7 @@ function App() {
         <Route
           path="/checkout"
           element={
-            user || user?.data.cart ? <Payment user={user} /> : <Navigate to="/entry" />
+            user || user?.data?.cart ? <Payment user={user} /> : <Navigate to="/entry" />
           }
         />
         <Route
@@ -128,8 +128,8 @@ function App() {
           path="/dashboard"
           element={
             user &&
-              (user?.data.role === "admin" ||
-                user?.data.role === "coolerAdmin") ? (
+              (user?.data?.role === "admin" ||
+                user?.data?.role === "coolerAdmin") ? (
               <Dashboard user={user} />
             ) : (
               <Navigate to="/entry" />
