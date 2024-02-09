@@ -2,7 +2,7 @@ import { createPortal } from "react-dom";
 import { AnimatePresence } from 'framer-motion';
 import { motion } from "framer-motion";
 
-export default function Modal({ title, children, onClose, isForm, isOpen }) {
+export default function Modal({ title, children, onClose, isForm,isSearchForm, isOpen }) {
   return createPortal(
     <div className="relative">
       <div
@@ -13,7 +13,7 @@ export default function Modal({ title, children, onClose, isForm, isOpen }) {
         {isOpen && (
           <motion.dialog
             key="modal"
-            className={`absolute ${isForm ? "top-4 m-auto" : "top-0 left-0"} transform -translate-x-1/2 -translate-y-1/2 p-[3vh] w-[30rem] max-w-[90%] z-50 bg-white
+            className={`absolute ${isForm ? "top-4 m-auto" : "top-0 left-0"} transform -translate-x-1/2 -translate-y-1/2 ${isSearchForm ? 'py-0' : 'py-[2vh]'} px-[3vh] w-[30rem] max-w-[90%] z-50 bg-white
           overflow-auto
           `}
             open

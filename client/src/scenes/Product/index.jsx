@@ -59,7 +59,7 @@ const Product = ({ user }) => {
           },
         }
       );
-      console.log(response);
+      // console.log(response);
       if (response) {
         toast.update(id, {
           render: "Product added to cart",

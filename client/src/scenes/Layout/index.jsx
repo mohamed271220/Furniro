@@ -54,8 +54,8 @@ const Layout = ({ user, userData }) => {
 
 
   useEffect(() => {
-    console.log('compareQuantity:', compareItems);
-    console.log('prevCompareState:', prevCompareState);
+    // console.log('compareQuantity:', compareItems);
+    // console.log('prevCompareState:', prevCompareState);
 
     if (prevCompareState !== compareItems) {
       setShowNotification(true);

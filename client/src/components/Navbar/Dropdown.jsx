@@ -16,7 +16,6 @@ const Dropdown = ({
   handleCartModalOpen,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  // console.log(user);
   return (
     <>
       {isOpen && (

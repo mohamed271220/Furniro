@@ -34,7 +34,6 @@ export default function CheckoutForm() {
       },
       redirect: "if_required",
     });
-    console.log(paymentIntent.status);
     if (paymentIntent.status === "succeeded") {
       try {
         const response = await axios.post(`${import.meta.env.VITE_REACT_APP_API_URL}/order`, {
@@ -46,7 +45,6 @@ export default function CheckoutForm() {
           setMessage("Payment Succeeded!");
         }
       } catch (err) {
-        console.log(err);
         setMessage("An unexpected error occurred.");
         setIsProcessing(false); // re-enable the button
       }

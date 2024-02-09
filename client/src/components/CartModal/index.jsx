@@ -32,10 +32,7 @@ const CartModal = ({ onClose, isOpen }) => {
         const { data } = await axios.get(url, { withCredentials: true });
         setCart(data.cart)
         setLoading(false)
-        console.log(data);
-        console.log(data.cart);
       } catch (error) {
-        console.log(error);
         setLoading(false)
       }
 

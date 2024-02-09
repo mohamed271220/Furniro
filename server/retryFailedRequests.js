@@ -8,7 +8,7 @@ async function retryFailedRequests() {
       await axios[request.method.toLowerCase()](request.endpoint, request.data);
       await request.remove();
     } catch (err) {
-      console.log(`Failed to retry request to ${request.endpoint}: ${err.message}`);
+      //console.log(`Failed to retry request to ${request.endpoint}: ${err.message}`);
     }
   }
 }

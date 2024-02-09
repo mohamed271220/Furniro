@@ -13,7 +13,6 @@ import Line from "../../../assets/icons/Line";
 import { Link, useNavigate } from "react-router-dom";
 function SwiperComp({ products }) {
   const navigate = useNavigate()
-  console.log(products);
   return (
     <div className="container ">
       <Swiper

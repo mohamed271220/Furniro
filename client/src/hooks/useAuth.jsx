@@ -9,6 +9,7 @@ axios.defaults.withCredentials = true;
 export const useAuth = () => {
     const [loading, setLoading] = useState(true);
     const [user, setUser] = useState(null);
+    const [error, setError] = useState(null);
     const dispatch = useDispatch();
   
     useEffect(() => {
@@ -28,7 +29,7 @@ export const useAuth = () => {
             );
           }
         } catch (err) {
-          console.log(err);
+          setError(err);
         } finally {
           setLoading(false);
         }

@@ -21,7 +21,7 @@ const Post = () => {
   const formattedDate = `${date.getDate()} ${date.toLocaleString('default', { month: 'short' })} ${date.getFullYear()}`;
 
 
-  console.log(data);
+  // console.log(data);
   return (
     <div className="px-[3vh] md:px-[10vh] flex flex-col gap-[2vh] justify-center">
       {isPending && !isError && <LoadingSpinner />}

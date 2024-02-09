@@ -39,12 +39,10 @@ const Cart = () => {
         const { data } = await axios.get(url, { withCredentials: true });
         setCart(data.cart)
         setLoading(false)
-        console.log(data.cart);
         setTotal(data.cart
           .map((item) => item.price * item.number)
           .reduce((partialSum, a) => partialSum + a, 0))
       } catch (error) {
-        console.log(error);
         setLoading(false)
       }
 

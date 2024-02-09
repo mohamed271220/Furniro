@@ -6,7 +6,7 @@ function Entry() {
 
 
   const googleAuth = () => {
-    console.log(import.meta.env.VITE_REACT_APP_API_URL);
+    // console.log(import.meta.env.VITE_REACT_APP_API_URL);
     sessionStorage.setItem("redirectUrl", window.location.href);
     window.open(
       `${import.meta.env.VITE_REACT_APP_API_URL}/auth/google/callback`,

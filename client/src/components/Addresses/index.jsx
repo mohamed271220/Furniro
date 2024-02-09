@@ -83,7 +83,7 @@ const Addresses = ({ addresses, activeAddress, isModalOpen, setIsModalOpen }) =>
             setIsLoading(false);
             setIsModalOpen(false);
             onSubmitProps.resetForm();
-            console.log(response.data);
+           
 
         } catch (error) {
             toast.update(id, {

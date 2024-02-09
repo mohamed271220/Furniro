@@ -115,16 +115,14 @@ const AddProduct = () => {
         },
       })
       .then((response) => {
-        // console.log(response);
         const { data: filenames } = response;
-        // console.log(filenames);
 
         setAddedPhotos((prev) => {
           return [...prev, ...filenames];
         });
       })
       .catch((error) => {
-        console.log(error);
+        
       });
     setIsLoading(false);
   }
@@ -193,7 +191,6 @@ const AddProduct = () => {
         ...config,
       });
       setErrors(err.response.data.errors);
-      console.log(err.response.data.errors);
     }
     setIsLoading(false);
   };
@@ -335,7 +332,6 @@ const AddProduct = () => {
                           onClick={(e) => {
                             e.preventDefault();
                             arrayHelpers.push();
-                            console.log(values.sizeOptions)
                           }}
                         >
                           Add another size
@@ -476,7 +472,6 @@ const AddProduct = () => {
                           onClick={(e) => {
                             e.preventDefault();
                             arrayHelpers.push("");
-                            // console.log(values.sizeOptions)
                           }}
                         >
                           Add another paragraph
@@ -613,7 +608,6 @@ const AddProduct = () => {
                           onClick={(e) => {
                             e.preventDefault();
                             arrayHelpers.push("");
-                            // console.log(values.sizeOptions)
                           }}
                         >
                           Add another color

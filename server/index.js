@@ -52,7 +52,7 @@ app.get("/", (req, res) => {
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: process.env.CLIENT_URL,
     methods: "GET,POST,PUT,DELETE",
     credentials: true,
   })
@@ -102,7 +102,7 @@ const storage = new Storage({
 const bucket = storage.bucket(process.env.GCLOUD_BUCKET_NAME);
 
 app.post("/upload", filesUpload.array("photos", 40), async (req, res) => {
-  console.log(req.files);
+  // console.log(req.files);
   const uploadedFiles = [];
   for (let i = 0; i < req.files.length; i++) {
     const { path: filePath, originalname } = req.files[i];
@@ -142,13 +142,13 @@ app.use('/contact', require('./routes/contact'));
 app.use((error, req, res, next) => {
   if (req.file) {
     fs.unlink(req.file.path, (err) => {
-      console.log(err);
+      //console.log(err);
     });
   }
   if (res.headerSent) {
     return next(error);
   }
-  console.log(error);
+  //console.log(error);
   const status = error.statusCode || 500;
   const message = error.message || "something went wrong";
   const data = error.data;
@@ -165,9 +165,9 @@ mongoose
   })
   .then(() => {
     app.listen(4000, () => {
-      console.log(`Server running on port 4000`);
+      //console.log(`Server running on port 4000`);
     });
   })
   .catch((error) => {
-    console.log(error);
+    //console.log(error);
   });

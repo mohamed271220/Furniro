@@ -11,7 +11,6 @@ import ErrorBlock from "../ErrorBlock";
 const Products = ({ products, home, user, error, isError }) => {
   const dispatch = useDispatch();
   const [total, setTotal] = useState(0);
-  console.log(products);
   const [cartItems, setItems] = useState([]);
 
   const config = {
@@ -38,7 +37,6 @@ const Products = ({ products, home, user, error, isError }) => {
           },
         }
       );
-      console.log(response);
       if (response) {
         toast.update(id, {
           render: "Product added to cart",
@@ -46,7 +44,6 @@ const Products = ({ products, home, user, error, isError }) => {
           ...config,
           isLoading: false,
         });
-        // console.log(productData);
         setItems(response.data.user.cart);
 
         dispatch(

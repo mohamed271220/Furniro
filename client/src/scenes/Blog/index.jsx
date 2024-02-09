@@ -22,7 +22,6 @@ const Blog = () => {
   const { data: newestData, isError: newestError, isPending: newestIsPending, error: newestErrorInfo, refetch: newestRefetch } = useQuery({
     queryKey: ['newestPosts'], queryFn: ({ signal }) => getPosts({ signal, limit: 3 })
   });
-  console.log(newestData);
 
 
   const {
