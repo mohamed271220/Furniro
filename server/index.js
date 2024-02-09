@@ -22,9 +22,17 @@ const swagger = require('./swagger');
 const cron = require('node-cron');
 const retryFailedRequests = require('./retryFailedRequests');
 
+//! REMOVE THIS LINE IN PRODUCTION
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+//routes
+const authRouter = require("./routes/Auth");
+//models
+const User = require("./models/User");
+
 const app = express();
 app.use(express.json());
 
+const filesUpload = multer({ dest: "uploads/images" });
 app.use(
   cookieSession({
     name: "session",
@@ -33,30 +41,24 @@ app.use(
   })
 );
 
-//routes
-const authRouter = require("./routes/Auth");
-
-//models
-const User = require("./models/User");
-
-const filesUpload = multer({ dest: "uploads/images" });
-
 app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(express.static(process.env.STATIC_DIR));
-
+app.get("/", (req, res) => {
+  const path = resolve(process.env.STATIC_DIR + "/index.html");
+  res.sendFile(path);
+});
 
 app.use(
   cors({
-    origin: process.env.CLIENT_URL,
+    origin: "http://localhost:5173",
     methods: "GET,POST,PUT,DELETE",
     credentials: true,
   })
 );
 
 passport.use(User.createStrategy());
-
 passport.use(
   new GoogleStrategy(
     {
@@ -74,7 +76,7 @@ passport.use(
           email: profile.emails[0].value,
         },
         function (err, user) {
-          return callback(err, user); // Pass `user` instead of `profile`
+          return callback(err, profile);
         }
       );
     }
@@ -82,13 +84,11 @@ passport.use(
 );
 
 passport.serializeUser((user, done) => {
-  done(null, user.id); // Pass user ID
+  done(null, user);
 });
 
-passport.deserializeUser((id, done) => {
-  User.findById(id, (err, user) => { // Find user by ID
-    done(err, user);
-  });
+passport.deserializeUser((user, done) => {
+  done(null, user);
 });
 
 app.use(morgan("dev"));
@@ -102,7 +102,7 @@ const storage = new Storage({
 const bucket = storage.bucket(process.env.GCLOUD_BUCKET_NAME);
 
 app.post("/upload", filesUpload.array("photos", 40), async (req, res) => {
-  // console.log(req.files);
+  console.log(req.files);
   const uploadedFiles = [];
   for (let i = 0; i < req.files.length; i++) {
     const { path: filePath, originalname } = req.files[i];
@@ -142,13 +142,13 @@ app.use('/contact', require('./routes/contact'));
 app.use((error, req, res, next) => {
   if (req.file) {
     fs.unlink(req.file.path, (err) => {
-      //console.log(err);
+      console.log(err);
     });
   }
   if (res.headerSent) {
     return next(error);
   }
-  //console.log(error);
+  console.log(error);
   const status = error.statusCode || 500;
   const message = error.message || "something went wrong";
   const data = error.data;

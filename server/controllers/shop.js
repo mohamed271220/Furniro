@@ -6,18 +6,12 @@ const mongoose = require("mongoose");
 exports.getProducts = async (req, res, next) => {
   const { max, search } = req.query;
   try {
-    if (max && search) {
-      const products = await Product.find({
-        title: { $regex: search, $options: "i" },
-      }).limit(parseInt(max));
-      res.status(200).json({ products });
-    }
-    else if (max) {
+    if (max) {
       const products = await Product.find().limit(parseInt(max));
       res.status(200).json({ products });
     } else if (search) {
       const products = await Product.find({
-        title: { $regex: search, $options: "i" },
+        name: { $regex: search, $options: "i" },
       });
       res.status(200).json({ products });
     } else {
