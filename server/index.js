@@ -22,8 +22,6 @@ const swagger = require('./swagger');
 const cron = require('node-cron');
 const retryFailedRequests = require('./retryFailedRequests');
 
-//! REMOVE THIS LINE IN PRODUCTION
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 //routes
 const authRouter = require("./routes/Auth");
 //models
@@ -52,7 +50,7 @@ app.get("/", (req, res) => {
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://tasks-13c55.web.app",
     methods: "GET,POST,PUT,DELETE",
     credentials: true,
   })
