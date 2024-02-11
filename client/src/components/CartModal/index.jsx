@@ -44,7 +44,7 @@ const CartModal = ({ onClose, isOpen }) => {
     const id = toast.loading("Please wait...");
     try {
       const response = await axios.put(
-        `http://localhost:4000/user/products/${productId}/cart/remove`,
+        `https://secrets-380318.ew.r.appspot.com/user/products/${productId}/cart/remove`,
         {
           number: 1,
         },

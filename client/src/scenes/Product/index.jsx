@@ -51,7 +51,7 @@ const Product = ({ user }) => {
     const id = toast.loading("Please wait...");
     try {
       const response = await axios.post(
-        `http://localhost:4000/user/products/${productId}/cart`,
+        `https://secrets-380318.ew.r.appspot.com/user/products/${productId}/cart`,
         { number: 1 },
         {
           headers: {
@@ -132,7 +132,7 @@ const Product = ({ user }) => {
             <h2 className="text-[6vh]">{data.title}</h2>
             <h2 className="text-[2vh]">{data.shortDescription}</h2>
             <h3 className="text-[4vh] text-gray-500">{(data.price - data.price * (data.sale / 100)).toFixed(2)}$
-            {data.sale && <span className="text-[1.5vh] m-0 ml-1 text-red-400 font-semibold"> sale:{data.sale}%
+              {data.sale && <span className="text-[1.5vh] m-0 ml-1 text-red-400 font-semibold"> sale:{data.sale}%
               </span>}
             </h3>
             {data.sale && <p className="text-[1.7vh]">

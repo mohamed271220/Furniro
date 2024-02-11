@@ -22,7 +22,7 @@ import LoadingSpinner from "./constants/Loading/LoadingSpinner/LoadingSpinner";
 import Post from "./scenes/post";
 
 
-axios.defaults.baseURL = "http://localhost:4000";
+axios.defaults.baseURL = "https://secrets-380318.ew.r.appspot.com";
 axios.defaults.withCredentials = true;
 
 function App() {

@@ -11,7 +11,7 @@ const options = {
     },
     servers: [
       {
-        url: "http://localhost:4000",
+        url: "https://secrets-380318.ew.r.appspot.com",
       },
     ],
   },

@@ -22,6 +22,8 @@ const swagger = require('./swagger');
 const cron = require('node-cron');
 const retryFailedRequests = require('./retryFailedRequests');
 
+const port = process.env.PORT || 3000;
+
 //routes
 const authRouter = require("./routes/Auth");
 //models
@@ -162,8 +164,8 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() => {
-    app.listen(4000, () => {
-      console.log(`Server running on port 4000`);
+    app.listen(port, () => {
+      console.log(`Server running on port 8080`);
     });
   })
   .catch((error) => {

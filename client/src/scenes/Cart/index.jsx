@@ -55,7 +55,7 @@ const Cart = () => {
     const id = toast.loading("Please wait...");
     try {
       const response = await axios.put(
-        `http://localhost:4000/user/products/${productId}/cart/remove`,
+        `https://secrets-380318.ew.r.appspot.com/user/products/${productId}/cart/remove`,
         {
           number: 1,
         },
@@ -147,13 +147,13 @@ const Cart = () => {
         </div>
 
         <div className="bg-primary flex flex-col p-[3vh] justify-between text-[1.5vh] md:text-[2vh]  items-center rounded-lg md:w-[30%] gap-[2vh] text-center">
-        
+
 
           <h2 className="font-semibold text-center">Cart total</h2>
 
           <p className="text-dim-yellow text-center"><span className="text-black m-0">Total : </span>${total.toFixed(2)}</p>
 
-     
+
           <Link to="/checkout">
             <button
               className="

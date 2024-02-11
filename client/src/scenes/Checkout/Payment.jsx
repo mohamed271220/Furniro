@@ -16,7 +16,7 @@ function Payment() {
   useEffect(() => {
     const getConfig = async () => {
       try {
-        await fetch("http://localhost:4000/order/config").then(async (r) => {
+        await fetch("https://secrets-380318.ew.r.appspot.com/order/config").then(async (r) => {
           const { publishableKey } = await r.json();
           setStripePromise(loadStripe(publishableKey));
         });
