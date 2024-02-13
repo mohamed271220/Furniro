@@ -6,7 +6,7 @@ export const queryClient = new QueryClient();
 
 
 export async function getProducts({ signal, searchTerm, max }) {
-  let url = "https://secrets-380318.ew.r.appspot.com/shop/products";
+  let url = `${import.meta.env.VITE_REACT_APP_API_URL}/shop/products`;
 
   if (searchTerm && max) {
     url += "?search=" + searchTerm + "&max=" + max;
@@ -31,7 +31,7 @@ export async function getProducts({ signal, searchTerm, max }) {
 }
 
 export async function getProductById({ signal, id }) {
-  const response = await fetch(`https://secrets-380318.ew.r.appspot.com/shop/products/${id}`, {
+  const response = await fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/shop/products/${id}`, {
     signal,
   });
 
@@ -48,7 +48,7 @@ export async function getProductById({ signal, id }) {
 
 }
 export async function getPosts({ signal, searchTerm, tag, limit }) {
-  let url = new URL("https://secrets-380318.ew.r.appspot.com/post/all");
+  let url = new URL(`${import.meta.env.VITE_REACT_APP_API_URL}/post/all`);
 
   if (searchTerm) {
     url.searchParams.append('search', searchTerm);
@@ -74,7 +74,7 @@ export async function getPosts({ signal, searchTerm, tag, limit }) {
 }
 
 export async function getPostById({ signal, id }) {
-  const response = await fetch(`https://secrets-380318.ew.r.appspot.com/post/${id}`, { signal });
+  const response = await fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/post/${id}`, { signal });
   if (!response.ok) {
     const error = new Error("An error occurred while fetching the post");
     error.code = response.status;
@@ -86,7 +86,7 @@ export async function getPostById({ signal, id }) {
 }
 
 export async function getOrders({ signal }) {
-  const response = await fetch("https://secrets-380318.ew.r.appspot.com/user/orders", {
+  const response = await fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/user/orders`, {
     signal,
     credentials: 'include',
   });
@@ -101,7 +101,7 @@ export async function getOrders({ signal }) {
 }
 
 export async function getAddresses({ signal }) {
-  const response = await fetch("https://secrets-380318.ew.r.appspot.com/user/addresses", {
+  const response = await fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/user/addresses`, {
     signal,
     credentials: 'include',
   });

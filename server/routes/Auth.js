@@ -3,14 +3,22 @@ const passport = require("passport");
 const User = require("../models/User");
 
 router.get("/login/success", async (req, res) => {
-  if (req.user) {
-    const data = await User.findOne({ googleId: req.user.id });
-    res.status(200).json({
-      error: false,
-      message: "Successfully Logged In",
-      user: req.user,
-      data: data,
-    });
+  if (req.user && req.user.id) {
+    try {
+      const data = await User.findOne({ googleId: req.user.id });
+      if (data) {
+        res.status(200).json({
+          error: false,
+          message: "Successfully Logged In",
+          user: req.user,
+          data: data,
+        });
+      } else {
+        res.status(404).json({ error: true, message: "User not found in database" });
+      }
+    } catch (error) {
+      res.status(500).json({ error: true, message: "Database error", details: error.message });
+    }
   } else {
     res.status(403).json({ error: true, message: "Not Authorized" });
   }

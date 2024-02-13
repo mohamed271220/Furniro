@@ -22,10 +22,10 @@ const ProductComparison = () => {
     setLoading(true)
     if (itemOneId && itemTwoId) {
       // fetch both products
-      const response1 = await fetch(`https://secrets-380318.ew.r.appspot.com/shop/products/${itemOneId}`)
+      const response1 = await fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/shop/products/${itemOneId}`)
       const data1 = await response1.json()
       setFirstItem(data1)
-      const response2 = await fetch(`https://secrets-380318.ew.r.appspot.com/shop/products/${itemTwoId}`)
+      const response2 = await fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/shop/products/${itemTwoId}`)
       const data2 = await response2.json()
       setSecondItem(data2)
       setLoading(false)
@@ -33,7 +33,7 @@ const ProductComparison = () => {
     }
     else if (itemOneId && !itemTwoId) {
       // fetch only first product
-      const response1 = await fetch(`https://secrets-380318.ew.r.appspot.com/shop/products/${itemOneId}`)
+      const response1 = await fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/shop/products/${itemOneId}`)
 
       const data1 = await response1.json()
 
@@ -44,7 +44,7 @@ const ProductComparison = () => {
     else if (!itemOneId && itemTwoId) {
       // fetch 2nd
 
-      const response2 = await fetch(`https://secrets-380318.ew.r.appspot.com/shop/products/${itemTwoId}`)
+      const response2 = await fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/shop/products/${itemTwoId}`)
       const data2 = await response2.json()
 
       setSecondItem(data2)

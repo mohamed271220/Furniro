@@ -51,7 +51,7 @@ const Product = ({ user }) => {
     const id = toast.loading("Please wait...");
     try {
       const response = await axios.post(
-        `https://secrets-380318.ew.r.appspot.com/user/products/${productId}/cart`,
+        `${import.meta.env.VITE_REACT_APP_API_URL}/user/products/${productId}/cart`,
         { number: 1 },
         {
           headers: {

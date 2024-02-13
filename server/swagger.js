@@ -11,7 +11,7 @@ const options = {
     },
     servers: [
       {
-        url: "https://secrets-380318.ew.r.appspot.com",
+        url: "${import.meta.env.VITE_REACT_APP_API_URL}",
       },
     ],
   },

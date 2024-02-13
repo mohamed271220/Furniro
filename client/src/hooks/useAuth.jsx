@@ -3,7 +3,7 @@ import axios from "axios";
 import { useDispatch } from 'react-redux';
 import { cartActions } from "../store/cartSlice";
 
-axios.defaults.baseURL = "https://secrets-380318.ew.r.appspot.com";
+axios.defaults.baseURL = import.meta.env.VITE_REACT_APP_API_URL;
 axios.defaults.withCredentials = true;
 
 export const useAuth = () => {

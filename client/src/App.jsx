@@ -22,7 +22,7 @@ import LoadingSpinner from "./constants/Loading/LoadingSpinner/LoadingSpinner";
 import Post from "./scenes/post";
 
 
-axios.defaults.baseURL = "https://secrets-380318.ew.r.appspot.com";
+axios.defaults.baseURL = import.meta.env.VITE_REACT_APP_API_URL;
 axios.defaults.withCredentials = true;
 
 function App() {
