@@ -32,13 +32,13 @@ const app = express();
 app.use(express.json());
 
 const filesUpload = multer({ dest: "uploads/images" });
-app.use(
-  cookieSession({
-    name: "session",
-    keys: ["key1", "key2"],
-    maxAge: 24 * 60 * 60 * 100,
-  })
-);
+app.use(cookieSession({
+  name: 'session',
+  keys: [process.env.COOKIE_KEY],
+  maxAge: 24 * 60 * 60 * 1000, // 1 day
+  sameSite: 'none', // if your site is https
+  secure: process.env.NODE_ENV === 'production', // if your site is https
+}));
 
 app.use(passport.initialize());
 app.use(passport.session());
