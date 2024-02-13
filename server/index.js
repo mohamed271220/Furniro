@@ -24,8 +24,7 @@ const retryFailedRequests = require('./retryFailedRequests');
 
 const port = process.env.PORT || 3000;
 
-//routes
-const authRouter = require("./routes/Auth");
+
 //models
 const User = require("./models/User");
 
@@ -131,6 +130,8 @@ app.post("/upload", filesUpload.array("photos", 40), async (req, res) => {
   }
 });
 
+//routes
+const authRouter = require("./routes/Auth");
 app.use("/auth", authRouter);
 app.use("/shop", require("./routes/shop"));
 app.use("/user", require("./routes/user"));
