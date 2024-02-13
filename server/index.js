@@ -35,16 +35,9 @@ const filesUpload = multer({ dest: "uploads/images" });
 app.use(cookieSession({
   name: 'session',
   keys: ['key1', 'key2'],
-  maxAge: 24 * 60 * 60 * 1000, // 1 day
-  sameSite: 'none', // if your site is https
-  secure: process.env.NODE_ENV === 'production', // if your site is https
-}));
-
-app.use(session({
-  secret: process.env.COOKIE_KEY,
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: true } // set to true if your using https
+  maxAge: 24 * 60 * 60 * 1000, 
+  sameSite: 'none', 
+  secure: 'production', 
 }));
 
 
@@ -56,6 +49,7 @@ app.use(passport.session());
 app.use(
   cors({
     origin: "https://tasks-13c55.web.app",
+    methods: "GET,POST,PUT,DELETE",
     credentials: true,
   })
 );
