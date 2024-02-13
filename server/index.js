@@ -78,7 +78,7 @@ passport.use(
           email: profile.emails[0].value,
         },
         function (err, user) {
-          return callback(err, profile);
+          return callback(err, user);
         }
       );
     }
