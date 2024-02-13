@@ -44,10 +44,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(express.static(process.env.STATIC_DIR));
-app.get("/", (req, res) => {
-  const path = resolve(process.env.STATIC_DIR + "/index.html");
-  res.sendFile(path);
-});
 
 app.use(
   cors({
