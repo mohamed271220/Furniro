@@ -9,7 +9,7 @@ const { body } = require("express-validator");
 const { isAdmin } = require("../middlewares/isAdmin");
 const { isCoolerAdmin } = require("../middlewares/isCoolerAdmin");
 const { validateBlogPost } = require("./validators/post");
-router.use(express.static(process.env.STATIC_DIR));
+
 
 
 

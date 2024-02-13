@@ -1,7 +1,6 @@
 const express = require("express");
 const orderController = require("../controllers/order");
 const router = express.Router();
-router.use(express.static(process.env.STATIC_DIR));
 
 router.get("/config", (req, res) => {
     res.send({

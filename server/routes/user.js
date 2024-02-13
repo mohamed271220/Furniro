@@ -2,7 +2,6 @@
 const express = require("express");
 const userController = require("../controllers/user");
 const router = express.Router();
-router.use(express.static(process.env.STATIC_DIR));
 const { isUser } = require("../middlewares/isUser");
 const { validateAddress } = require("./validators/address");
 
