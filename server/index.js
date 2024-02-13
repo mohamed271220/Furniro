@@ -56,7 +56,6 @@ app.use(passport.session());
 app.use(
   cors({
     origin: "https://tasks-13c55.web.app",
-    methods: "GET,POST,PUT,DELETE",
     credentials: true,
   })
 );
