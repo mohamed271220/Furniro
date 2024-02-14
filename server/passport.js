@@ -6,19 +6,19 @@ const findOrCreate = require("mongoose-findorcreate");
 passport.use(new GoogleStrategy({
   clientID: process.env.CLIENT_ID,
   clientSecret: process.env.CLIENT_SECRET,
-  callbackURL: "/auth/google/callback",
+  callbackURL: "https://filthy-khakis-yak.cyclic.app/auth/google/callback",
   // userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo",
   passReqToCallback: true,
   scope: ["profile", "email"],
-}, async (accessToken, refreshToken, profile, cb) => {
+}, async (accessToken, refreshToken, profile, callback) => {
   try {
     const user = await User.findOrCreate({
       googleId: profile.id
     });
     console.log(user);
-    cb(null, user.doc);
+    callback(null, user.doc);
   } catch (err) {
-    cb(err);
+    callback(err);
   }
 }));
 
