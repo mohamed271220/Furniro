@@ -36,17 +36,17 @@ router.get("/login/failed", (req, res) => {
 
 router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
 
-router.get(
-  "/google/callback",
-  passport.authenticate("google", { failureRedirect: "/login/failed" }),
+app.get('/google/callback',
+  passport.authenticate('google', { failureRedirect: '/login/failed' }),
   (req, res) => {
     req.login(req.user, (err) => {
       if (err) return next(err);
-      res.redirect('/login/success');
+      res.redirect(process.env.CLIENT_URL);
     });
   }
 );
-
+  
+  res.redirect(process.env.CLIENT_URL);
 router.get("/logout", (req, res) => {
   req.logout();
   res.redirect(process.env.CLIENT_URL);
