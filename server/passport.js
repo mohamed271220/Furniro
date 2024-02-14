@@ -1,6 +1,7 @@
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const passport = require("passport");
 const User = require("./models/User");
+const findOrCreate = require("mongoose-findorcreate");
 
 passport.use(new GoogleStrategy({
   clientID: process.env.CLIENT_ID,
@@ -15,7 +16,7 @@ passport.use(new GoogleStrategy({
       username: profile.name.givenName + " " + profile.name.familyName,
       email: profile.emails[0].value,
     });
-    callback(null, profile);
+    callback(null, user);
   } catch (err) {
     callback(err);
   }
@@ -23,8 +24,9 @@ passport.use(new GoogleStrategy({
 
 // Set up Passport serialization
 passport.serializeUser((user, done) => {
-  done(null, user);
+  done(null, user.id); 
 });
+
 
 // Set up Passport deserialization
 passport.deserializeUser((id, done) => {
