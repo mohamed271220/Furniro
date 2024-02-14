@@ -42,10 +42,11 @@ app.use(express.json());
 // Set up middleware
 app.use(morgan("dev"));
 app.use(helmet());
-app.use(cookieSession({
-  name: 'session',
-  keys: ['your-secret-key'], // replace with your own secret key
-  maxAge: 24 * 60 * 60 * 1000 // 24 hours
+app.use(cors({
+  origin: "https://tasks-13c55.web.app",
+  methods: "GET,POST,PUT,DELETE,PATCH,OPTIONS",
+  credentials: true,
+  optionsSuccessStatus: 200,
 }));
 
 // Set up sessions
