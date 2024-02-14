@@ -43,7 +43,6 @@ router.get('/google/callback',
   (req, res) => {
     req.login(req.user, (err) => {
       if (err) return next(err);
-      console.log(req.session);
       res.redirect(process.env.CLIENT_URL);
     });
   }
