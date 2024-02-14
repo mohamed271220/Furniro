@@ -27,16 +27,16 @@ const Navbar = ({
         </Link>
         <ul className="flex flex-row space-x-4">
           <li className="nav-text">
-            <NavLink className='text-[1.4vh]   lg:text-[2.3vh]' to="/">Home</NavLink>
+            <NavLink className='text-[1.4vh]  lg:text-[2vh]' to="/">Home</NavLink>
           </li>
           <li className="nav-text">
-            <NavLink className='text-[1.4vh] lg:text-[2.3vh]' to="/shop">Shop</NavLink>
+            <NavLink className='text-[1.4vh] lg:text-[2vh]' to="/shop">Shop</NavLink>
           </li>
           <li className="nav-text">
-            <NavLink className='text-[1.4vh]  lg:text-[2.3vh]' to="/blog">Blog</NavLink>
+            <NavLink className='text-[1.4vh]  lg:text-[2vh]' to="/blog">Blog</NavLink>
           </li>
           <li className="nav-text">
-            <NavLink className='text-[1.4vh]  lg:text-[2.3vh]' to="/contact">Contact</NavLink>
+            <NavLink className='text-[1.4vh]  lg:text-[2vh]' to="/contact">Contact</NavLink>
           </li>
         </ul>
         <div
@@ -61,7 +61,7 @@ const Navbar = ({
               alt="profile"
               className={"w-10 h-10 rounded-full"}
             />
-          </Link> : <Link to="/entry" className="text-[2vh] lg:text-[3vh} bg-dim-yellow text-white px-[3vh] py-[1vh] rounded-lg" >Login</Link>
+          </Link> : <Link to="/entry" className="text-[1.4vh]  lg:text-[2vh] bg-dim-yellow text-white px-[2.4vh] py-[1vh] rounded-lg" >Login</Link>
           }
         </div>
 
