@@ -7,7 +7,6 @@ const router = express.Router();
 // Use async/await in all routes and handle errors with a middleware
 router.get("/login/success", async (req, res, next) => {
   console.log(req.user);
-  console.log(req.headers); 
   if ((req.user && req.user.id)) {
     try {
       const user = await User.findOne({ googleId: req.user.id });
@@ -50,7 +49,10 @@ router.get('/google/callback',
 
 router.get("/logout", (req, res) => {
   req.logout();
-  res.redirect(process.env.CLIENT_URL);
+  req.session.destroy((err) => {
+    if (err) return next(err);
+    res.redirect(process.env.CLIENT_URL);
+  });
 });
 
 // Error handling middleware
