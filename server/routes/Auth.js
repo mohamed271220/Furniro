@@ -38,7 +38,7 @@ router.get("/login/failed", (req, res) => {
 router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
 
 router.get('/google/callback',
-  passport.authenticate('google', { failureRedirect: '/auth/login/failed' }),
+  passport.authenticate('google', { failureRedirect: process.env.CLIENT_URL }),
   (req, res) => {
     req.login(req.user, (err) => {
       if (err) return next(err);
