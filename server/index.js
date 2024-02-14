@@ -81,7 +81,7 @@ passport.use(new GoogleStrategy({
       username: profile.name.givenName + " " + profile.name.familyName,
       email: profile.emails[0].value,
     });
-    callback(null, user);
+    callback(null, profile);
   } catch (err) {
     callback(err);
   }
@@ -89,14 +89,25 @@ passport.use(new GoogleStrategy({
 
 // Set up Passport serialization
 passport.serializeUser((user, done) => {
-  done(null, user.id);
-});
-
-// Set up Passport deserialization
-passport.deserializeUser((user, done) => {
   done(null, user);
 });
 
+// Set up Passport deserialization
+passport.deserializeUser((id, done) => {
+  User.findById(id, (err, user) => {
+    if (err) {
+      // Log the error and return a generic message to the done callback
+      console.error('Failed to deserialize user', err);
+      done(new Error('Failed to access the session. Please try again.'));
+    } else if (!user) {
+      // If no user was found, return an error to the done callback
+      done(new Error('No user found with the provided session ID.'));
+    } else {
+      // If everything went well, return the user object to the done callback
+      done(null, user);
+    }
+  });
+});
 
 // Set up routes
 app.use("/auth", authRouter);
