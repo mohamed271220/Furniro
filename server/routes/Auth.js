@@ -6,9 +6,10 @@ const router = express.Router();
 
 // Use async/await in all routes and handle errors with a middleware
 router.get("/login/success", async (req, res, next) => {
-
+  console.log(req.user);
+  if ((req.user && req.user.id)) {
     try {
-      const user = await User.findOne({ googleId: req.user?._id  });
+      const user = await User.findOne({ googleId: req.user.id });
       if (user) {
         res.status(200).json({
           success: true,
@@ -16,13 +17,15 @@ router.get("/login/success", async (req, res, next) => {
           user: req.user,
           data: user,
         });
-      } 
-      
+      } else {
+        res.status(404).json({ success: false, message: "User not found in database" });
+      }
     } catch (error) {
-      res.status(403).json({ success: false, message: error.message });
-      // next(error); // Pass the error to the error handling middleware
+      next(error); // Pass the error to the error handling middleware
     }
-  
+  } else {
+    res.status(403).json({ success: false, message: "Not Authorized" });
+  }
 });
 
 router.get("/login/failed", (req, res) => {
