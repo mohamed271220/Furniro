@@ -7,6 +7,7 @@ const cors = require("cors");
 const multer = require("multer");
 const mongoose = require("mongoose");
 const session = require("express-session");
+const MongoStore = require('connect-mongo');
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const findOrCreate = require("mongoose-findorcreate");
@@ -50,14 +51,17 @@ app.use(cors({
 }));
 
 // Set up sessions
-app.use(cookieSession({
-  name: 'session',
-  keys: ['key1', 'key2'],
-  maxAge: 24 * 60 * 60 * 1000,
-  sameSite: 'none',
-  secure: true,
+app.use(session({
+  secret: 'your secret', // Replace with your actual secret
+  resave: false,
+  saveUninitialized: false,
+  store: MongoStore.create({ mongoUrl: process.env.MONGO_DB }), // Replace with your MongoDB connection string
+  cookie: {
+    maxAge: 24 * 60 * 60 * 1000, // 1 day
+    sameSite: 'none',
+    secure: true,
+  },
 }));
-
 // Initialize Passport
 app.use(passport.initialize());
 app.use(passport.session());
