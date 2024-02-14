@@ -16,7 +16,8 @@ passport.use(new GoogleStrategy({
       username: profile.name.givenName + " " + profile.name.familyName,
       email: profile.emails[0].value,
     });
-    callback(null, user);
+    console.log(user);
+    callback(null, profile);
   } catch (err) {
     callback(err);
   }
