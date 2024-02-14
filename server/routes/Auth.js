@@ -6,9 +6,7 @@ const router = express.Router();
 
 // Use async/await in all routes and handle errors with a middleware
 router.get("/login/success", async (req, res, next) => {
-  console.log(req.session); // Log the session object
   console.log(req.user); 
-
   if ((req.user && req.user.id)) {
     try {
       const user = await User.findOne({ googleId: req.user.id });
@@ -42,7 +40,6 @@ router.get("/google", passport.authenticate("google", { scope: ["profile", "emai
 router.get('/google/callback',
   passport.authenticate('google', { failureRedirect: '/login/failed' }),
   (req, res) => {
-    console.log(req.user);
     req.login(req.user, (err) => {
       if (err) return next(err);
       console.log(req.session);
