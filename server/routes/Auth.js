@@ -8,7 +8,7 @@ const router = express.Router();
 router.get("/login/success", async (req, res, next) => {
 
     try {
-      const user = await User.findOne({ googleId: req.user.id });
+      const user = await User.findOne({ googleId: req.user?._id  });
       if (user) {
         res.status(200).json({
           success: true,
