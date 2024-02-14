@@ -51,7 +51,7 @@ app.use(cors({
 
 // Set up sessions
 app.use(session({
-  secret: 'your secret', // Replace with your actual secret
+  secret: 'Replace with a random string', 
   resave: false,
   saveUninitialized: false,
   store: MongoStore.create({ mongoUrl: process.env.MONGO_DB }), // Replace with your MongoDB connection string
