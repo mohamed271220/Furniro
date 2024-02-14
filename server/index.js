@@ -12,7 +12,6 @@ const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const findOrCreate = require("mongoose-findorcreate");
 const path = require("path");
-const cookieSession = require("cookie-session");
 const { Storage } = require("@google-cloud/storage");
 const cron = require('node-cron');
 
@@ -44,8 +43,7 @@ app.use(express.json());
 app.use(morgan("dev"));
 app.use(helmet());
 app.use(cors({
-  origin: "https://tasks-13c55.web.app",
-  methods: "GET,POST,PUT,DELETE,PATCH,OPTIONS",
+  origin: process.env.CLIENT_URL,
   credentials: true,
 }));
 
@@ -58,7 +56,7 @@ app.use(session({
   cookie: {
     maxAge: 24 * 60 * 60 * 1000, // 1 day
     sameSite: 'none',
-    secure: false,
+    secure: true,
   },
 }));
 // Initialize Passport
