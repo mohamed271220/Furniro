@@ -6,8 +6,9 @@ const findOrCreate = require("mongoose-findorcreate");
 passport.use(new GoogleStrategy({
   clientID: process.env.CLIENT_ID,
   clientSecret: process.env.CLIENT_SECRET,
-  callbackURL: "https://filthy-khakis-yak.cyclic.app/auth/google/callback",
-  // userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo",
+  callbackURL: "/auth/google/callback",
+  userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo",
+  state: true,
   passReqToCallback: true,
   scope: ["profile", "email"],
 }, async (accessToken, refreshToken, profile, callback) => {
@@ -23,14 +24,16 @@ passport.use(new GoogleStrategy({
 }));
 
 // Set up Passport serialization
-passport.serializeUser(function (user, cb) {
-  process.nextTick(function () {
-    cb(null, user.id);
-  });
+passport.serializeUser((user, done) => {
+  done(null, user);
 });
 
-passport.deserializeUser(function (id, cb) {
-  User.findById(id, function (err, user) {
-    cb(err, user);
+
+// Set up Passport deserialization
+passport.deserializeUser((id, done) => {
+  console.log(id); // Log the user ID
+  User.findById(id, (err, user) => {
+    console.log(user); // Log the user object
+    done(err, user);
   });
 });
