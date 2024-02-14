@@ -10,13 +10,13 @@ passport.use(
       scope: ["profile", "email"],
     },
     function (accessToken, refreshToken, profile, callback) {
-      callback(null, profile);
+      callback(null, user);
     }
   )
 );
 
 passport.serializeUser((user, done) => {
-  done(null, user);
+  done(null, user.id);
 });
 
 passport.deserializeUser((user, done) => {

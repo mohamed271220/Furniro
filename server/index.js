@@ -32,7 +32,7 @@ const blogRouter = require('./routes/blog');
 const contactRouter = require('./routes/contact');
 
 // Import other modules
-// const passportSetup = require("./passport");
+const passportSetup = require("./passport");
 const swagger = require('./swagger');
 const retryFailedRequests = require('./retryFailedRequests');
 
@@ -93,21 +93,10 @@ passport.serializeUser((user, done) => {
 });
 
 // Set up Passport deserialization
-passport.deserializeUser((id, done) => {
-  User.findById(id, (err, user) => {
-    if (err) {
-      // Log the error and return a generic message to the done callback
-      console.error('Failed to deserialize user', err);
-      done(new Error('Failed to access the session. Please try again.'));
-    } else if (!user) {
-      // If no user was found, return an error to the done callback
-      done(new Error('No user found with the provided session ID.'));
-    } else {
-      // If everything went well, return the user object to the done callback
-      done(null, user);
-    }
-  });
+passport.deserializeUser((user, done) => {
+  done(null, user);
 });
+
 
 // Set up routes
 app.use("/auth", authRouter);
