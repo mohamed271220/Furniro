@@ -4,7 +4,8 @@ const User = require("../models/User");
 
 const router = express.Router();
 
-router.get("/login/success", async (req, res) => {
+// Use async/await in all routes and handle errors with a middleware
+router.get("/login/success", async (req, res, next) => {
   if (req.user && req.user.id) {
     try {
       const user = await User.findOne({ googleId: req.user.id });
@@ -19,7 +20,7 @@ router.get("/login/success", async (req, res) => {
         res.status(404).json({ success: false, message: "User not found in database" });
       }
     } catch (error) {
-      res.status(500).json({ success: false, message: "Database error", details: error.message });
+      next(error); // Pass the error to the error handling middleware
     }
   } else {
     res.status(403).json({ success: false, message: "Not Authorized" });
@@ -39,14 +40,21 @@ router.get(
   "/google/callback",
   passport.authenticate("google", { failureRedirect: "/login/failed" }),
   (req, res) => {
-    // On success, redirect to the CLIENT_URL.
-    res.redirect(process.env.CLIENT_URL);
+    req.login(req.user, (err) => {
+      if (err) return next(err);
+      res.redirect('/login/success');
+    });
   }
 );
 
 router.get("/logout", (req, res) => {
   req.logout();
   res.redirect(process.env.CLIENT_URL);
+});
+
+// Error handling middleware
+router.use((err, req, res, next) => {
+  res.status(500).json({ success: false, message: "Database error", details: err.message });
 });
 
 module.exports = router;

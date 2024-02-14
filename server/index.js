@@ -50,12 +50,11 @@ app.use(cors({
 }));
 
 // Set up sessions
-app.use(cookieSession({
-  name: 'session',
-  keys: ['key1', 'key2'],
-  maxAge: 24 * 60 * 60 * 1000,
-  sameSite: 'none',
-  secure: true,
+app.use(session({
+  secret: 'your secret',
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: 'auto' }
 }));
 
 // Initialize Passport
