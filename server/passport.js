@@ -25,23 +25,15 @@ passport.use(new GoogleStrategy({
 
 // Set up Passport serialization
 passport.serializeUser((user, done) => {
-  done(null, user.id); 
+  done(null, user);
 });
 
 
 // Set up Passport deserialization
 passport.deserializeUser((id, done) => {
+  console.log(id); // Log the user ID
   User.findById(id, (err, user) => {
-    if (err) {
-      // Log the error and return a generic message to the done callback
-      console.error('Failed to deserialize user', err);
-      done(new Error('Failed to access the session. Please try again.'));
-    } else if (!user) {
-      // If no user was found, return an error to the done callback
-      done(new Error('No user found with the provided session ID.'));
-    } else {
-      // If everything went well, return the user object to the done callback
-      done(null, user);
-    }
+    console.log(user); // Log the user object
+    done(err, user);
   });
 });
