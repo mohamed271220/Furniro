@@ -6,9 +6,8 @@ const router = express.Router();
 
 // Use async/await in all routes and handle errors with a middleware
 router.get("/login/success", async (req, res, next) => {
-  console.log(req.user);
-  console.log(req.googleId);
-  console.log(req.profile);
+  console.log(req.session); // Log the session object
+  console.log(req.user); 
 
   if ((req.user && req.user.id)) {
     try {
