@@ -9,7 +9,7 @@ router.get("/login/success", async (req, res, next) => {
   console.log(req.user);
   console.log(req.googleId);
   console.log(req.profile);
-  
+
   if ((req.user && req.user.id)) {
     try {
       const user = await User.findOne({ googleId: req.user.id });
@@ -43,8 +43,10 @@ router.get("/google", passport.authenticate("google", { scope: ["profile", "emai
 router.get('/google/callback',
   passport.authenticate('google', { failureRedirect: '/login/failed' }),
   (req, res) => {
+    console.log(req.user);
     req.login(req.user, (err) => {
       if (err) return next(err);
+      console.log(req.session);
       res.redirect(process.env.CLIENT_URL);
     });
   }
