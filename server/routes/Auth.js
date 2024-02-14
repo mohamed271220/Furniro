@@ -1,45 +1,47 @@
-const router = require("express").Router();
+const express = require("express");
 const passport = require("passport");
 const User = require("../models/User");
 
+const router = express.Router();
+
 router.get("/login/success", async (req, res) => {
-  console.log(req.user);
   if (req.user && req.user.id) {
     try {
-      const data = await User.findOne({ googleId: req.user.id });
-      if (data) {
+      const user = await User.findOne({ googleId: req.user.id });
+      if (user) {
         res.status(200).json({
-          error: false,
+          success: true,
           message: "Successfully Logged In",
           user: req.user,
-          data: data,
+          data: user,
         });
       } else {
-        res.status(404).json({ error: true, message: "User not found in database" });
+        res.status(404).json({ success: false, message: "User not found in database" });
       }
     } catch (error) {
-      res.status(500).json({ error: true, message: "Database error", details: error.message });
+      res.status(500).json({ success: false, message: "Database error", details: error.message });
     }
   } else {
-    res.status(403).json({ error: true, message: "Not Authorized" });
+    res.status(403).json({ success: false, message: "Not Authorized" });
   }
 });
 
 router.get("/login/failed", (req, res) => {
   res.status(401).json({
-    error: true,
+    success: false,
     message: "Log in failure",
   });
 });
 
-router.get("/google", passport.authenticate("google", ["profile", "email"]));
+router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
 
 router.get(
   "/google/callback",
-  passport.authenticate("google", {
-    successRedirect: process.env.CLIENT_URL,
-    failureRedirect: "/login/failed",
-  })
+  passport.authenticate("google", { failureRedirect: "/login/failed" }),
+  (req, res) => {
+    // On success, redirect to the CLIENT_URL.
+    res.redirect(process.env.CLIENT_URL);
+  }
 );
 
 router.get("/logout", (req, res) => {

@@ -18,7 +18,7 @@ export const useAuth = () => {
         const url = `${import.meta.env.VITE_REACT_APP_API_URL}/auth/login/success`;
         const { data } = await axios.get(url, { withCredentials: true });
         if (data.user) {
-          setUser(data);
+          setUser(data.user); // Set the user state to data.user instead of data
           dispatch(
             cartActions.setCart({
               items: data?.data.cart,
@@ -30,6 +30,7 @@ export const useAuth = () => {
         }
       } catch (err) {
         setError(err);
+        console.log(err);
       } finally {
         setLoading(false);
       }
@@ -38,5 +39,5 @@ export const useAuth = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return { user, loading };
+  return { user, loading, error }; // Include error in the returned object
 };
