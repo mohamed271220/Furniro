@@ -51,7 +51,7 @@ const filesUpload = multer({ dest: "uploads/images" });
 
 // Set up sessions
 app.use(session({
-  secret: process.env.AADSDAWDSA,
+  secret: process.env.COOKIE_KEY,
   resave: false,
   saveUninitialized: false,
   store: MongoStore.create({ mongoUrl: process.env.MONGO_DB }), // Replace with your MongoDB connection string
