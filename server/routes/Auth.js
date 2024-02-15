@@ -1,20 +1,21 @@
 const express = require("express");
-const passport = require("passport");
+const jwt = require('jsonwebtoken');
 const User = require("../models/User");
+const { isUser } = require("../middlewares/isUser");
 
 const router = express.Router();
 
 // Use async/await in all routes and handle errors with a middleware
-router.get("/login/success", async (req, res, next) => {
-  console.log(req.user);
-  if ((req.user && req.user.id)) {
+router.get("/login/success", isUser ,async (req, res, next) => {
+  console.log(req.userId);
+  if (req.userId) {
     try {
-      const user = await User.findOne({ googleId: req.user.id });
+      const user = await User.findOne({ googleId: req.userId });
       if (user) {
         res.status(200).json({
           success: true,
           message: "Successfully Logged In",
-          user: req.user,
+          user: req.userId,
           data: user,
         });
       } else {
@@ -38,17 +39,16 @@ router.get("/login/failed", (req, res) => {
 router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
 
 router.get('/google/callback',
-  passport.authenticate('google', { failureRedirect: process.env.CLIENT_URL }),
+  passport.authenticate('google', {
+    failureRedirect: process.env.CLIENT_URL
+  }),
   (req, res) => {
-    req.login(req.user, (err) => {
-      if (err) return next(err);
-      res.redirect(process.env.CLIENT_URL);
-    });
+    const token = jwt.sign({ userId: req.user.id }, 'your-secret-key');
+    res.redirect(`${process.env.CLIENT_URL}?token=${token}`);
   }
 );
 
 router.get("/logout", (req, res) => {
-  req.logout();
   res.redirect(process.env.CLIENT_URL);
 });
 

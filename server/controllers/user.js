@@ -16,7 +16,7 @@ exports.postReview = async (req, res, next) => {
     }
     const content = req.body.comment.trim();
     const rating = parseInt(req.body.rating);
-    const userId = req.user.id;
+    const userId = req.userId;
     try {
         const product = await Product.findById(productId).populate("reviews");
 
@@ -61,7 +61,7 @@ exports.addToCart = async (req, res, next) => {
     const productId = req.params.productId;
 
     let user;
-    if (req.user) {
+    if (req.userId) {
         user = await User.findOne({ googleId: req.user.id });
         // console.log(data);
     }
@@ -83,7 +83,7 @@ exports.addToCart = async (req, res, next) => {
     }
 
     try {
-        if (!req.user) {
+        if (!req.userId) {
             const error = new Error("Could not find user.");
             error.statusCode = 404;
             next(error);
@@ -120,8 +120,8 @@ exports.removeFromCart = async (req, res, next) => {
     let user;
     const number = req.body.number;
     let product;
-    if (req.user) {
-        user = await User.findOne({ googleId: req.user.id });
+    if (req.userId) {
+        user = await User.findOne({ googleId: req.userId });
     }
     if (!user) {
         const error = new Error("Could not find user.");
@@ -209,7 +209,7 @@ exports.getOrders = async (req, res, next) => {
 }
 exports.editProfile = async (req, res, next) => {
     try {
-        const user = await User.findById(req.user.id);
+        const user = await User.findById(req.userId);
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
@@ -233,7 +233,7 @@ exports.editProfile = async (req, res, next) => {
 
 exports.getAddresses = async (req, res) => {
     try {
-        const user = await User.findOne({ googleId: req.user.id });
+        const user = await User.findOne({ googleId: req.userId });
         res.status(200).json({ addresses: user.addresses });
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -246,7 +246,7 @@ exports.postAddress = async (req, res) => {
         return res.status(400).json({ errors: errors.array() });
     }
     try {
-        const user = await User.findOne({ googleId: req.user.id });
+        const user = await User.findOne({ googleId: req.userId });
         const { street,
             city,
             state,
@@ -269,7 +269,7 @@ exports.postAddress = async (req, res) => {
 
 exports.setActiveAddress = async (req, res) => {
     try {
-        const user = await User.findOne({ googleId: req.user.id });
+        const user = await User.findOne({ googleId: req.userId });
         const addressExists = user.addresses.some(address => address._id.toString() === req.body.address);
 
         if (!addressExists) {
@@ -286,7 +286,7 @@ exports.setActiveAddress = async (req, res) => {
 
 exports.deleteAddress = async (req, res) => {
     try {
-        const user = await User.findOne({ googleId: req.user.id });
+        const user = await User.findOne({ googleId: req.userId });
         user.addresses = user.addresses.filter(address => address.street !== req.body.address.street);
         await user.save();
         res.status(200).json({ message: 'Address removed successfully' });
