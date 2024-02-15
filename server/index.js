@@ -34,6 +34,7 @@ const contactRouter = require('./routes/contact');
 const passportSetup = require("./passport");
 const swagger = require('./swagger');
 const retryFailedRequests = require('./retryFailedRequests');
+const { isCoolerAdmin } = require("./middlewares/isCoolerAdmin");
 
 // Initialize app
 const app = express();
@@ -46,10 +47,11 @@ app.use(cors({
   origin: process.env.CLIENT_URL,
   credentials: true,
 }));
+const filesUpload = multer({ dest: "uploads/images" });
 
 // Set up sessions
 app.use(session({
-  secret: 'Replace with a random string',
+  secret: process.env.AADSDAWDSA,
   resave: false,
   saveUninitialized: false,
   store: MongoStore.create({ mongoUrl: process.env.MONGO_DB }), // Replace with your MongoDB connection string
@@ -62,6 +64,44 @@ app.use(session({
 // Initialize Passport
 app.use(passport.initialize());
 app.use(passport.session());
+
+
+// Set up Google Cloud Storage client
+const storage = new Storage({
+  projectId: process.env.GCLOUD_PROJECT_ID,
+  keyFilename: process.env.GCLOUD_KEYFILE_PATH,
+});
+const bucket = storage.bucket(process.env.GCLOUD_BUCKET_NAME);
+
+app.post("/upload", isCoolerAdmin, filesUpload.array("photos", 40), async (req, res) => {
+  console.log(req.files);
+  const uploadedFiles = [];
+  for (let i = 0; i < req.files.length; i++) {
+    const { path: filePath, originalname } = req.files[i];
+    const ext = path.extname(originalname);
+    const newPath = filePath + ext;
+
+    if (fs.existsSync(filePath)) {
+      const file = bucket.file(originalname);
+      fs.createReadStream(filePath)
+        .pipe(file.createWriteStream())
+        .on("error", (err) => {
+          console.error(err);
+          res.status(500).send("Error uploading file to Google Cloud Storage");
+        })
+        .on("finish", () => {
+          uploadedFiles.push(`https://storage.googleapis.com/${bucket.name}/${file.name}`);
+          fs.unlinkSync(filePath);
+          if (uploadedFiles.length === req.files.length) {
+            res.status(200).send(uploadedFiles);
+          }
+        });
+    } else {
+      console.error(`File ${filePath} does not exist`);
+      res.status(500).send(`File ${filePath} does not exist`);
+    }
+  }
+});
 
 
 // Set up routes
