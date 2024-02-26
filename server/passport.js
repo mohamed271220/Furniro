@@ -1,7 +1,6 @@
 const User = require("./models/User");
 const findOrCreate = require("mongoose-findorcreate");
 const GoogleOAuthStrategy = require("passport-google-oauth20").Strategy;
-const User = require("./models/User");
 
 export const auth = (passport) => {
   passport.serializeUser((user, done) => done(null, user.id));
