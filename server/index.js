@@ -31,7 +31,7 @@ const blogRouter = require('./routes/blog');
 const contactRouter = require('./routes/contact');
 
 // Import other modules
-const auth = require("./passport");
+const auth = require('./passport').auth;
 
 const swagger = require('./swagger');
 const retryFailedRequests = require('./retryFailedRequests');
