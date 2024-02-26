@@ -1,5 +1,3 @@
-const GoogleStrategy = require("passport-google-oauth20").Strategy;
-const passport = require("passport");
 const User = require("./models/User");
 const findOrCreate = require("mongoose-findorcreate");
 import {Strategy as GoogleOAuthStrategy} from 'passport-google-oauth20';
