@@ -31,7 +31,8 @@ const blogRouter = require('./routes/blog');
 const contactRouter = require('./routes/contact');
 
 // Import other modules
-const passportSetup = require("./passport");
+import { auth } from './auth'; // assuming auth.js is in the same directory
+
 const swagger = require('./swagger');
 const retryFailedRequests = require('./retryFailedRequests');
 const { isCoolerAdmin } = require("./middlewares/isCoolerAdmin");
@@ -65,6 +66,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+auth(passport);
 
 // Set up Google Cloud Storage client
 const storage = new Storage({
