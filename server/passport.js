@@ -4,18 +4,22 @@ const GoogleOAuthStrategy = require("passport-google-oauth20").Strategy;
 
 exports.auth = (passport) => {
   passport.serializeUser((user, done) => done(null, user.id));
-  
+
   passport.deserializeUser((id, done) => {
     User.findById(id, (err, user) => {
       done(err, user);
     });
   });
-  
+
   passport.use(new GoogleOAuthStrategy(
     {
       clientID: process.env.CLIENT_ID,
       clientSecret: process.env.CLIENT_SECRET,
       callbackURL: "/auth/google/callback",
+      userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo",
+      state: true,
+      passReqToCallback: true,
+      scope: ["profile"],
     },
     async (token, refreshToken, profile, done) => {
       try {
